@@ -30,6 +30,9 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Verify built routes
+        run: npm run verify:dist
+
       - name: Verify sitemap output
         run: |
           if [ -f dist/sitemap-index.xml ] || [ -f dist/sitemap-0.xml ] || [ -f dist/sitemap.xml ]; then
