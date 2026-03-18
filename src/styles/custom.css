@@ -9,6 +9,7 @@
   --sl-font: 'Instrument Sans', sans-serif;
   --sl-font-system: 'Instrument Sans', sans-serif;
   --sl-font-serif: 'Newsreader', serif;
+  --loom-scroll-offset: clamp(5.75rem, 8vw, 7.5rem);
   --sl-color-accent-low: #eef4ef;
   --sl-color-accent: #4f7a62;
   --sl-color-accent-high: #234433;
@@ -98,6 +99,21 @@ h3,
 
 .sl-markdown-content :where(p, li) {
   color: var(--loom-copy);
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+.sl-markdown-content :where(ul, ol) {
+  padding-inline-start: 1.3rem;
+}
+
+.sl-markdown-content :where(h2, h3, h4, h5, h6) {
+  scroll-margin-top: var(--loom-scroll-offset);
+  text-wrap: balance;
+}
+
+.sl-markdown-content > :first-child {
+  margin-top: 0;
 }
 
 .sl-markdown-content :where(blockquote) {
@@ -257,6 +273,59 @@ h3,
 .loom-step-body {
   display: grid;
   gap: 0.25rem;
+}
+
+@media (max-width: 50rem) {
+  .hero {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .hero .tagline {
+    max-width: 30rem;
+    font-size: 0.98rem;
+  }
+
+  .hero .actions {
+    gap: 0.6rem;
+  }
+
+  .hero .actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sl-markdown-content :where(p, li) {
+    font-size: 0.98rem;
+    line-height: 1.72;
+  }
+
+  .sl-markdown-content :where(h2, h3, h4, h5, h6) {
+    scroll-margin-top: calc(var(--loom-scroll-offset) + 0.5rem);
+  }
+
+  .loom-section {
+    margin: 1.6rem 0;
+    padding: 1.1rem;
+    border-radius: 1.2rem;
+  }
+
+  .loom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .loom-card {
+    padding: 1rem;
+  }
+
+  .loom-card-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .loom-card-head h3 {
+    font-size: 1.02rem;
+  }
 }
 
 .loom-step-body h3 {

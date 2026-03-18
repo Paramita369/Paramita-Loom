@@ -37,7 +37,7 @@ const sidebar = [
     translations: {
       'zh-HK': '評測',
     },
-    autogenerate: { directory: 'reviews' },
+    autogenerate: { directory: 'review' },
   },
   {
     label: 'Resources',
@@ -63,7 +63,7 @@ const sidebar = [
 ];
 
 export default defineConfig({
-  site: 'https://loom.paramita.example',
+  site: 'https://paramita-loom.pages.dev',
   integrations: [
     mdx(),
     sitemap(),
