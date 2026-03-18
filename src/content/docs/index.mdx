@@ -1,0 +1,129 @@
+---
+title: Paramita Loom
+description: A crafted public projection layer for bilingual knowledge, reviews, and structured sharing.
+template: splash
+editUrl: false
+hero:
+  title: Paramita Loom · 知識經緯
+  tagline: From fragments to structure. From review to sharing.
+  actions:
+    - text: Start Here
+      link: /start-here/
+      icon: right-arrow
+    - text: Browse Knowledge
+      link: /knowledge/
+      variant: minimal
+---
+
+import BoundaryNote from '../../components/BoundaryNote.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import SectionCardGrid from '../../components/SectionCardGrid.astro';
+
+<p class="expressive-copy">
+  Paramita Loom is a calm public shell for notes, guides, and reviews that have already been worked into
+  shape. It is a place for arrangement and sharing, not the source of truth itself.
+</p>
+
+<ProcessSteps
+  eyebrow="Editorial logic"
+  title="A simple path from fragments to a publishable surface"
+  intro="This shell is designed to show the shape of work clearly: what is provisional, what is reviewed, and what belongs in support rather than editorial flow."
+  steps={[
+    {
+      title: 'Gather and review',
+      body: 'Fragments, highlights, field notes, and comparisons are first examined privately before they are shaped for public reading.',
+    },
+    {
+      title: 'Structure and label',
+      body: 'Public pieces are grouped intentionally into knowledge, guides, notes, reviews, and resources so readers can tell what kind of page they are on.',
+    },
+    {
+      title: 'Share with low noise',
+      body: 'Support and affiliate relationships can exist, but they are kept distinct from editorial judgment and never become the site’s organizing principle.',
+    },
+  ]}
+/>
+
+<SectionCardGrid
+  eyebrow="Browse the shell"
+  title="Start with the reading path that fits your intent"
+  intro="Each section is framed as a different reading mode rather than a generic content bucket."
+  items={[
+    {
+      title: 'Start Here',
+      href: '/start-here/',
+      eyebrow: 'Orientation',
+      summary: 'Read the site map, conventions, and suggested sequence for first-time readers.',
+      cta: 'Enter',
+    },
+    {
+      title: 'Knowledge',
+      href: '/knowledge/',
+      eyebrow: 'Reference',
+      summary: 'Structured topic hubs and stitched concepts that turn scattered observations into stable maps.',
+      cta: 'Browse',
+    },
+    {
+      title: 'Guides',
+      href: '/guides/',
+      eyebrow: 'Practice',
+      summary: 'Practical walkthroughs that translate lessons from review and note-taking into repeatable action.',
+      cta: 'Apply',
+    },
+    {
+      title: 'Notes',
+      href: '/notes/',
+      eyebrow: 'Field notes',
+      summary: 'Smaller, time-bound pieces that preserve texture without claiming finality.',
+      cta: 'Read',
+    },
+    {
+      title: 'Reviews',
+      href: '/reviews/',
+      eyebrow: 'Judgment',
+      summary: 'Evaluations that separate observation, criteria, and recommendation instead of collapsing them together.',
+      cta: 'Compare',
+    },
+    {
+      title: 'Resources',
+      href: '/resources/',
+      eyebrow: 'Tools',
+      summary: 'Reading lists, templates, and small kits that help extend the work beyond a single article.',
+      cta: 'Collect',
+    },
+  ]}
+/>
+
+<SectionCardGrid
+  eyebrow="Topic hubs"
+  title="Knowledge can also be entered by pattern"
+  intro="Topic hubs gather related pages without pretending every fragment is already canonical."
+  items={[
+    {
+      title: 'Fragments and Structure',
+      href: '/knowledge/topics/fragments-and-structure/',
+      eyebrow: 'Hub',
+      summary: 'How unfinished observations become stable references, templates, and public notes.',
+      cta: 'Map',
+    },
+    {
+      title: 'Review Craft',
+      href: '/reviews/review-architecture/',
+      eyebrow: 'Method',
+      summary: 'Criteria, comparison, and confidence levels for writing reviews that stay readable and accountable.',
+      cta: 'Study',
+    },
+    {
+      title: 'Reader Support',
+      href: '/support/',
+      eyebrow: 'Boundary',
+      summary: 'Support options live on a dedicated page and remain intentionally low-noise across the rest of the site.',
+      cta: 'See',
+    },
+  ]}
+/>
+
+<BoundaryNote
+  title="Editorial boundary"
+  body="This public shell is not the canonical truth source. Drafting, queueing, and private review happen elsewhere; this layer is for clear public projection only."
+/>

@@ -1,0 +1,129 @@
+---
+title: Paramita Loom
+description: 以雙語整理知識、評測與分享的靜態公開投影層。
+template: splash
+editUrl: false
+hero:
+  title: Paramita Loom · 知識經緯
+  tagline: 從碎片到結構，從評閱到分享。
+  actions:
+    - text: 從這裡開始
+      link: /zh-hk/start-here/
+      icon: right-arrow
+    - text: 進入知識區
+      link: /zh-hk/knowledge/
+      variant: minimal
+---
+
+import BoundaryNote from '../../../components/BoundaryNote.astro';
+import ProcessSteps from '../../../components/ProcessSteps.astro';
+import SectionCardGrid from '../../../components/SectionCardGrid.astro';
+
+<p class="expressive-copy">
+  Paramita Loom 是一個安靜而有結構的公開外層，用來承接已經整理過的筆記、指南與評測。
+  它是公開投影層，不是新的真實來源。
+</p>
+
+<ProcessSteps
+  eyebrow="編輯邏輯"
+  title="把碎片整理成可閱讀表面的簡單路徑"
+  intro="這個站點的設計目的是讓讀者一眼看懂：什麼是暫時性的、什麼經過評閱、什麼應該留在支持區而不是混入正文。"
+  steps={[
+    {
+      title: '先收集，再評閱',
+      body: '摘錄、觀察、比較與工作筆記先在私有流程中被檢視，再整理成適合公開閱讀的形狀。',
+    },
+    {
+      title: '再分類，再命名',
+      body: '公開頁面被有意識地放進知識、指南、筆記、評測與資源，讓讀者知道自己正在讀哪一種東西。',
+    },
+    {
+      title: '最後才低噪音分享',
+      body: '支持與聯盟資訊可以存在，但會與編輯判斷保持邊界，不會成為整個站的主導節奏。',
+    },
+  ]}
+/>
+
+<SectionCardGrid
+  eyebrow="站點入口"
+  title="依照閱讀目的進入不同路徑"
+  intro="每個區塊都代表不同的閱讀模式，而不是一般化的內容分類。"
+  items={[
+    {
+      title: '從這裡開始',
+      href: '/zh-hk/start-here/',
+      eyebrow: '導覽',
+      summary: '先理解站點的結構、命名方式與建議閱讀順序。',
+      cta: '進入',
+    },
+    {
+      title: '知識',
+      href: '/zh-hk/knowledge/',
+      eyebrow: '參照',
+      summary: '把重複出現的片段整理成較穩定的主題圖譜與知識頁。',
+      cta: '瀏覽',
+    },
+    {
+      title: '指南',
+      href: '/zh-hk/guides/',
+      eyebrow: '實作',
+      summary: '把評閱後的理解轉成可重複使用的流程、步驟與方法。',
+      cta: '應用',
+    },
+    {
+      title: '筆記',
+      href: '/zh-hk/notes/',
+      eyebrow: '現場感',
+      summary: '保留仍在生成中的觀察，不強行把一切都寫成定論。',
+      cta: '閱讀',
+    },
+    {
+      title: '評測',
+      href: '/zh-hk/reviews/',
+      eyebrow: '判斷',
+      summary: '把觀察、標準與建議拆開來寫，讓推薦與限制都清楚可見。',
+      cta: '比較',
+    },
+    {
+      title: '資源',
+      href: '/zh-hk/resources/',
+      eyebrow: '延伸',
+      summary: '提供模版、清單與補充材料，幫助讀者把內容帶回自己的工作流。',
+      cta: '收藏',
+    },
+  ]}
+/>
+
+<SectionCardGrid
+  eyebrow="主題樞紐"
+  title="也可以從模式而不是類型進入"
+  intro="主題樞紐把相關頁面聚在一起，但不會假裝每一則片段都已經是最終定稿。"
+  items={[
+    {
+      title: '碎片與結構',
+      href: '/zh-hk/knowledge/topics/fragments-and-structure/',
+      eyebrow: '樞紐',
+      summary: '看見片段如何被評閱、整理，最後形成穩定參照與公開頁面。',
+      cta: '查看',
+    },
+    {
+      title: '評測寫作結構',
+      href: '/zh-hk/reviews/review-architecture/',
+      eyebrow: '方法',
+      summary: '用可說明的標準、比較與信心邊界來建立可信的評測頁。',
+      cta: '學習',
+    },
+    {
+      title: '讀者支持',
+      href: '/zh-hk/support/',
+      eyebrow: '邊界',
+      summary: '支持區有自己的位置，但不干擾主要的編輯閱讀體驗。',
+      cta: '了解',
+    },
+  ]}
+/>
+
+<BoundaryNote
+  title="編輯邊界"
+  body="這個公開站不是權威真實來源。草稿、佇列與私有評閱仍在別處進行；這一層只負責清晰對外呈現。"
+/>

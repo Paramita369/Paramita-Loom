@@ -1,0 +1,347 @@
+@import '@fontsource/instrument-sans/400.css';
+@import '@fontsource/instrument-sans/500.css';
+@import '@fontsource/instrument-sans/600.css';
+@import '@fontsource/newsreader/400.css';
+@import '@fontsource/newsreader/500.css';
+@import '@fontsource/newsreader/600.css';
+
+:root {
+  --sl-font: 'Instrument Sans', sans-serif;
+  --sl-font-system: 'Instrument Sans', sans-serif;
+  --sl-font-serif: 'Newsreader', serif;
+  --sl-color-accent-low: #eef4ef;
+  --sl-color-accent: #4f7a62;
+  --sl-color-accent-high: #234433;
+  --sl-color-text-accent: #234433;
+  --sl-color-bg: #f8f6f1;
+  --sl-color-bg-nav: rgba(248, 246, 241, 0.86);
+  --sl-color-bg-sidebar: #f4f1ea;
+  --sl-color-hairline-light: rgba(43, 52, 47, 0.12);
+  --sl-color-hairline: rgba(43, 52, 47, 0.18);
+  --loom-ink: #203028;
+  --loom-copy: #415148;
+  --loom-soft: #6d7d74;
+  --loom-card: rgba(255, 255, 255, 0.82);
+  --loom-wash: linear-gradient(180deg, rgba(235, 240, 233, 0.7), rgba(248, 246, 241, 0));
+  --loom-line: rgba(43, 52, 47, 0.1);
+  --loom-warm: #f1ebe1;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #1e2d25;
+  --sl-color-accent: #8db297;
+  --sl-color-accent-high: #d8eadc;
+  --sl-color-text-accent: #d8eadc;
+  --sl-color-bg: #131814;
+  --sl-color-bg-nav: rgba(19, 24, 20, 0.9);
+  --sl-color-bg-sidebar: #161d18;
+  --sl-color-hairline-light: rgba(216, 234, 220, 0.12);
+  --sl-color-hairline: rgba(216, 234, 220, 0.2);
+  --loom-ink: #e6efe8;
+  --loom-copy: #c7d5cb;
+  --loom-soft: #97a89d;
+  --loom-card: rgba(24, 31, 26, 0.88);
+  --loom-wash: linear-gradient(180deg, rgba(32, 46, 38, 0.72), rgba(19, 24, 20, 0));
+  --loom-line: rgba(216, 234, 220, 0.1);
+  --loom-warm: #22281f;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(196, 214, 201, 0.35), transparent 34rem),
+    radial-gradient(circle at bottom right, rgba(220, 210, 190, 0.24), transparent 28rem),
+    var(--sl-color-bg);
+  color: var(--loom-copy);
+}
+
+h1,
+h2,
+h3,
+.site-title,
+.hero .title {
+  font-family: var(--sl-font-serif);
+  color: var(--loom-ink);
+  letter-spacing: -0.02em;
+}
+
+.hero {
+  position: relative;
+  overflow: clip;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--loom-line), transparent);
+}
+
+.hero .tagline {
+  max-width: 42rem;
+  color: var(--loom-copy);
+}
+
+.hero .actions {
+  gap: 0.85rem;
+}
+
+.hero .actions a {
+  border-radius: 999px;
+}
+
+.main-pane {
+  background: transparent;
+}
+
+.sl-markdown-content :where(p, li) {
+  color: var(--loom-copy);
+}
+
+.sl-markdown-content :where(blockquote) {
+  border-inline-start-color: var(--sl-color-accent);
+  background: rgba(79, 122, 98, 0.08);
+}
+
+.sl-markdown-content :where(code):not(:where(pre *)) {
+  border-radius: 0.4rem;
+}
+
+.sl-link-card {
+  border-radius: 1.25rem;
+}
+
+.loom-section {
+  position: relative;
+  margin: 2.5rem 0;
+  padding: 1.6rem;
+  border: 1px solid var(--loom-line);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent),
+    var(--loom-card);
+  box-shadow: 0 18px 55px rgba(43, 52, 47, 0.06);
+}
+
+.loom-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--loom-wash);
+  opacity: 0.9;
+}
+
+.loom-section > * {
+  position: relative;
+}
+
+.loom-section-head {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 1.2rem;
+}
+
+.loom-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sl-color-text-accent);
+}
+
+.loom-section-head h2,
+.loom-section-head h3 {
+  margin: 0;
+}
+
+.loom-section-head p {
+  margin: 0;
+  max-width: 48rem;
+}
+
+.loom-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.loom-card {
+  display: grid;
+  gap: 0.7rem;
+  min-height: 100%;
+  padding: 1.1rem;
+  border: 1px solid var(--loom-line);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+:root[data-theme='dark'] .loom-card {
+  background: rgba(27, 35, 29, 0.82);
+}
+
+.loom-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 122, 98, 0.45);
+  box-shadow: 0 12px 36px rgba(43, 52, 47, 0.08);
+}
+
+.loom-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.loom-card-head h3 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.loom-card p {
+  margin: 0;
+}
+
+.loom-meta {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--loom-soft);
+}
+
+.loom-arrow {
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
+}
+
+.loom-steps {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.loom-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1rem 0;
+  border-top: 1px solid var(--loom-line);
+}
+
+.loom-step:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.loom-step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(79, 122, 98, 0.12);
+  color: var(--sl-color-text-accent);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.loom-step-body {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.loom-step-body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.loom-step-body p {
+  margin: 0;
+}
+
+.loom-note {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--loom-line);
+  background: rgba(79, 122, 98, 0.08);
+}
+
+.loom-note strong {
+  color: var(--loom-ink);
+}
+
+.loom-note p {
+  margin: 0;
+}
+
+.loom-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loom-labels li {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(79, 122, 98, 0.12);
+  color: var(--sl-color-text-accent);
+  font-size: 0.86rem;
+}
+
+.loom-review-box {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--loom-line);
+  border-radius: 1rem;
+  background: rgba(241, 235, 225, 0.48);
+}
+
+:root[data-theme='dark'] .loom-review-box {
+  background: rgba(34, 40, 31, 0.78);
+}
+
+.loom-review-box h3 {
+  margin: 0;
+}
+
+.loom-review-box p,
+.loom-review-box ul {
+  margin: 0;
+}
+
+.loom-review-box ul {
+  padding-inline-start: 1.15rem;
+}
+
+.sl-markdown-content .expressive-copy {
+  font-family: var(--sl-font-serif);
+  font-size: clamp(1.4rem, 1rem + 1.5vw, 2.1rem);
+  line-height: 1.2;
+  color: var(--loom-ink);
+}
+
+@media (max-width: 50rem) {
+  .loom-section {
+    padding: 1.2rem;
+  }
+
+  .loom-step {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}

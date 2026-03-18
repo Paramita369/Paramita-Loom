@@ -1,0 +1,11 @@
+---
+interface Props {
+  labels: string[];
+}
+
+const { labels } = Astro.props;
+---
+
+<ul class="loom-labels">
+  {labels.map((label) => <li>{label}</li>)}
+</ul>

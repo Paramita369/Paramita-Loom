@@ -1,0 +1,29 @@
+---
+title: Publishing with Clarity
+description: A sample guide for turning reviewed material into a public-facing piece.
+editUrl: false
+sidebar:
+  order: 1
+---
+
+import ProcessSteps from '../../../components/ProcessSteps.astro';
+
+<ProcessSteps
+  eyebrow="Guide"
+  title="A small publishing ritual"
+  intro="This sample guide shows the intended tone for procedural content on the site."
+  steps={[
+    {
+      title: 'Clarify the page type',
+      body: 'Decide whether the piece is a knowledge page, note, review, or resource before drafting the public shell.',
+    },
+    {
+      title: 'Name the confidence level',
+      body: 'Signal whether the material is stable, provisional, or narrowly scoped so readers are not asked to infer it.',
+    },
+    {
+      title: 'Separate support from judgment',
+      body: 'If the page includes affiliate or support context, keep it explicit and peripheral rather than blending it into the recommendation itself.',
+    },
+  ]}
+/>

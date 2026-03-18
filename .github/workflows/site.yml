@@ -1,0 +1,46 @@
+name: Site
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Astro checks
+        run: npm run check
+
+      - name: Build site
+        run: npm run build
+
+      - name: Verify sitemap output
+        run: |
+          if [ -f dist/sitemap-index.xml ] || [ -f dist/sitemap-0.xml ] || [ -f dist/sitemap.xml ]; then
+            echo "Sitemap present"
+          else
+            echo "Expected sitemap output is missing" >&2
+            exit 1
+          fi
+
+      - name: Upload preview artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: dist

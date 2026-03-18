@@ -1,0 +1,29 @@
+---
+title: 評測寫作結構
+description: 範例評測方法頁，示範如何把優勢、限制與推薦說清楚。
+editUrl: false
+sidebar:
+  order: 1
+---
+
+import LabelList from '../../../../components/LabelList.astro';
+import ReviewBox from '../../../../components/ReviewBox.astro';
+
+<LabelList labels={['評測方法', '範例頁', '低噪音支持邊界']} />
+
+<ReviewBox
+  title="這裡的評測應該怎樣閱讀"
+  summary="一篇評測應該把觀察、標準與建議拆成不同層，不把它們混成單一口氣很滿的確定語調。"
+  strengthsTitle="較適合"
+  cautionsTitle="需要留意"
+  strengths={[
+    '讀者可以看見判斷是如何形成的。',
+    '即使最終推薦偏正面，取捨與限制仍會被保留下來。',
+    '支持揭露可以存在，但不會壓過主要閱讀流程。',
+  ]}
+  cautions={[
+    '如果私有評閱仍在進行，就不應假裝內容已經完全定稿。',
+    '聯盟資訊不能默默改寫結論。',
+    '在契約凍結之後，評測標準不應每頁各自發明。',
+  ]}
+/>

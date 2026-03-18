@@ -1,0 +1,27 @@
+---
+title: Review Architecture
+description: A sample review methodology page with explicit strengths and cautions.
+editUrl: false
+sidebar:
+  order: 1
+---
+
+import LabelList from '../../../components/LabelList.astro';
+import ReviewBox from '../../../components/ReviewBox.astro';
+
+<LabelList labels={['Review method', 'Sample page', 'Low-noise support boundary']} />
+
+<ReviewBox
+  title="How reviews should read here"
+  summary="A review page should make observation, criteria, and recommendation visible as separate layers instead of blending them into one tone of certainty."
+  strengths={[
+    'Readers can see why a judgment was made.',
+    'Tradeoffs stay explicit even when the final recommendation is positive.',
+    'Support disclosures can remain visible without dominating the reading experience.',
+  ]}
+  cautions={[
+    'Pages should not imply canon when the private review process is still ongoing.',
+    'Affiliate context should never silently rewrite the conclusion.',
+    'Criteria should not be invented ad hoc from page to page once the contract is frozen.',
+  ]}
+/>

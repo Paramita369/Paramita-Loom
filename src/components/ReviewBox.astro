@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  strengths: string[];
+  cautions: string[];
+  strengthsTitle?: string;
+  cautionsTitle?: string;
+}
+
+const {
+  title,
+  summary,
+  strengths,
+  cautions,
+  strengthsTitle = 'Works well for',
+  cautionsTitle = 'Watch for',
+} = Astro.props;
+---
+
+<div class="loom-review-box">
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  <div>
+    <strong>{strengthsTitle}</strong>
+    <ul>
+      {strengths.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+  <div>
+    <strong>{cautionsTitle}</strong>
+    <ul>
+      {cautions.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</div>

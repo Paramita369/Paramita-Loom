@@ -1,0 +1,40 @@
+---
+interface Item {
+  title: string;
+  href: string;
+  summary: string;
+  eyebrow?: string;
+  cta?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro: string;
+  items: Item[];
+}
+
+const { eyebrow, title, intro, items } = Astro.props;
+---
+
+<section class="loom-section">
+  <div class="loom-section-head">
+    {eyebrow && <div class="loom-eyebrow">{eyebrow}</div>}
+    <h2>{title}</h2>
+    <p>{intro}</p>
+  </div>
+  <div class="loom-grid">
+    {
+      items.map((item) => (
+        <a class="loom-card" href={item.href}>
+          <div class="loom-card-head">
+            <h3>{item.title}</h3>
+            <span class="loom-arrow">{item.cta ?? 'Open'}</span>
+          </div>
+          {item.eyebrow && <div class="loom-meta">{item.eyebrow}</div>}
+          <p>{item.summary}</p>
+        </a>
+      ))
+    }
+  </div>
+</section>

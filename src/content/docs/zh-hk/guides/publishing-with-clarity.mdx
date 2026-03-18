@@ -1,0 +1,29 @@
+---
+title: 清晰發布法
+description: 範例指南，示範如何把已評閱材料轉成公開頁面。
+editUrl: false
+sidebar:
+  order: 1
+---
+
+import ProcessSteps from '../../../../components/ProcessSteps.astro';
+
+<ProcessSteps
+  eyebrow="指南"
+  title="一個小型發布儀式"
+  intro="這個範例頁示範本網站程序型內容應有的語氣與節奏。"
+  steps={[
+    {
+      title: '先決定頁面類型',
+      body: '在起草公開頁之前，先明確它是知識、筆記、評測還是資源。',
+    },
+    {
+      title: '標示信心邊界',
+      body: '說清楚內容是穩定、暫時，還是只適用於狹窄情境，不把判斷責任推給讀者自行猜測。',
+    },
+    {
+      title: '把支持與判斷分開',
+      body: '若頁面有聯盟或支持資訊，也要保持明示且邊緣化，不能混入核心推薦本身。',
+    },
+  ]}
+/>

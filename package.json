@@ -1,0 +1,25 @@
+{
+  "name": "paramita-loom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.1",
+    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/starlight": "^0.38.1",
+    "@fontsource/instrument-sans": "^5.2.8",
+    "@fontsource/newsreader": "^5.2.10",
+    "astro": "^6.0.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.9.3"
+  }
+}

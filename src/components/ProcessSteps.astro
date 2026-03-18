@@ -1,0 +1,36 @@
+---
+interface Step {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro: string;
+  steps: Step[];
+}
+
+const { eyebrow, title, intro, steps } = Astro.props;
+---
+
+<section class="loom-section">
+  <div class="loom-section-head">
+    {eyebrow && <div class="loom-eyebrow">{eyebrow}</div>}
+    <h2>{title}</h2>
+    <p>{intro}</p>
+  </div>
+  <div class="loom-steps">
+    {
+      steps.map((step, index) => (
+        <div class="loom-step">
+          <div class="loom-step-number">{index + 1}</div>
+          <div class="loom-step-body">
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

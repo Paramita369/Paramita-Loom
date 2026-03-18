@@ -1,0 +1,59 @@
+---
+title: 從這裡開始
+description: 提供 Paramita Loom 的閱讀方向與站點導覽。
+editUrl: false
+---
+
+import BoundaryNote from '../../../../components/BoundaryNote.astro';
+import SectionCardGrid from '../../../../components/SectionCardGrid.astro';
+
+Paramita Loom 以閱讀模式來編排，而不是以功能或系統模組來分類。
+
+如果你是第一次進來，建議這樣看：
+
+1. 先讀首頁，理解這個站的編輯立場。
+2. 進入 [知識](/zh-hk/knowledge/) 看較穩定的主題圖譜與參照頁。
+3. 進入 [指南](/zh-hk/guides/) 看可操作的流程與步驟。
+4. 進入 [筆記](/zh-hk/notes/) 看較輕量、仍保有現場感的內容。
+5. 需要判斷與取捨時，再進入 [評測](/zh-hk/reviews/)。
+
+<BoundaryNote
+  title="這個站是什麼"
+  body="這是一個靜態優先、雙語、面向公開閱讀的內容外層；它不是內部工作流管理介面。"
+/>
+
+<SectionCardGrid
+  eyebrow="閱讀地圖"
+  title="主要路徑"
+  intro="請依照你的問題選擇路徑，而不是把每一頁都當成同一類文件。"
+  items={[
+    {
+      title: '知識',
+      href: '/zh-hk/knowledge/',
+      eyebrow: '穩定參照',
+      summary: '適合承接已經過一定程度評閱的概念與長壽內容。',
+      cta: '打開',
+    },
+    {
+      title: '指南',
+      href: '/zh-hk/guides/',
+      eyebrow: '可重複實作',
+      summary: '把理解轉成步驟、清單與更容易套用的形式。',
+      cta: '打開',
+    },
+    {
+      title: '筆記',
+      href: '/zh-hk/notes/',
+      eyebrow: '工作紋理',
+      summary: '保留尚未完全壓平成定論的觀察與片段。',
+      cta: '打開',
+    },
+    {
+      title: '支持',
+      href: '/zh-hk/support/',
+      eyebrow: '獨立區道',
+      summary: '可選的支持與聯盟資訊集中處理，不混入主要判斷。',
+      cta: '打開',
+    },
+  ]}
+/>
