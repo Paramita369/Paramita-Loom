@@ -1,0 +1,43 @@
+---
+title: '我實際在用的 AI Builder Stack'
+description: '整理我在 OpenClaw 實作中實際使用的 builder stack，包括 ChatGPT、Codex、Python 3.12、SQLite、Slack Socket Mode 與 LaunchAgents。'
+type: resource
+topic: ai-builder-stack
+status: publish_ready
+reviewedAt: '2026-03-18T09:08:48.843114+00:00'
+related:
+  - guides/codex/how-chatgpt-and-codex-built-openclaw
+  - guides/mac/three-agent-codex-workflow
+  - knowledge/openclaw/private-truth-to-public-projection
+slug: resources/ai-builder-stack/actual-openclaw-stack
+---
+
+## TL;DR
+
+我實際採用的 builder stack 很克制：Python 3.12、SQLite + WAL、Slack Socket Mode、per-user LaunchAgents，再配合 ChatGPT / Codex 做規劃與 repo execution，刻意不引入 Redis、Celery 或微服務。
+
+## Description
+
+整理我在 OpenClaw 實作中實際使用的 builder stack，包括 ChatGPT、Codex、Python 3.12、SQLite、Slack Socket Mode 與 LaunchAgents。
+
+## Section Outline
+
+1. OpenClaw 為何選單機 Mac mini stack
+2. 核心運行元件與它們各自負責什麼
+3. ChatGPT / Codex / OpenAI API 在 builder stack 的位置
+4. 哪些工具刻意不用，因為會破壞 deterministic control surface
+
+## Core Points
+
+- Builder stack 的選型重點係可追溯、可維運、單機可恢復，而唔係表面上最潮的 infra。
+- Python 3.12、SQLite + WAL 同 LaunchAgents 令第一版保持最少 moving parts。
+- ChatGPT / Codex 屬於 builder workflow 的一部分，但系統真相仍然落回 DB、contracts、tests 與 artifacts。
+- 避免 Redis、Celery、Kafka、Kubernetes 等做法，本身就係 OpenClaw deterministic posture 的一部分。
+
+## Tool Recommendation
+
+如果想複製呢套 stack，先保留 Python 3.12 + SQLite + Slack Socket Mode + LaunchAgents 呢條主線；ChatGPT 負責 high-level framing，Codex 負責 repo execution，同時保持 tests 與 receipts 先行。
+
+## Disclosure
+
+Disclosure: 本頁提及的 ChatGPT、Codex、OpenAI API 與其他工具屬我實際使用的 builder stack；其中部分服務可能屬付費或商業產品，版本、定價與能力會變動。本文只記錄實作經驗與選型理由，不構成購買建議。

@@ -1,0 +1,39 @@
+---
+title: 'OpenClaw 是什麼：從 private truth 到 public projection'
+description: '解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。'
+type: knowledge
+topic: openclaw
+status: publish_ready
+reviewedAt: '2026-03-18T09:08:48.786658+00:00'
+related:
+  - guides/codex/how-chatgpt-and-codex-built-openclaw
+  - guides/mac/three-agent-codex-workflow
+  - review/phase15/from-zero-to-live-preview
+slug: knowledge/openclaw/private-truth-to-public-projection
+---
+
+## TL;DR
+
+OpenClaw 不是把聊天能力包成 bot，而是以 SQLite control DB 為真相來源、以 control plane 作判斷中心、再把 public site 當成 projection 的單機 deterministic system。
+
+## Description
+
+解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。
+
+## Section Outline
+
+1. 為何 SQLite control DB 必須是 live truth
+2. Gateway、control plane、worker runner 的責任邊界
+3. 點解 public site 只能係 projection 而唔可以反過來做 truth
+4. review、verification、receipt 對 public status 的作用
+
+## Core Points
+
+- OpenClaw 的外部身份只得一個，但內部真相永遠回到 control DB。
+- Slack thread 係 ingress 與 operator surface，唔係任務真相來源。
+- worker 只負責短生命執行，公開完成狀態一定要經過 control plane 與 review gate。
+- Phase 15 把 canonical bundle 同 public projection 清楚分開，避免 public repo 反向污染 private truth。
+
+## Tool Recommendation
+
+建議先讀 runbook 了解系統邊界，再用 Codex 逐檔 tracing `packages/control_plane`、`packages/publish_pipeline.py` 同 `bootstrap/sql/001_openclaw_v31.sql`，最後先看 public projection。

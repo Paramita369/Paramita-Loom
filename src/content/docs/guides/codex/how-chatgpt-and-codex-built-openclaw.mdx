@@ -1,0 +1,39 @@
+---
+title: '我如何用 ChatGPT + Codex 建立 OpenClaw'
+description: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。'
+type: guide
+topic: codex-workflow
+status: publish_ready
+reviewedAt: '2026-03-18T09:08:48.801579+00:00'
+related:
+  - knowledge/openclaw/private-truth-to-public-projection
+  - guides/mac/three-agent-codex-workflow
+  - resources/ai-builder-stack/actual-openclaw-stack
+slug: guides/codex/how-chatgpt-and-codex-built-openclaw
+---
+
+## TL;DR
+
+我用 ChatGPT 先鎖 scope、定 phase 同驗收口徑，再用 Codex 直接在 repo 內實作、測試、寫 build log，令 OpenClaw 一直保持可追溯同可回歸。
+
+## Description
+
+整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。
+
+## Section Outline
+
+1. ChatGPT 與 Codex 在 OpenClaw 裡的不同角色
+2. 點樣避免 prompt 變成真相來源
+3. 為何 build log、tests、contracts 比單次對話更重要
+4. 把高層規劃轉成可 review 的小步提交
+
+## Core Points
+
+- 高層規劃負責收斂 scope，同步風險與 phase order。
+- 真正可運行的系統真相落在 repo、DB schema、tests、build log，而唔係對話本身。
+- Codex 在本地 worktree 內做最小必要修改，可以保持 review 粒度清楚。
+- 每次交付都要帶驗證結果，否則只是想法，唔係可操作資產。
+
+## Tool Recommendation
+
+推薦工作節奏係：先用 ChatGPT/Lead prompt 鎖 scope，再由 Codex 進 worktree 做單一責任修改，最後用 pytest 同 build log 把結果固化。

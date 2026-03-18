@@ -1,0 +1,39 @@
+---
+title: '從空殼到 live preview：Phase 15 真正證明了什麼'
+description: '回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。'
+type: review
+topic: phase15
+status: publish_ready
+reviewedAt: '2026-03-18T09:08:48.828560+00:00'
+related:
+  - knowledge/openclaw/private-truth-to-public-projection
+  - guides/mac/three-agent-codex-workflow
+  - resources/ai-builder-stack/actual-openclaw-stack
+slug: review/phase15/from-zero-to-live-preview
+---
+
+## TL;DR
+
+Phase 15 真正證明的唔係單一網站上線，而係 private canonical bundle、review queue、publish queue、preview verification 同 publish receipt 已經可以形成可回放的閉環。
+
+## Description
+
+回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。
+
+## Section Outline
+
+1. WP0 contract freeze 到 private publish hooks 的主線
+2. canonical bundle、review queue、publish queue 的責任分工
+3. preview verification 與 receipt 為何重要
+4. 哪些事情仍然刻意留在 public repo 或後續 wave
+
+## Core Points
+
+- Phase 15 先凍結 contract，之後先補 private pipeline，同時避免 public repo 提前變成真相來源。
+- preview failure 必須寫出 failed publish job / receipt，而唔可以誤標 published。
+- review_cycles 把日後內容回顧節奏帶回 control DB，而唔係散落在 thread 或人工記憶。
+- Phase 15 完成後，public side 仍然只是 projection consumption，而唔係新的 architecture center。
+
+## Tool Recommendation
+
+閱讀順序建議先看 `PHASE15_WP0_CONTRACT_NOTE`，再看 `phase15_private_publish_contract`，最後追 `BUILD_LOG` 內 Wave 1-3，咁最容易分辨已落地同仍然 defer 的範圍。

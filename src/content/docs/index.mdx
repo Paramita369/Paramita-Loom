@@ -7,11 +7,11 @@ hero:
   title: Paramita Loom · 知識經緯
   tagline: From fragments to structure. From review to sharing.
   actions:
-    - text: Start Here
-      link: /start-here/
+    - text: Read OpenClaw
+      link: /knowledge/openclaw/private-truth-to-public-projection/
       icon: right-arrow
-    - text: Browse Knowledge
-      link: /knowledge/
+    - text: See Phase 15
+      link: /review/phase15/from-zero-to-live-preview/
       variant: minimal
 ---
 
@@ -45,80 +45,73 @@ import SectionCardGrid from '../../components/SectionCardGrid.astro';
 />
 
 <SectionCardGrid
-  eyebrow="Browse the shell"
-  title="Start with the reading path that fits your intent"
-  intro="Each section is framed as a different reading mode rather than a generic content bucket."
+  eyebrow="Approved batch"
+  title="Start with the first approved five pages"
+  intro="These are the only public pages wired into this batch, each consumed from the approved manifest and reviewed body."
   items={[
     {
-      title: 'Start Here',
-      href: '/start-here/',
-      eyebrow: 'Orientation',
-      summary: 'Read the site map, conventions, and suggested sequence for first-time readers.',
-      cta: 'Enter',
-    },
-    {
-      title: 'Knowledge',
-      href: '/knowledge/',
-      eyebrow: 'Reference',
-      summary: 'Structured topic hubs and stitched concepts that turn scattered observations into stable maps.',
-      cta: 'Browse',
-    },
-    {
-      title: 'Guides',
-      href: '/guides/',
-      eyebrow: 'Practice',
-      summary: 'Practical walkthroughs that translate lessons from review and note-taking into repeatable action.',
-      cta: 'Apply',
-    },
-    {
-      title: 'Notes',
-      href: '/notes/',
-      eyebrow: 'Field notes',
-      summary: 'Smaller, time-bound pieces that preserve texture without claiming finality.',
+      title: 'OpenClaw 是什麼：從 private truth 到 public projection',
+      href: '/knowledge/openclaw/private-truth-to-public-projection/',
+      eyebrow: 'Knowledge',
+      summary: '解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。',
       cta: 'Read',
     },
     {
-      title: 'Reviews',
-      href: '/review/',
-      eyebrow: 'Judgment',
-      summary: 'Evaluations that separate observation, criteria, and recommendation instead of collapsing them together.',
-      cta: 'Compare',
+      title: '我如何用 ChatGPT + Codex 建立 OpenClaw',
+      href: '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+      eyebrow: 'Guide',
+      summary: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。',
+      cta: 'Study',
     },
     {
-      title: 'Resources',
-      href: '/resources/',
-      eyebrow: 'Tools',
-      summary: 'Reading lists, templates, and small kits that help extend the work beyond a single article.',
-      cta: 'Collect',
+      title: 'Mac 上用 3-Agent Codex workflow 的實戰方法',
+      href: '/guides/mac/three-agent-codex-workflow/',
+      eyebrow: 'Guide',
+      summary: '拆解 Lead、Agent 1、Agent 2 在單機 Mac mini 上如何分工，保持 repo 邊界、merge 次序與驗收口徑清楚。',
+      cta: 'Apply',
+    },
+    {
+      title: '從空殼到 live preview：Phase 15 真正證明了什麼',
+      href: '/review/phase15/from-zero-to-live-preview/',
+      eyebrow: 'Review',
+      summary: '回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。',
+      cta: 'Review',
+    },
+    {
+      title: '我實際在用的 AI Builder Stack',
+      href: '/resources/ai-builder-stack/actual-openclaw-stack/',
+      eyebrow: 'Resource',
+      summary: '整理我在 OpenClaw 實作中實際使用的 builder stack，包括 ChatGPT、Codex、Python 3.12、SQLite、Slack Socket Mode 與 LaunchAgents。',
+      cta: 'Open',
     },
   ]}
 />
 
 <SectionCardGrid
-  eyebrow="Topic hubs"
-  title="Knowledge can also be entered by pattern"
-  intro="Topic hubs gather related pages without pretending every fragment is already canonical."
+  eyebrow="Reading order"
+  title="A simple path through the approved batch"
+  intro="Read the system boundary first, then the builder workflow, then the verification loop."
   items={[
     {
-      title: 'Fragments and Structure',
-      href: '/knowledge/topics/fragments-and-structure/',
-      eyebrow: 'Hub',
-      summary: 'How unfinished observations become stable references, templates, and public notes.',
-      cta: 'Map',
+      title: 'System boundary',
+      href: '/knowledge/openclaw/private-truth-to-public-projection/',
+      eyebrow: 'Knowledge',
+      summary: '解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。',
+      cta: 'Start',
     },
     {
-      title: 'Review Craft',
-      href: '/review/review-architecture/',
-      eyebrow: 'Method',
-      summary: 'Criteria, comparison, and confidence levels for writing reviews that stay readable and accountable.',
-      cta: 'Study',
+      title: 'Builder workflow',
+      href: '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+      eyebrow: 'Guide',
+      summary: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。',
+      cta: 'Next',
     },
     {
-      title: 'Reader Support',
-      href: '/support/',
-      eyebrow: 'Boundary',
-      summary: 'Support options live on a dedicated page and remain intentionally low-noise across the rest of the site.',
-      cta: 'See',
+      title: 'Preview proof',
+      href: '/review/phase15/from-zero-to-live-preview/',
+      eyebrow: 'Review',
+      summary: '回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。',
+      cta: 'Finish',
     },
   ]}
 />

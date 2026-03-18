@@ -1,0 +1,39 @@
+---
+title: 'Mac 上用 3-Agent Codex workflow 的實戰方法'
+description: '拆解 Lead、Agent 1、Agent 2 在單機 Mac mini 上如何分工，保持 repo 邊界、merge 次序與驗收口徑清楚。'
+type: guide
+topic: mac-codex-workflow
+status: publish_ready
+reviewedAt: '2026-03-18T09:19:52.135646+00:00'
+related:
+  - guides/codex/how-chatgpt-and-codex-built-openclaw
+  - knowledge/openclaw/private-truth-to-public-projection
+  - review/phase15/from-zero-to-live-preview
+slug: guides/mac/three-agent-codex-workflow
+---
+
+## TL;DR
+
+3-Agent workflow 的關鍵唔係 agent 越多越好，而係每個 agent 都只碰自己負責的 repo 與 scope，並由 Lead 明確決定 merge order 同 blocker escalation。
+
+## Description
+
+拆解 Lead、Agent 1、Agent 2 在單機 Mac mini 上如何分工，保持 repo 邊界、merge 次序與驗收口徑清楚。
+
+## Section Outline
+
+1. Lead / Orchestrator 負責什麼
+2. Agent 1 為何只做 private repo canonical bundle
+3. Agent 2 何時才可以消費 private output
+4. worktree、branch、merge order 應如何保持乾淨
+
+## Core Points
+
+- Lead 只做 scope control、風險管理與 merge sequencing，唔直接偷做 implementation。
+- Agent 1 要保護 frozen contract，同時準備 Agent 2 可消費的 bundle 與 reviewed body。
+- Agent 2 只能食已批准的 canonical output，不可倒推改 private contract。
+- worktree 只係隔離執行空間，真正邊界仍然係 repo、contract 同 acceptance gate。
+
+## Tool Recommendation
+
+如果在 Mac 上跑多 worktree，建議每個 agent 都從乾淨 commit 開 branch；Lead 先鎖 merge order，Agent 1/2 再各自落地，避免 dirty worktree 被 auto-apply 搞亂。
