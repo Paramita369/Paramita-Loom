@@ -1,6 +1,6 @@
 ---
-title: '從空殼到 live preview：Phase 15 真正證明了什麼'
-description: '回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。'
+title: '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容'
+description: '回顧這條 private → public 閉環如何把 frozen 規格、private publish hooks 與 preview verification 串成一條可驗證的流程。'
 type: review
 topic: phase15
 status: publish_ready
@@ -9,36 +9,38 @@ related:
   - knowledge/openclaw/private-truth-to-public-projection
   - guides/mac/three-agent-codex-workflow
   - resources/ai-builder-stack/actual-openclaw-stack
+sidebar:
+  label: 從空殼到公開預覽
 ---
 
-## TL;DR
+## 先看結論
 
-Phase 15 真正證明的唔係單一網站上線，而係 private canonical bundle、review queue、publish queue、preview verification 同 publish receipt 已經可以形成可回放的閉環。
+呢條閉環真正證明的唔係單一網站上線，而係 private canonical bundle、review queue、publish queue、preview verification 同 publish receipt 已經可以形成可回放的流程。
 
-## Why it matters
+## 為什麼值得關心
 
-呢頁幫人睇清楚 Phase 15 已經證明咗邊條閉環存在，亦清楚分隔已落地能力同後續 public wiring 波次。
+呢頁幫人睇清楚 private → public 閉環已經證明咗咩，亦清楚分隔已落地能力同後續公開接線。
 
-## Core model / main idea
+## 核心模型
 
-- Phase 15 先凍結 contract，之後再補 private publish hooks，避免 public repo 提前變成真相來源。
+- 先凍結規格，之後再補 private publish hooks，避免 public repo 提前變成真相來源。
 - canonical bundle、review queue 同 publish queue 分別承擔內容定稿、審核流同待發佈流轉責任。
 - preview verification 同 publish receipt 令 public 狀態變更可以被驗證、回放同追責。
-- review_cycles 將之後的內容回顧節奏帶返 control DB，而唔係散落在 thread 或人工記憶。
+- 內容回顧節奏應該返回 control DB，而唔係散落在 thread 或人工記憶。
 
-## Examples / failure modes / usage
+## 例子與常見誤解
 
-- 使用：沿住 WP0 contract freeze -> private publish hooks -> preview verification -> receipt 呢條主線理解 Phase 15。
-- 失效模式：preview 失敗時如果仍然標示為 published，就會破壞 receipt contract 同 public status 信任。
-- 使用：先睇 contract note，再睇 private publish contract，最後對照 build log 會最容易分辨已落地與 defer 範圍。
-- 失效模式：如果將 public-side wiring 同 contract change 混入同一波，repo boundary 會變得唔清楚。
+- 使用：沿住規格 freeze -> private publish hooks -> preview verification -> receipt 呢條主線理解呢條閉環。
+- 失效模式：preview 失敗時如果仍然標示為 published，就會破壞可追蹤的公開狀態信任。
+- 使用：先睇規格說明，再睇 private publish flow，最後對照 build log 會最容易分辨已落地與 defer 範圍。
+- 失效模式：如果將公開接線同規格變更混入同一波，repo boundary 會變得唔清楚。
 
-## Related pages
+## 相關頁面
 
-- [OpenClaw 是什麼：從 private truth 到 public projection](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
-- [Mac 上用 3-Agent Codex workflow 的實戰方法](/zh-hk/guides/mac/three-agent-codex-workflow/)
-- [我實際在用的 AI Builder Stack](/zh-hk/resources/ai-builder-stack/actual-openclaw-stack/)
+- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
+- [Codex 三人協作流程](/zh-hk/guides/mac/three-agent-codex-workflow/)
+- [OpenClaw 的 AI 開發工具組合](/zh-hk/resources/ai-builder-stack/actual-openclaw-stack/)
 
-## Review note
+## 更新與覆核
 
-本頁已收斂成 review 型 public-readable body；舊 Section Outline / Core Points 結構已改寫到 v2 允許 sections。
+本頁已按現行編輯標準更新；內容重點、閱讀順序與更新說法已對齊。

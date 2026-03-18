@@ -1,5 +1,5 @@
 ---
-title: '我實際在用的 AI Builder Stack'
+title: 'OpenClaw 實際使用的 AI 開發工具組合'
 description: '整理我在 OpenClaw 實作中實際使用的 builder stack，包括 ChatGPT、Codex、Python 3.12、SQLite、Slack Socket Mode 與 LaunchAgents。'
 type: resource
 topic: ai-builder-stack
@@ -9,40 +9,42 @@ related:
   - guides/codex/how-chatgpt-and-codex-built-openclaw
   - guides/mac/three-agent-codex-workflow
   - knowledge/openclaw/private-truth-to-public-projection
+sidebar:
+  label: AI 開發工具組合
 ---
 
-## TL;DR
+## 先看結論
 
 我實際採用的 builder stack 很克制：Python 3.12、SQLite + WAL、Slack Socket Mode、per-user LaunchAgents，再配合 ChatGPT / Codex 做規劃與 repo execution，刻意不引入 Redis、Celery 或微服務。
 
-## Why it matters
+## 為什麼值得關心
 
-呢頁說明 OpenClaw 的 stack 選型點解刻意保守，重點唔係工具多，而係單機可維運、可追溯、可恢復。
+這頁說明選型背後的重點是可維運、可追溯與可恢復，而不是把工具堆到越多越好。
 
-## Core model / main idea
+## 核心模型
 
-- Builder stack 的選型重點係可追溯、可維運、單機可恢復，而唔係表面上最潮的 infra。
-- Python 3.12、SQLite + WAL、Slack Socket Mode 同 per-user LaunchAgents 令第一版保持最少 moving parts。
-- ChatGPT / Codex 屬於 builder workflow 的一部分，但系統真相仍然落回 DB、contracts、tests 與 artifacts。
-- 刻意避免 Redis、Celery、Kafka、Kubernetes 等做法，本身就係 OpenClaw deterministic posture 的一部分。
+- 工具選型的優先順序是穩定、清楚、能回復，而不是追求看起來最複雜的基礎設施。
+- Python 3.12、SQLite + WAL、Slack Socket Mode 與 per-user LaunchAgents 讓第一版保持最少的移動部件。
+- ChatGPT 與 Codex 是建置流程中的工具，但真正的系統真相仍回到資料庫、規格、測試與輸出檔案。
+- 刻意不引入 Redis、Celery、Kafka、Kubernetes 等額外層，本身就是這套系統設計的一部分。
 
-## Examples / failure modes / usage
+## 例子與常見誤解
 
-- 使用：如果想複製呢套 stack，先保留 Python 3.12 + SQLite + Slack Socket Mode + LaunchAgents 呢條主線，再逐步加入 builder tooling。
-- 失效模式：過早加入額外 orchestration layer，會令 control truth 分散，亦令恢復路徑變複雜。
-- 使用：將 `bootstrap/configs/*.example.yaml` 同 `requirements.txt` 視為 code references，用來核對配置與依賴，而唔係假裝成 public clickable resources。
-- 使用：ChatGPT 負責 high-level framing，Codex 負責 repo execution，同時保持 tests、verification 同 receipts 先行。
+- 使用：如果想參考這套組合，先保留單機 Python、SQLite、Slack Socket Mode 與 LaunchAgents 這條主線，再視需要逐步擴充。
+- 失效模式：過早加入額外的協調層，會讓控制來源變分散，恢復路徑也更難看清。
+- 使用：把設定檔與依賴清單當成實作參考，用來核對配置與安裝需求。
+- 使用：讓規劃工具與 repo 實作工具各司其職，同時保留測試、驗證與輸出紀錄。
 
-## Related pages
+## 相關頁面
 
-- [我如何用 ChatGPT + Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
-- [Mac 上用 3-Agent Codex workflow 的實戰方法](/zh-hk/guides/mac/three-agent-codex-workflow/)
-- [OpenClaw 是什麼：從 private truth 到 public projection](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
+- [用 ChatGPT 與 Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
+- [Codex 三人協作流程](/zh-hk/guides/mac/three-agent-codex-workflow/)
+- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
 
-## Review note
+## 更新與覆核
 
-本頁係 resource 類型，但 public-facing 結構仍然遵守 Contract v2：冇真實外部連結就唔輸出 Resources section。
+本頁已按現行編輯標準更新，工具選型、適用範圍與披露說明已一併覆核。
 
-## Disclosure
+## 披露說明
 
-本文提及的 ChatGPT、Codex、OpenAI API 與其他工具，屬作者實際使用的 builder stack。部分服務可能屬付費或商業產品，版本、定價與能力會變動；本文只記錄實作經驗與選型理由，不構成購買建議。
+本文提及的 ChatGPT、Codex、OpenAI API 與其他工具，屬作者實際使用的開發工具組合。部分服務可能屬付費或商業產品，版本、定價與能力會變動；本文只記錄實作經驗與選型理由，不構成購買建議。

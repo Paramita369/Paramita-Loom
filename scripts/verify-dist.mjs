@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import path from 'node:path';
 
@@ -12,35 +12,112 @@ const approvedSlugs = [
   'resources/ai-builder-stack/actual-openclaw-stack',
 ];
 const requiredFiles = [
-  'index.html',
-  'start-here/index.html',
-  'support/index.html',
-  'review/index.html',
-  'review/review-architecture/index.html',
+  '404.html',
   'robots.txt',
-  ...approvedSlugs.map((slug) => `${slug}/index.html`),
+  'zh-hk/404/index.html',
   'zh-hk/index.html',
-  'zh-hk/start-here/index.html',
-  'zh-hk/support/index.html',
+  'zh-hk/knowledge/index.html',
+  'zh-hk/guides/index.html',
+  'zh-hk/resources/index.html',
   'zh-hk/review/index.html',
-  'zh-hk/review/review-architecture/index.html',
   ...approvedSlugs.map((slug) => `zh-hk/${slug}/index.html`),
 ];
-const sitemapCandidates = ['sitemap-index.xml', 'sitemap.xml', 'sitemap-0.xml'];
-const requiredAnchors = [
-  'tldr',
-  'why-it-matters',
-  'core-model--main-idea',
-  'examples--failure-modes--usage',
-  'related-pages',
-  'review-note',
+const approvedTitleChecks = {
+  'zh-hk/guides/mac/three-agent-codex-workflow/index.html': {
+    expected: ['Mac 上的 Codex 三人協作流程', 'Codex 三人協作流程', 'OpenClaw 如何整理成公開內容'],
+    forbidden: ['Mac 上三人協作的 Codex 工作流程', 'Mac 上三人協作流程', 'private → public 閉環證明了什麼'],
+  },
+  'zh-hk/review/phase15/from-zero-to-live-preview/index.html': {
+    expected: [
+      '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容',
+      'Codex 三人協作流程',
+      'OpenClaw 的 AI 開發工具組合',
+    ],
+    forbidden: [
+      '從空殼到公開預覽：這條 private → public 閉環真正證明了什麼',
+      '三人協作的 Codex 工作流程',
+      'OpenClaw 的 AI Builder Stack',
+    ],
+  },
+  'zh-hk/resources/ai-builder-stack/actual-openclaw-stack/index.html': {
+    expected: ['OpenClaw 實際使用的 AI 開發工具組合', 'AI 開發工具組合', 'Codex 三人協作流程'],
+    forbidden: ['OpenClaw 實際使用的 AI Builder Stack', '實際使用的 AI Builder Stack', '三人協作的 Codex 工作流程'],
+  },
+};
+const sectionReferenceChecks = {
+  'zh-hk/guides/index.html': {
+    expected: ['Mac 上的 Codex 三人協作流程'],
+    forbidden: ['Mac 上三人協作的 Codex 工作流程'],
+  },
+  'zh-hk/review/index.html': {
+    expected: ['從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容'],
+    forbidden: ['從空殼到公開預覽：這條 private → public 閉環真正證明了什麼'],
+  },
+  'zh-hk/resources/index.html': {
+    expected: ['OpenClaw 實際使用的 AI 開發工具組合'],
+    forbidden: ['OpenClaw 實際使用的 AI Builder Stack'],
+  },
+};
+const searchExcludedFiles = [
+  'zh-hk/index.html',
+  'zh-hk/about-now/index.html',
+  'zh-hk/guides/index.html',
+  'zh-hk/guides/publishing-with-clarity/index.html',
+  'zh-hk/knowledge/index.html',
+  'zh-hk/knowledge/commonplace-ledger/index.html',
+  'zh-hk/knowledge/topics/index.html',
+  'zh-hk/knowledge/topics/fragments-and-structure/index.html',
+  'zh-hk/notes/index.html',
+  'zh-hk/notes/field-note-fragments/index.html',
+  'zh-hk/resources/index.html',
+  'zh-hk/resources/topic-mapping-kit/index.html',
+  'zh-hk/review/index.html',
+  'zh-hk/review/review-architecture/index.html',
+  'zh-hk/start-here/index.html',
+  'zh-hk/support/index.html',
 ];
-const forbiddenHeadings = ['Description', 'Section Outline', 'Core Points', 'Tool Recommendation'];
+const forbiddenRootFiles = [
+  'index.html',
+  ...approvedSlugs.map((slug) => `${slug}/index.html`),
+];
+const sitemapCandidates = ['sitemap-index.xml', 'sitemap.xml', 'sitemap-0.xml'];
+const requiredHeadings = [
+  '先看結論',
+  '為什麼值得關心',
+  '核心模型',
+  '例子與常見誤解',
+  '相關頁面',
+  '更新與覆核',
+];
+const forbiddenStrings = [
+  'TL;DR',
+  'Description',
+  'Section Outline',
+  'Core Points',
+  'Tool Recommendation',
+  'Public Article Contract v2',
+  'Public Article Contract v3',
+  'Phase 15',
+  'Disclosure',
+  'Review note',
+  'Related pages',
+  'Why it matters',
+  'Core model / main idea',
+  'Examples / failure modes / usage',
+];
 const zhHkFallbackBanner = '此內容尚未提供繁體中文版本';
 
 async function assertFile(relativePath) {
-  const absolutePath = path.join(distDir, relativePath);
-  await access(absolutePath, constants.F_OK);
+  await access(path.join(distDir, relativePath), constants.F_OK);
+}
+
+async function fileExists(relativePath) {
+  try {
+    await assertFile(relativePath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function readDistFile(relativePath) {
@@ -60,33 +137,108 @@ function hasHeading(html, heading) {
   return headingPattern.test(html);
 }
 
-async function verifyApprovedPage(relativePath, { expectZhHk = false } = {}) {
+async function verifyApprovedPage(relativePath, { extraHeadings = [] } = {}) {
   const html = await readDistFile(relativePath);
   const pagePath = formatPagePath(relativePath);
   const issues = [];
-
   const canonical = `${site}${pagePath}`;
+
   if (!html.includes(`rel="canonical" href="${canonical}"`)) {
     issues.push(`canonical mismatch for ${pagePath}`);
   }
 
-  for (const anchor of requiredAnchors) {
-    if (!html.includes(`id="${anchor}"`)) {
-      issues.push(`missing required anchor "${anchor}" for ${pagePath}`);
+  if (html.includes('rel="alternate" hreflang="en"')) {
+    issues.push(`unexpected English hreflang alternate found in ${pagePath}`);
+  }
+
+  for (const heading of [...requiredHeadings, ...extraHeadings]) {
+    if (!hasHeading(html, heading)) {
+      issues.push(`missing required heading "${heading}" for ${pagePath}`);
     }
   }
 
-  for (const heading of forbiddenHeadings) {
-    if (hasHeading(html, heading)) {
-      issues.push(`forbidden heading "${heading}" found in ${pagePath}`);
+  for (const forbidden of forbiddenStrings) {
+    if (html.includes(forbidden)) {
+      issues.push(`forbidden string "${forbidden}" found in ${pagePath}`);
     }
   }
 
-  if (expectZhHk && html.includes(zhHkFallbackBanner)) {
+  if (html.includes(zhHkFallbackBanner)) {
     issues.push(`zh-HK fallback banner found in ${pagePath}`);
   }
 
+  if (html.includes('<starlight-lang-select')) {
+    issues.push(`language selector should be hidden for ${pagePath}`);
+  }
+
+  if (html.includes('選擇語言')) {
+    issues.push(`language selector label should not be visible for ${pagePath}`);
+  }
+
+  if (html.includes('/zh-hk/zh-hk/')) {
+    issues.push(`duplicated zh-HK locale prefix found in ${pagePath}`);
+  }
+
   return issues;
+}
+
+async function verifySearchExcludedPage(relativePath) {
+  const html = await readDistFile(relativePath);
+  const pagePath = formatPagePath(relativePath);
+  const issues = [];
+
+  if (html.includes('rel="alternate" hreflang="en"')) {
+    issues.push(`unexpected English hreflang alternate found in ${pagePath}`);
+  }
+
+  if (html.includes('data-pagefind-body')) {
+    issues.push(`pagefind body should be disabled for ${pagePath}`);
+  }
+
+  return issues;
+}
+
+async function verifyTextSync(relativePath, { expected = [], forbidden = [] } = {}) {
+  const html = await readDistFile(relativePath);
+  const pagePath = formatPagePath(relativePath);
+  const issues = [];
+
+  for (const text of expected) {
+    if (!html.includes(text)) {
+      issues.push(`missing expected text "${text}" in ${pagePath}`);
+    }
+  }
+
+  for (const text of forbidden) {
+    if (html.includes(text)) {
+      issues.push(`stale text "${text}" found in ${pagePath}`);
+    }
+  }
+
+  return issues;
+}
+
+async function collectTextUnder(relativePath) {
+  const contents = [];
+  const queue = [path.join(distDir, relativePath)];
+
+  while (queue.length > 0) {
+    const currentDir = queue.pop();
+    const entries = await readdir(currentDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const absolutePath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        queue.push(absolutePath);
+        continue;
+      }
+
+      const text = await readFile(absolutePath, 'utf8').catch(() => '');
+      contents.push(text);
+    }
+  }
+
+  return contents.join('\n');
 }
 
 async function main() {
@@ -94,32 +246,48 @@ async function main() {
   const issues = [];
 
   for (const relativePath of requiredFiles) {
-    try {
-      await assertFile(relativePath);
-    } catch {
+    if (!(await fileExists(relativePath))) {
       missing.push(relativePath);
     }
   }
 
-  let hasSitemap = false;
-  for (const candidate of sitemapCandidates) {
-    try {
-      await assertFile(candidate);
-      hasSitemap = true;
-      break;
-    } catch {
-      // Try the next sitemap file name.
+  for (const relativePath of forbiddenRootFiles) {
+    if (await fileExists(relativePath)) {
+      issues.push(`unexpected root production file found: ${relativePath}`);
     }
   }
 
-  if (!hasSitemap) {
+  const existingSitemaps = [];
+  for (const candidate of sitemapCandidates) {
+    if (await fileExists(candidate)) {
+      existingSitemaps.push(candidate);
+    }
+  }
+
+  if (existingSitemaps.length === 0) {
     missing.push('sitemap-index.xml | sitemap.xml | sitemap-0.xml');
   }
 
   if (missing.length === 0) {
     for (const slug of approvedSlugs) {
-      issues.push(...(await verifyApprovedPage(`${slug}/index.html`)));
-      issues.push(...(await verifyApprovedPage(`zh-hk/${slug}/index.html`, { expectZhHk: true })));
+      const extraHeadings = slug === 'resources/ai-builder-stack/actual-openclaw-stack'
+        ? ['披露說明']
+        : [];
+      issues.push(...(await verifyApprovedPage(`zh-hk/${slug}/index.html`, { extraHeadings })));
+    }
+
+    for (const relativePath of searchExcludedFiles) {
+      issues.push(...(await verifySearchExcludedPage(relativePath)));
+    }
+
+    issues.push(...(await verifySearchExcludedPage('zh-hk/404/index.html')));
+
+    for (const [relativePath, rules] of Object.entries(approvedTitleChecks)) {
+      issues.push(...(await verifyTextSync(relativePath, rules)));
+    }
+
+    for (const [relativePath, rules] of Object.entries(sectionReferenceChecks)) {
+      issues.push(...(await verifyTextSync(relativePath, rules)));
     }
 
     const robotsTxt = await readDistFile('robots.txt');
@@ -128,6 +296,36 @@ async function main() {
     }
     if (!robotsTxt.includes(`Sitemap: ${site}/sitemap-index.xml`)) {
       issues.push('dist/robots.txt sitemap line does not match production domain');
+    }
+
+    const sitemapXml = (
+      await Promise.all(existingSitemaps.map((candidate) => readDistFile(candidate)))
+    ).join('\n');
+    for (const slug of approvedSlugs) {
+      const zhHkLoc = `${site}/zh-hk/${slug}/`;
+      const rootLoc = `${site}/${slug}/`;
+      if (!sitemapXml.includes(`<loc>${zhHkLoc}</loc>`)) {
+        issues.push(`sitemap is missing zh-HK approved page ${zhHkLoc}`);
+      }
+      if (sitemapXml.includes(`<loc>${rootLoc}</loc>`)) {
+        issues.push(`sitemap still exposes root locale page ${rootLoc}`);
+      }
+    }
+
+    if (sitemapXml.includes(`<loc>${site}/</loc>`)) {
+      issues.push('sitemap still exposes the root index route');
+    }
+
+    if (!(await fileExists('pagefind'))) {
+      missing.push('pagefind');
+    } else {
+      const pagefindText = await collectTextUnder('pagefind');
+      for (const relativePath of searchExcludedFiles) {
+        const pagePath = formatPagePath(relativePath);
+        if (pagefindText.includes(pagePath)) {
+          issues.push(`pagefind still indexes non-Batch-1 zh-HK page ${pagePath}`);
+        }
+      }
     }
   }
 
@@ -148,7 +346,7 @@ async function main() {
   }
 
   console.log('Dist verification passed.');
-  console.log('Approved root + zh-HK pages, canonical metadata, anchors, headings, and robots.txt all passed.');
+  console.log('zh-HK approved pages, hreflang gating, search gating, root route removal, and forbidden-term checks all passed.');
 }
 
 await main();

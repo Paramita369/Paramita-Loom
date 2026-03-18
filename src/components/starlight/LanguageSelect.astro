@@ -1,0 +1,88 @@
+---
+import config from 'virtual:starlight/user-config';
+import Select from '@astrojs/starlight/components/Select.astro';
+import { getCollection } from 'astro:content';
+
+function normalizeEntryId(entryId: string) {
+  if (entryId === 'index') return '';
+  if (entryId.endsWith('/index')) return entryId.slice(0, -'/index'.length);
+  return entryId;
+}
+
+const docs = await getCollection('docs');
+const docsById = new Map(
+  docs.map((entry) => [normalizeEntryId(entry.id), entry] as const)
+);
+
+const currentLocale = Astro.locals.starlightRoute.locale;
+const currentId = normalizeEntryId(Astro.locals.starlightRoute.entry.id);
+const localePrefix = currentLocale ? `${currentLocale}/` : '';
+const baseId = currentLocale && currentId === currentLocale
+  ? ''
+  : localePrefix && currentId.startsWith(localePrefix)
+    ? currentId.slice(localePrefix.length)
+    : currentId;
+
+function getTargetId(localeCode: string) {
+  if (localeCode === 'root') return baseId;
+  return baseId ? `${localeCode}/${baseId}` : localeCode;
+}
+
+function getTargetPath(localeCode: string) {
+  const targetId = getTargetId(localeCode);
+  return targetId ? `/${targetId}/` : '/';
+}
+
+const options =
+  config.isMultilingual && config.locales
+    ? Object.entries(config.locales)
+        .filter(([code]) => {
+          const entry = docsById.get(getTargetId(code));
+          return Boolean(entry && entry.data.draft === false);
+        })
+        .map(([code, locale]) => ({
+          value: getTargetPath(code),
+          selected: code === (currentLocale ?? 'root'),
+          label: locale.label,
+        }))
+    : [];
+---
+
+{
+  config.isMultilingual && options.length > 1 && (
+    <starlight-lang-select>
+      <Select
+        icon="translate"
+        label={Astro.locals.t('languageSelect.accessibleLabel')}
+        options={options}
+        width="7em"
+      />
+    </starlight-lang-select>
+  )
+}
+
+<script>
+  class StarlightLanguageSelect extends HTMLElement {
+    constructor() {
+      super();
+      const select = this.querySelector('select');
+      if (select) {
+        select.addEventListener('change', (e) => {
+          if (e.currentTarget instanceof HTMLSelectElement) {
+            window.location.pathname = e.currentTarget.value;
+          }
+        });
+        window.addEventListener('pageshow', (event) => {
+          if (!event.persisted) return;
+          const markupSelectedIndex =
+            select.querySelector<HTMLOptionElement>('option[selected]')?.index;
+          if (markupSelectedIndex !== select.selectedIndex) {
+            select.selectedIndex = markupSelectedIndex ?? 0;
+          }
+        });
+      }
+    }
+  }
+
+  customElements.define('starlight-lang-select', StarlightLanguageSelect);
+</script>

@@ -5,60 +5,56 @@ import starlight from '@astrojs/starlight';
 
 const sidebar = [
   {
-    label: 'Start Here',
-    translations: {
-      'zh-HK': '從這裡開始',
-    },
-    slug: 'start-here',
-  },
-  {
     label: 'Knowledge',
     translations: {
       'zh-HK': '知識',
     },
-    autogenerate: { directory: 'knowledge' },
+    items: [
+      {
+        label: '系統真相與對外內容',
+        link: '/knowledge/openclaw/private-truth-to-public-projection/',
+      },
+    ],
   },
   {
     label: 'Guides',
     translations: {
       'zh-HK': '指南',
     },
-    autogenerate: { directory: 'guides' },
-  },
-  {
-    label: 'Notes',
-    translations: {
-      'zh-HK': '筆記',
-    },
-    autogenerate: { directory: 'notes' },
+    items: [
+      {
+        label: '用 ChatGPT 與 Codex 建立 OpenClaw',
+        link: '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+      },
+      {
+        label: 'Codex 三人協作流程',
+        link: '/guides/mac/three-agent-codex-workflow/',
+      },
+    ],
   },
   {
     label: 'Reviews',
     translations: {
       'zh-HK': '評測',
     },
-    autogenerate: { directory: 'review' },
+    items: [
+      {
+        label: '從空殼到公開預覽',
+        link: '/review/phase15/from-zero-to-live-preview/',
+      },
+    ],
   },
   {
     label: 'Resources',
     translations: {
       'zh-HK': '資源',
     },
-    autogenerate: { directory: 'resources' },
-  },
-  {
-    label: 'Support',
-    translations: {
-      'zh-HK': '支持',
-    },
-    autogenerate: { directory: 'support' },
-  },
-  {
-    label: 'About / Now',
-    translations: {
-      'zh-HK': '關於 / 近況',
-    },
-    slug: 'about-now',
+    items: [
+      {
+        label: 'AI 開發工具組合',
+        link: '/resources/ai-builder-stack/actual-openclaw-stack/',
+      },
+    ],
   },
 ];
 
@@ -87,6 +83,10 @@ export default defineConfig({
         },
       },
       customCss: ['./src/styles/custom.css'],
+      components: {
+        Head: './src/components/starlight/Head.astro',
+        LanguageSelect: './src/components/starlight/LanguageSelect.astro',
+      },
       sidebar,
     }),
   ],

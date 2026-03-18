@@ -1,6 +1,6 @@
 ---
-title: 'OpenClaw 是什麼：從 private truth 到 public projection'
-description: '解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。'
+title: 'OpenClaw 是什麼：系統真相與對外內容如何分工'
+description: '說明 OpenClaw 如何把 SQLite control DB 保持為系統真相，並把對外內容收斂為可重建的 public projection。'
 type: knowledge
 topic: openclaw
 status: publish_ready
@@ -9,36 +9,38 @@ related:
   - guides/codex/how-chatgpt-and-codex-built-openclaw
   - guides/mac/three-agent-codex-workflow
   - review/phase15/from-zero-to-live-preview
+sidebar:
+  label: 系統真相與對外內容
 ---
 
-## TL;DR
+## 先看結論
 
-OpenClaw 不是把聊天能力包成 bot，而是以 SQLite control DB 為真相來源、以 control plane 作判斷中心、再把 public site 當成 projection 的單機 deterministic system。
+OpenClaw 不是把聊天能力包成 bot，而是以 SQLite control DB 作系統真相、以 control plane 作決策中心，再把 public site 當成可重建的對外投影。
 
-## Why it matters
+## 為什麼值得關心
 
-呢頁幫人分清 OpenClaw 的真相來源同 public projection 邊界，避免把網站、Slack thread 或單次對話誤當成可回放的 control truth。
+呢頁幫人分清系統真相同對外投影邊界，避免把網站、Slack thread 或單次對話誤當成可回放的控制來源。
 
-## Core model / main idea
+## 核心模型
 
-- SQLite control DB 先係 live task truth；memory、Slack thread 同 public site 都只係輔助表面。
+- SQLite control DB 先係系統真相；memory、Slack thread 同 public site 都只係輔助表面。
 - Gateway 只做 ingress，control plane 負責 routing、policy、verification、review，同 public status 決策。
 - worker runner 只租約執行 queued attempts，唔可以直接宣告 public 完成。
-- Phase 15 將 canonical bundle 同 public projection 分開，令 projection 可以重建、回放同撤回。
+- canonical bundle 同 public projection 分開之後，對外內容先可以重建、回放同撤回。
 
-## Examples / failure modes / usage
+## 例子與常見誤解
 
-- 使用：先對住 runbook 睇 system boundary，再用 Phase 15 contract 理解 bundle、review queue、publish queue 點樣串起。
+- 使用：先對住 runbook 睇 system boundary，再用 canonical bundle、review queue 同 publish queue 理解內容點樣串起。
 - 失效模式：如果將 public site 當真相來源，receipt 同 review gate 就會同 control DB 脫鈎。
 - 失效模式：如果 worker 直接對外宣告完成，就會跳過 control plane 同 review gate。
-- 使用：當 public 內容需要刷新時，應由 private canonical output 重投影，而唔係由 public repo 反向修正 truth。
+- 使用：當 public 內容需要刷新時，應由 private canonical output 重投影，而唔係由 public repo 反向修正系統真相。
 
-## Related pages
+## 相關頁面
 
-- [我如何用 ChatGPT + Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
-- [Mac 上用 3-Agent Codex workflow 的實戰方法](/zh-hk/guides/mac/three-agent-codex-workflow/)
-- [從空殼到 live preview：Phase 15 真正證明了什麼](/zh-hk/review/phase15/from-zero-to-live-preview/)
+- [用 ChatGPT 與 Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
+- [Codex 三人協作流程](/zh-hk/guides/mac/three-agent-codex-workflow/)
+- [OpenClaw 如何整理成公開內容](/zh-hk/review/phase15/from-zero-to-live-preview/)
 
-## Review note
+## 更新與覆核
 
-本頁已按 Public Article Contract v2 收斂成 public-readable projection；evidence 仍保留喺 private source refs，同時唔開新 metadata。
+本頁已按現行編輯標準更新，並保留必要證據連結；讀者可直接以此理解系統真相與對外內容的分工。

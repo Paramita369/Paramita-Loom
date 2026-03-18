@@ -1,5 +1,5 @@
 ---
-title: 'Mac 上用 3-Agent Codex workflow 的實戰方法'
+title: 'Mac 上的 Codex 三人協作流程'
 description: '拆解 Lead、Agent 1、Agent 2 在單機 Mac mini 上如何分工，保持 repo 邊界、merge 次序與驗收口徑清楚。'
 type: guide
 topic: mac-codex-workflow
@@ -9,36 +9,38 @@ related:
   - guides/codex/how-chatgpt-and-codex-built-openclaw
   - knowledge/openclaw/private-truth-to-public-projection
   - review/phase15/from-zero-to-live-preview
+sidebar:
+  label: Codex 三人協作流程
 ---
 
-## TL;DR
+## 先看結論
 
-3-Agent workflow 的關鍵唔係 agent 越多越好，而係每個 agent 都只碰自己負責的 repo 與 scope，並由 Lead 明確決定 merge order 同 blocker escalation。
+三人協作 workflow 的關鍵唔係人數越多越好，而係每個 agent 都只碰自己負責的 repo 與 scope，並由 Lead 明確決定 merge order 同 blocker escalation。
 
-## Why it matters
+## 為什麼值得關心
 
-呢頁提供單機 multi-agent 協作嘅最小秩序，避免 worktree 串染、repo 邊界鬆動，或者 Agent 2 倒推改 private contract。
+呢頁提供單機 multi-agent 協作嘅最小秩序，避免 worktree 串染、repo 邊界鬆動，或者 Agent 2 倒推改 private 規格。
 
-## Core model / main idea
+## 核心模型
 
 - Lead 只做 scope control、風險管理、merge sequencing，同 blocker escalation，唔直接偷做 implementation。
-- Agent 1 要保護 frozen contract，同時準備 Agent 2 可消費的 canonical bundle 與 reviewed body。
-- Agent 2 只能消費已批准的 private output，唔可以反向改寫 private contract 或 schema。
-- worktree 只係隔離執行空間，真正邊界仍然係 repo、contract 同 acceptance gate。
+- Agent 1 要保護 frozen 內容與可消費的 canonical bundle，同時準備 Agent 2 需要的 reviewed body。
+- Agent 2 只能消費已批准的 private output，唔可以反向改寫 private 規格或 schema。
+- worktree 只係隔離執行空間，真正邊界仍然係 repo、規格同 acceptance gate。
 
-## Examples / failure modes / usage
+## 例子與常見誤解
 
 - 使用：Lead 先凍 scope、merge order 同 blocker condition，Agent 1 只做 private canonical output，Agent 2 只消費 approved output。
 - 失效模式：dirty worktree 被 auto-apply 會把 unrelated local diff 帶入新 worktree，造成 branch 污染。
 - 使用：每個 agent 都應由乾淨 commit 開 branch，提交前只 stage 自己責任範圍。
-- 失效模式：如果 Agent 2 倒推修改 private contract，就會打破 frozen boundary 同 merge sequencing。
+- 失效模式：如果 Agent 2 倒推修改 private 規格，就會打破 frozen boundary 同 merge sequencing。
 
-## Related pages
+## 相關頁面
 
-- [我如何用 ChatGPT + Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
-- [OpenClaw 是什麼：從 private truth 到 public projection](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
-- [從空殼到 live preview：Phase 15 真正證明了什麼](/zh-hk/review/phase15/from-zero-to-live-preview/)
+- [用 ChatGPT 與 Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
+- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
+- [OpenClaw 如何整理成公開內容](/zh-hk/review/phase15/from-zero-to-live-preview/)
 
-## Review note
+## 更新與覆核
 
-本頁 evidence 已固定為 current docs 與現行 contract；舊 agent pack 路徑唔再作為呢一波 execution truth。
+本頁已按現行編輯標準更新；相關分工、邊界與閱讀順序已對齊，方便讀者直接理解。
