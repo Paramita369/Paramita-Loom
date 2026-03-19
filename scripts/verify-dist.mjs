@@ -1,6 +1,11 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import path from 'node:path';
+import {
+  GUIDE_STALE_POLICY_TEXT,
+  filterVisibleGuides,
+  isGuideOverdue,
+} from '../src/utils/guideStalePolicy.js';
 
 const distDir = path.resolve('dist');
 const site = 'https://paramita-loom.pages.dev';
@@ -65,6 +70,8 @@ const guideMetadataChecks = {
       '想把規劃與實作分開的讀者',
       '入門',
       '本地已驗證',
+      '過期處理',
+      GUIDE_STALE_POLICY_TEXT,
       'OpenClaw 發布更新',
       '關鍵依賴有大版本變動',
       '驗證步驟失效或結果改變',
@@ -92,6 +99,8 @@ const guideMetadataChecks = {
       '需要單機多代理協作的人',
       '中階',
       '本地已驗證',
+      '過期處理',
+      GUIDE_STALE_POLICY_TEXT,
       'OpenClaw 發布更新',
       '關鍵依賴有大版本變動',
       '驗證步驟失效或結果改變',
@@ -106,6 +115,8 @@ const guideMetadataSourceChecks = {
     'guideVersion:',
     'verifiedAt:',
     'nextReviewAt:',
+    'stalePolicyCode:',
+    'stalePolicy:',
     'platforms:',
     'audience:',
     'difficulty:',
@@ -118,6 +129,8 @@ const guideMetadataSourceChecks = {
     'guideVersion:',
     'verifiedAt:',
     'nextReviewAt:',
+    'stalePolicyCode:',
+    'stalePolicy:',
     'platforms:',
     'audience:',
     'difficulty:',
@@ -130,6 +143,8 @@ const guideMetadataSourceChecks = {
     'guideVersion:',
     'verifiedAt:',
     'nextReviewAt:',
+    'stalePolicyCode:',
+    'stalePolicy:',
     'platforms:',
     'audience:',
     'difficulty:',
@@ -142,6 +157,8 @@ const guideMetadataSourceChecks = {
     'guideVersion:',
     'verifiedAt:',
     'nextReviewAt:',
+    'stalePolicyCode:',
+    'stalePolicy:',
     'platforms:',
     'audience:',
     'difficulty:',
@@ -150,7 +167,36 @@ const guideMetadataSourceChecks = {
     'updateTriggers:',
     '<GuideMetadata />',
   ],
+  'src/content/docs/zh-hk/index.mdx': [
+    'filterVisibleGuides',
+    "nextReviewAt: '2026-04-19'",
+  ],
+  'src/content/docs/zh-hk/guides/index.mdx': [
+    'filterVisibleGuides',
+    "nextReviewAt: '2026-04-19'",
+  ],
+  'src/content.config.ts': [
+    'stalePolicyCode:',
+    'stalePolicy:',
+  ],
+  'src/utils/guideStalePolicy.js': [
+    'GUIDE_STALE_POLICY_CODE',
+    'GUIDE_STALE_POLICY_TEXT',
+    'isGuideOverdue',
+    'filterVisibleGuides',
+  ],
 };
+const futureReferenceDate = new Date('2026-04-20T00:00:00+08:00');
+const primaryGuideEntries = [
+  {
+    slug: 'guides/codex/how-chatgpt-and-codex-built-openclaw',
+    nextReviewAt: '2026-04-19',
+  },
+  {
+    slug: 'guides/mac/three-agent-codex-workflow',
+    nextReviewAt: '2026-04-19',
+  },
+];
 const sectionReferenceChecks = {
   'zh-hk/index.html': {
     expected: [
@@ -190,7 +236,7 @@ const sectionReferenceChecks = {
     ],
   },
   'zh-hk/guides/index.html': {
-    expected: ['Mac 上的 Codex 三人協作流程'],
+    expected: ['我如何用 ChatGPT 與 Codex 建立 OpenClaw', 'Mac 上的 Codex 三人協作流程'],
     forbidden: ['Mac 上三人協作的 Codex 工作流程'],
   },
   'zh-hk/review/index.html': {
@@ -527,6 +573,24 @@ async function main() {
 
     for (const [relativePath, expected] of Object.entries(guideMetadataSourceChecks)) {
       issues.push(...(await verifySourceTextSync(relativePath, expected)));
+    }
+
+    const futureVisiblePrimaryGuides = filterVisibleGuides(
+      primaryGuideEntries,
+      futureReferenceDate,
+    );
+    if (futureVisiblePrimaryGuides.length !== 0) {
+      issues.push(
+        `future reference date should exclude overdue primary guides, but kept: ${futureVisiblePrimaryGuides
+          .map((entry) => entry.slug)
+          .join(', ')}`,
+      );
+    }
+
+    for (const entry of primaryGuideEntries) {
+      if (!isGuideOverdue(entry.nextReviewAt, futureReferenceDate)) {
+        issues.push(`future reference date did not mark ${entry.slug} as overdue`);
+      }
     }
 
     for (const [relativePath, rules] of Object.entries(sectionReferenceChecks)) {

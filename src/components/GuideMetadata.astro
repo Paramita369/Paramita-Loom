@@ -1,10 +1,13 @@
 ---
+import { GUIDE_STALE_POLICY_TEXT } from '../utils/guideStalePolicy.js';
 import LabelList from './LabelList.astro';
 
 interface GuideFrontmatter {
   guideVersion?: string;
   verifiedAt?: string;
   nextReviewAt?: string;
+  stalePolicyCode?: 'remove_from_primary_entry_when_overdue' | string;
+  stalePolicy?: string;
   platforms?: string[];
   audience?: string;
   difficulty?: string;
@@ -62,6 +65,7 @@ const rows =
     { label: '難度', value: frontmatter.difficulty ?? '' },
     { label: '驗證層級', value: verificationLevelValue },
     { label: '重新檢查時機', value: updateTriggersValue },
+    { label: '過期處理', value: frontmatter.stalePolicy ?? GUIDE_STALE_POLICY_TEXT },
   ].filter((row) => row.value.trim().length > 0);
 const tags = Array.isArray(Astro.props.tags)
   ? Astro.props.tags

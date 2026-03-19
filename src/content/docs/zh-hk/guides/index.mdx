@@ -5,9 +5,42 @@ pagefind: false
 editUrl: false
 ---
 
+import { filterVisibleGuides } from '../../../../utils/guideStalePolicy.js';
+
 指南是反思與應用之間的橋。它應該有結構、可測試、可重複，但仍保有這個站的語氣與細緻度。
 
 目前已核准的指南頁有兩篇：
 
-- [我如何用 ChatGPT 與 Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
-- [Mac 上的 Codex 三人協作流程](/zh-hk/guides/mac/three-agent-codex-workflow/)
+{filterVisibleGuides([
+  {
+    title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
+    href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+    nextReviewAt: '2026-04-19',
+  },
+  {
+    title: 'Mac 上的 Codex 三人協作流程',
+    href: '/zh-hk/guides/mac/three-agent-codex-workflow/',
+    nextReviewAt: '2026-04-19',
+  },
+]).length > 0 ? (
+  <ul>
+    {filterVisibleGuides([
+      {
+        title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
+        href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+        nextReviewAt: '2026-04-19',
+      },
+      {
+        title: 'Mac 上的 Codex 三人協作流程',
+        href: '/zh-hk/guides/mac/three-agent-codex-workflow/',
+        nextReviewAt: '2026-04-19',
+      },
+    ]).map((guide) => (
+      <li>
+        <a href={guide.href}>{guide.title}</a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>目前沒有可列入主入口的指南；待完成覆核後會重新列入。</p>
+)}

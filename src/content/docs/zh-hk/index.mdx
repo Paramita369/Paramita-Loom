@@ -19,6 +19,7 @@ hero:
 import BoundaryNote from '../../../components/BoundaryNote.astro';
 import ProcessSteps from '../../../components/ProcessSteps.astro';
 import SectionCardGrid from '../../../components/SectionCardGrid.astro';
+import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
 
 <p class="expressive-copy">
   Paramita Loom 是一個安靜而有結構的公開外層，用來承接已經整理過的筆記、指南與評測。
@@ -93,20 +94,24 @@ import SectionCardGrid from '../../../components/SectionCardGrid.astro';
       summary: '先分清系統真相、control plane 與 public projection 邊界。',
       cta: '先讀',
     },
-    {
-      title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
-      href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
-      eyebrow: '指南',
-      summary: '理解高層規劃與 repo execution 如何分工，避免把對話誤當工程證據。',
-      cta: '再讀',
-    },
-    {
-      title: 'Mac 上的 Codex 三人協作流程',
-      href: '/zh-hk/guides/mac/three-agent-codex-workflow/',
-      eyebrow: '指南',
-      summary: '看清 Lead、OC-AGENT 與 OC-SITE-AGENT 的 repo 邊界與 merge 次序。',
-      cta: '應用',
-    },
+    ...filterVisibleGuides([
+      {
+        title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
+        href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+        eyebrow: '指南',
+        summary: '理解高層規劃與 repo execution 如何分工，避免把對話誤當工程證據。',
+        cta: '再讀',
+        nextReviewAt: '2026-04-19',
+      },
+      {
+        title: 'Mac 上的 Codex 三人協作流程',
+        href: '/zh-hk/guides/mac/three-agent-codex-workflow/',
+        eyebrow: '指南',
+        summary: '看清 Lead、OC-AGENT 與 OC-SITE-AGENT 的 repo 邊界與 merge 次序。',
+        cta: '應用',
+        nextReviewAt: '2026-04-19',
+      },
+    ]),
     {
       title: '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容',
       href: '/zh-hk/review/from-zero-to-live-preview/',

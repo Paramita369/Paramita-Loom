@@ -18,6 +18,8 @@ export const collections = {
         guideVersion: z.string().min(1).optional(),
         verifiedAt: z.string().min(1).optional(),
         nextReviewAt: z.string().min(1).optional(),
+        stalePolicyCode: z.enum(['remove_from_primary_entry_when_overdue']).optional(),
+        stalePolicy: z.string().min(1).optional(),
         platforms: z.array(z.string().min(1)).optional(),
         audience: z.string().min(1).optional(),
         difficulty: z.string().min(1).optional(),
