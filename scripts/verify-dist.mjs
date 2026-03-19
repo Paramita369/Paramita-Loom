@@ -8,7 +8,7 @@ const approvedSlugs = [
   'knowledge/openclaw/private-truth-to-public-projection',
   'guides/codex/how-chatgpt-and-codex-built-openclaw',
   'guides/mac/three-agent-codex-workflow',
-  'review/phase15/from-zero-to-live-preview',
+  'review/from-zero-to-live-preview',
   'resources/ai-builder-stack/actual-openclaw-stack',
 ];
 const requiredFiles = [
@@ -27,7 +27,7 @@ const approvedTitleChecks = {
     expected: ['Mac 上的 Codex 三人協作流程', 'Codex 三人協作流程', 'OpenClaw 如何整理成公開內容'],
     forbidden: ['Mac 上三人協作的 Codex 工作流程', 'Mac 上三人協作流程', 'private → public 閉環證明了什麼'],
   },
-  'zh-hk/review/phase15/from-zero-to-live-preview/index.html': {
+  'zh-hk/review/from-zero-to-live-preview/index.html': {
     expected: [
       '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容',
       'Codex 三人協作流程',

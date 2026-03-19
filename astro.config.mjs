@@ -40,7 +40,7 @@ const sidebar = [
     items: [
       {
         label: '從空殼到公開預覽',
-        link: '/review/phase15/from-zero-to-live-preview/',
+        link: '/review/from-zero-to-live-preview/',
       },
     ],
   },
