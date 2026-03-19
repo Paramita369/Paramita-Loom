@@ -9,16 +9,21 @@ import { filterVisibleGuides } from '../../../../utils/guideStalePolicy.js';
 
 指南是反思與應用之間的橋。它應該有結構、可測試、可重複，但仍保有這個站的語氣與細緻度。
 
-其中〈如何在 Mac 安裝 OpenClaw〉而家講的是普通用家用官方 CLI 進入公開預覽；repo 自行部署與 `OC-Site local preview` 唔係同一路線。
+其中〈如何在 Mac 安裝 OpenClaw〉同〈如何在 Windows 安裝 OpenClaw〉而家講的，都是普通用家用官方 CLI 進入公開預覽的主線；Windows 版現時推薦 `WSL2 + Ubuntu` 路線。
 
-〈如何確認 OpenClaw 已正常啟動〉目前仍偏 repo-backed 啟動核對頁，未等同一般讀者 shipping-ready 的 health-check guide。
+〈如何確認 OpenClaw 已正常啟動〉而家已收成普通用家裝完之後的啟動檢查頁，重點係 gateway、dashboard 同 doctor。
 
-目前公開可見的指南頁有四篇：
+目前公開可見的指南頁有五篇：
 
 {filterVisibleGuides([
   {
     title: '如何在 Mac 安裝 OpenClaw',
     href: '/zh-hk/guides/openclaw/mac-install/',
+    nextReviewAt: '2026-04-19',
+  },
+  {
+    title: '如何在 Windows 安裝 OpenClaw',
+    href: '/zh-hk/guides/openclaw/windows-install/',
     nextReviewAt: '2026-04-19',
   },
   {
@@ -42,6 +47,11 @@ import { filterVisibleGuides } from '../../../../utils/guideStalePolicy.js';
       {
         title: '如何在 Mac 安裝 OpenClaw',
         href: '/zh-hk/guides/openclaw/mac-install/',
+        nextReviewAt: '2026-04-19',
+      },
+      {
+        title: '如何在 Windows 安裝 OpenClaw',
+        href: '/zh-hk/guides/openclaw/windows-install/',
         nextReviewAt: '2026-04-19',
       },
       {

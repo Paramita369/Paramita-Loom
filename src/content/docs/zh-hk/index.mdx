@@ -62,7 +62,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
       title: '指南',
       href: '/zh-hk/guides/',
       eyebrow: '實作',
-      summary: '先看普通用家的 OpenClaw 安裝公開預覽，再按需要讀目前仍偏 repo-backed 的啟動檢查與協作流程。',
+      summary: '先看普通用家的 Mac / Windows 安裝公開預覽，再按需要讀啟動檢查與協作流程。',
       cta: '應用',
     },
     {
@@ -85,7 +85,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
 <SectionCardGrid
   eyebrow="首批公開頁面"
   title="按照推薦順序閱讀這一波公開內容"
-  intro="先讀系統邊界，再讀安裝與啟動檢查，最後讀驗證閉環與工具選型。"
+  intro="先讀系統邊界，再按你的系統選 Mac 或 Windows 安裝，之後做啟動檢查，最後讀驗證閉環與工具選型。"
   items={[
     {
       title: 'OpenClaw 是什麼：系統真相與對外內容如何分工',
@@ -104,10 +104,18 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
         nextReviewAt: '2026-04-19',
       },
       {
+        title: '如何在 Windows 安裝 OpenClaw',
+        href: '/zh-hk/guides/openclaw/windows-install/',
+        eyebrow: '指南',
+        summary: '用 WSL2 + Ubuntu + 官方 CLI 在 Windows 開始 OpenClaw 公開預覽；native Windows 目前只作保守短講。',
+        cta: '安裝',
+        nextReviewAt: '2026-04-19',
+      },
+      {
         title: '如何確認 OpenClaw 已正常啟動',
         href: '/zh-hk/guides/openclaw/health-check/',
         eyebrow: '指南',
-        summary: '目前仍以 repo-backed 訊號核對為主，適合想對照 healthz、readyz 與 runtime evidence 的讀者。',
+        summary: '安裝完成後，用 gateway status、dashboard 同 doctor 做普通用家真正會用到的啟動檢查。',
         cta: '檢查',
         nextReviewAt: '2026-04-19',
       },

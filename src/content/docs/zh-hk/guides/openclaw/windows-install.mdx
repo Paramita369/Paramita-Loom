@@ -1,0 +1,211 @@
+---
+title: '如何在 Windows 安裝 OpenClaw'
+description: '給第一次想在 Windows 試用 OpenClaw 的普通用家，用 WSL2 + Ubuntu + OpenClaw CLI 走推薦主線，完成安裝、首次設定、gateway 檢查與自檢。'
+type: guide
+topic: openclaw-windows-install
+status: publish_ready
+reviewedAt: '2026-03-19T22:50:00+08:00'
+guideVersion: 'v1'
+verifiedAt: '2026-03-19'
+nextReviewAt: '2026-04-19'
+platforms:
+  - Windows 11
+  - WSL2
+  - Ubuntu
+  - 官方 OpenClaw CLI
+audience: '第一次想在 Windows 試用 OpenClaw 公開預覽的普通用家'
+difficulty: '入門'
+guide_audience: end_user
+guide_surface: official_cli
+verification_class: researched_only
+known_limitations:
+  - 未在乾淨原生 Windows 普通用家流程完整重跑
+  - native Windows CLI 路線仍在持續改善，今頁不把它當成主要安裝流程
+  - 目前不應宣稱 Windows end-user fully verified
+shipping_lane: preview_only
+tags:
+  - OpenClaw
+  - Windows
+  - WSL2
+  - install
+  - official-cli
+  - preview
+verificationLevelCode: doc_checked
+updateTriggers:
+  - openclaw_release
+  - dependency_major_bump
+  - verification_fail
+  - user_report
+  - docs_change
+retest_trigger:
+  - openclaw_release
+  - installer_changed
+  - onboarding_flow_changed
+  - gateway_health_contract_changed
+  - user_report
+  - docs_change
+  - verification_fail
+stalePolicyCode: remove_from_primary_entry_when_overdue
+stalePolicy: 如超過下次覆核日仍未更新，會先退出首頁與指南入口，待完成覆核後再重新列入。
+related:
+  - guides/openclaw/health-check
+  - guides/openclaw/mac-install
+sidebar:
+  label: Windows 安裝 OpenClaw
+---
+
+## 先看結論
+
+如果你想喺 Windows 開始用 OpenClaw，官方而家最推薦的主線係：先裝 `WSL2`，用 `Ubuntu` 開一個 Linux 環境，再喺入面裝 `OpenClaw CLI` 同跑首次設定。
+
+`WSL2` 可以理解成「喺 Windows 入面跑 Linux」；`gateway` 即是 OpenClaw 在你電腦上的入口服務；`dashboard` 即是本機管理畫面。官方亦有 native Windows CLI 路線，但限制同變數仍然比較多，所以今頁只保守短講，不把它當成主要流程。
+
+<div class="loom-note">
+  <strong>最短成功路徑</strong>
+  <p>喺 PowerShell 跑 `wsl --install`，開 Ubuntu 後啟用 systemd，再喺 Ubuntu 內安裝 `openclaw`、跑首次設定，最後用 `openclaw gateway status`、`openclaw dashboard` 同 `openclaw doctor` 做檢查。</p>
+</div>
+
+## 步驟
+
+### <span id="step-1">1. 安裝 WSL2 同 Ubuntu</span>
+
+先用系統管理員身份開 PowerShell，安裝 WSL2。官方推薦用 Ubuntu。
+
+```powershell
+wsl --install
+```
+
+如果 Windows 要求重新開機，就照做。之後再打開 Ubuntu，按畫面建立你的 Linux 帳號。
+
+做完之後，你應該可以見到 Ubuntu 視窗，並且能進入一個 Linux 終端機。
+
+[`wsl --install` 卡住或者開唔到 Ubuntu？看錯誤 1](#error-1)
+
+### <span id="step-2">2. 啟用 systemd</span>
+
+OpenClaw 的 gateway 安裝路線需要 systemd，所以先喺 Ubuntu 裡面開好它。
+
+在 Ubuntu 視窗輸入：
+
+```bash
+sudo tee /etc/wsl.conf >/dev/null <<'EOF'
+[boot]
+systemd=true
+EOF
+```
+
+之後回到 PowerShell，關掉目前的 WSL 執行個體：
+
+```powershell
+wsl --shutdown
+```
+
+再重新打開 Ubuntu，然後檢查：
+
+```bash
+systemctl --user status
+```
+
+做完之後，你應該唔會再見到「system has not been booted with systemd」這類訊息。
+
+[systemd 仍然起唔到？看錯誤 2](#error-2)
+
+### <span id="step-3">3. 在 Ubuntu 裝 OpenClaw CLI</span>
+
+喺 Ubuntu 裡面用官方 installer script 裝 `openclaw`。這一步會處理 CLI 安裝；今次先用 `--no-onboard`，方便你之後按步驟自己跑首次設定。
+
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash -s -- --no-onboard
+exec $SHELL -l
+openclaw --version
+```
+
+做完之後，你應該見到版本號，而唔係 `command not found`。
+
+[`openclaw --version` 冇回應？看錯誤 3](#error-3)
+
+### <span id="step-4">4. 跑首次設定</span>
+
+首次設定精靈會幫你開好最基本的本機設定，同時安裝 gateway 服務。
+
+```bash
+openclaw onboard --install-daemon
+```
+
+官方 onboarding 文件建議先用 QuickStart。做完之後，你應該回到可以繼續輸入命令的 Ubuntu 視窗，而唔會停喺半路。
+
+[首次設定卡住或者要求你處理舊設定？看錯誤 4](#error-4)
+
+### <span id="step-5">5. 檢查 gateway、dashboard 同 doctor</span>
+
+安裝完成後，用下面 3 個命令做最後確認。
+
+```bash
+openclaw gateway status
+openclaw dashboard
+openclaw doctor
+```
+
+做完之後，你應該見到 gateway 狀態摘要、dashboard 可以打開，`doctor` 亦唔應該出現阻擋你繼續使用的致命錯誤。
+
+[gateway / dashboard / doctor 有問題？看錯誤 5](#error-5)
+
+## 驗證方式
+
+你做完上面 5 步之後，只要下面幾件事都成立，就代表 Windows 推薦主線大致完成：
+
+- `wsl --install` 完成後，你能正常打開 Ubuntu。
+- `systemctl --user status` 唔會再報 systemd 未啟用。
+- `openclaw --version` 有正常回傳版本號。
+- `openclaw onboard --install-daemon` 可以完整跑完。
+- `openclaw gateway status` 有回到狀態摘要。
+- `openclaw dashboard` 有打開本機畫面，或者印出可打開的網址。
+- `openclaw doctor` 沒有出現阻擋你繼續使用的致命錯誤。
+
+如果其中一項未過，直接跳去下面 `常見錯誤` 的對應項目，再按連結返回相關步驟。
+
+## 常見錯誤
+
+### <span id="error-1">錯誤 1：`wsl --install` 卡住、失敗，或者 Ubuntu 開唔到</span>
+
+先確認你係用系統管理員身份開 PowerShell。如果 Windows 要求重新開機，先做完重開再試；如果 Ubuntu 仍然冇出現，就重新執行一次 `wsl --install`。
+
+[返回步驟 1](#step-1)
+
+### <span id="error-2">錯誤 2：`systemctl --user status` 話 systemd 未啟用</span>
+
+通常代表你未成功寫入 `/etc/wsl.conf`，或者寫完之後未跑 `wsl --shutdown`。照步驟 2 再做一次，然後重新打開 Ubuntu。
+
+[返回步驟 2](#step-2)
+
+### <span id="error-3">錯誤 3：`openclaw --version` 顯示 `command not found`</span>
+
+先執行 `exec $SHELL -l` 再試一次；如果仍然唔得，就重跑步驟 3 的 installer script。
+
+[返回步驟 3](#step-3)
+
+### <span id="error-4">錯誤 4：首次設定卡住，或者一開始就要你處理舊設定</span>
+
+如果你之前裝過 OpenClaw，精靈可能會要求你保留、修改或重設舊設定。照畫面提示處理後再繼續；如果中途卡住，可以先跑 `openclaw doctor` 再重試。
+
+[返回步驟 4](#step-4)
+
+### <span id="error-5">錯誤 5：`gateway status`、`dashboard` 或 `doctor` 有問題</span>
+
+先回到步驟 4，再重跑一次首次設定。好多時候只要把基本設定走完整一次，後面三個檢查就會穩定好多。
+
+[返回步驟 5](#step-5)
+
+如果上面都搵唔到你而家遇到的錯誤，可以直接複製錯誤文字，或者截圖目前畫面，然後問 AI 幫你解讀下一步。你只要講清楚自己做到邊一步、見到咩訊息，通常會快好多搵到下一個可試的方向。
+
+## 下一步
+
+- 如果你已經見到 gateway 狀態正常、dashboard 打得開，而且 `doctor` 冇阻擋性錯誤，下一步可以看 [如何確認 OpenClaw 已正常啟動](/zh-hk/guides/openclaw/health-check/)。
+- 如果你其實仲未完成 Windows 安裝主線，先按上面的錯誤對應返回相關步驟重試。
+- 如果你只想知道 Mac 路線點做，可以改看 [如何在 Mac 安裝 OpenClaw](/zh-hk/guides/openclaw/mac-install/)。
+
+## 更新與覆核
+
+- 最近覆核：2026-03-19。
+- 這一版按官方 [Windows (WSL2)](https://docs.openclaw.ai/platforms/windows)、[Onboarding](https://docs.openclaw.ai/start/wizard) 同 [Install](https://docs.openclaw.ai/install) 文件主線整理。
+- 目前仍未在乾淨原生 Windows 普通用家流程完整重跑；如果官方 WSL2、onboarding、gateway status、dashboard 或 doctor 行為有變，這頁會再更新。
