@@ -49,7 +49,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
 <SectionCardGrid
   eyebrow="站點入口"
   title="依照閱讀目的進入不同路徑"
-  intro="這一輪公開入口只保留已核准的四個內容區塊與對應批次頁，不再混入未公開範圍。"
+  intro="這一輪公開入口只保留四個公開內容區塊與對應頁面，不再混入未公開範圍。"
   items={[
     {
       title: '知識',
@@ -62,7 +62,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
       title: '指南',
       href: '/zh-hk/guides/',
       eyebrow: '實作',
-      summary: '閱讀已核准的 builder workflow 與三人協作流程，掌握實作節奏。',
+      summary: '先看普通用家的 OpenClaw 安裝公開預覽，再按需要讀目前仍偏 repo-backed 的啟動檢查與協作流程。',
       cta: '應用',
     },
     {
@@ -83,8 +83,8 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
 />
 
 <SectionCardGrid
-  eyebrow="首批核准頁面"
-  title="按照推薦順序閱讀這一波核准內容"
+  eyebrow="首批公開頁面"
+  title="按照推薦順序閱讀這一波公開內容"
   intro="先讀系統邊界，再讀安裝與啟動檢查，最後讀驗證閉環與工具選型。"
   items={[
     {
@@ -99,7 +99,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
         title: '如何在 Mac 安裝 OpenClaw',
         href: '/zh-hk/guides/openclaw/mac-install/',
         eyebrow: '指南',
-        summary: '先把 Mac mini 單機第一版 OpenClaw 的工作目錄、啟動檔與最小設定準備好。',
+        summary: '用官方 CLI 在 Mac 開始 OpenClaw 公開預覽，完成安裝、onboard、gateway status 與 dashboard 主線；目前未等於原生 macOS 全流程已驗證。',
         cta: '安裝',
         nextReviewAt: '2026-04-19',
       },
@@ -107,7 +107,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
         title: '如何確認 OpenClaw 已正常啟動',
         href: '/zh-hk/guides/openclaw/health-check/',
         eyebrow: '指南',
-        summary: '用 healthz、readyz、LaunchAgents、receipt 與 review gate 核對啟動是否真的到位。',
+        summary: '目前仍以 repo-backed 訊號核對為主，適合想對照 healthz、readyz 與 runtime evidence 的讀者。',
         cta: '檢查',
         nextReviewAt: '2026-04-19',
       },

@@ -34,15 +34,44 @@ const approvedTitleChecks = {
   'zh-hk/guides/openclaw/mac-install/index.html': {
     expected: [
       '如何在 Mac 安裝 OpenClaw',
-      'OpenClaw 啟動檢查',
-      '系統真相與對外內容',
+      '最短成功路徑',
+      '首次設定精靈',
+      '1. 安裝 CLI',
+      '2. 跑首次設定',
+      '3. 檢查 gateway',
+      '4. 打開 dashboard',
+      '5. 跑自檢',
+      'openclaw onboard --install-daemon',
+      'openclaw gateway status',
+      'openclaw dashboard',
+      'openclaw doctor',
+    ],
+    forbidden: [
+      'Python 3.12',
+      'SQLite WAL',
+      'Slack Socket Mode',
+      'LaunchAgents',
+      'bootstrap.platform_ops',
+      'git clone https://github.com/Paramita369/Openclaw.git',
     ],
   },
   'zh-hk/guides/openclaw/health-check/index.html': {
     expected: [
       '如何確認 OpenClaw 已正常啟動',
       '如何在 Mac 安裝 OpenClaw',
-      'OpenClaw 實際使用的 AI 開發工具組合',
+      '最短檢查路徑',
+      'openclaw gateway status',
+      'openclaw dashboard',
+      'openclaw doctor',
+    ],
+    forbidden: [
+      'LaunchAgents',
+      'Slack root task',
+      'DoD',
+      'receipt',
+      'review gate',
+      'repo-backed evidence',
+      'Local mode',
     ],
   },
   'zh-hk/guides/mac/three-agent-codex-workflow/index.html': {
@@ -67,65 +96,6 @@ const approvedTitleChecks = {
   },
 };
 const guideMetadataChecks = {
-  'zh-hk/guides/openclaw/mac-install/index.html': {
-    expected: [
-      '指南資訊',
-      '指南版本',
-      '已驗證於',
-      '下次覆核',
-      '平台',
-      '適合讀者',
-      '難度',
-      '重新檢查時機',
-      '標籤',
-      '驗證層級',
-      '文件已核對',
-      'v1',
-      '2026-03-19',
-      '2026-04-19',
-      'Mac mini、Python 3.12、SQLite WAL、Slack Socket Mode、per-user LaunchAgents',
-      '第一次在 Mac mini 上安裝 OpenClaw 的讀者',
-      '入門',
-      '過期處理',
-      GUIDE_STALE_POLICY_TEXT,
-      'OpenClaw 發布更新',
-      '關鍵依賴有大版本變動',
-      '驗證步驟失效或結果改變',
-      'OpenClaw',
-      'Mac mini',
-      'install',
-    ],
-  },
-  'zh-hk/guides/openclaw/health-check/index.html': {
-    expected: [
-      '指南資訊',
-      '指南版本',
-      '已驗證於',
-      '下次覆核',
-      '平台',
-      '適合讀者',
-      '難度',
-      '重新檢查時機',
-      '標籤',
-      '驗證層級',
-      '文件已核對',
-      'v1',
-      '2026-03-19',
-      '2026-04-19',
-      'Mac mini、Python 3.12、SQLite WAL、Slack Socket Mode、per-user LaunchAgents',
-      '已完成 Mac mini 安裝、想確認 OpenClaw 已正常啟動的讀者',
-      '入門',
-      '過期處理',
-      GUIDE_STALE_POLICY_TEXT,
-      'OpenClaw 發布更新',
-      '關鍵依賴有大版本變動',
-      '驗證步驟失效或結果改變',
-      'OpenClaw',
-      'Mac mini',
-      'health-check',
-      'single-machine',
-    ],
-  },
   'zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/index.html': {
     expected: [
       '指南資訊',
@@ -250,13 +220,20 @@ const guideMetadataSourceChecks = {
     'stalePolicy:',
     'platforms:',
     'audience:',
+    'guide_audience:',
+    'guide_surface:',
+    'verification_class:',
+    'tested_on:',
+    'evidence_refs:',
+    'known_limitations:',
+    'shipping_lane:',
     'difficulty:',
     'tags:',
     'verificationLevelCode:',
+    'retest_trigger:',
     'updateTriggers:',
     'related:',
     'sidebar:',
-    '<GuideMetadata />',
   ],
   'src/content/docs/zh-hk/guides/openclaw/health-check.mdx': [
     'guideVersion:',
@@ -266,25 +243,41 @@ const guideMetadataSourceChecks = {
     'stalePolicy:',
     'platforms:',
     'audience:',
+    'guide_audience:',
+    'guide_surface:',
+    'verification_class:',
+    'known_limitations:',
+    'shipping_lane:',
     'difficulty:',
     'tags:',
     'verificationLevelCode:',
+    'retest_trigger:',
     'updateTriggers:',
     'related:',
     'sidebar:',
-    '<GuideMetadata />',
   ],
   'src/content/docs/zh-hk/index.mdx': [
     'filterVisibleGuides',
     "nextReviewAt: '2026-04-19'",
+    '用官方 CLI 在 Mac 開始 OpenClaw 公開預覽',
   ],
   'src/content/docs/zh-hk/guides/index.mdx': [
     'filterVisibleGuides',
     "nextReviewAt: '2026-04-19'",
+    '普通用家用官方 CLI 進入公開預覽',
+    '目前仍偏 repo-backed 啟動核對頁',
   ],
   'src/content.config.ts': [
     'stalePolicyCode:',
     'stalePolicy:',
+    'guide_audience:',
+    'guide_surface:',
+    'verification_class:',
+    'tested_on:',
+    'evidence_refs:',
+    'known_limitations:',
+    'shipping_lane:',
+    'retest_trigger:',
   ],
   'src/utils/guideStalePolicy.js': [
     'GUIDE_STALE_POLICY_CODE',
@@ -311,7 +304,7 @@ const sectionReferenceChecks = {
       '查看首批指南',
       '編輯邏輯',
       '站點入口',
-      '首批核准頁面',
+      '首批公開頁面',
       '知識',
       '指南',
       '評測',
@@ -323,6 +316,8 @@ const sectionReferenceChecks = {
       'Mac 上的 Codex 三人協作流程',
       '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容',
       'OpenClaw 實際使用的 AI 開發工具組合',
+      '用官方 CLI 在 Mac 開始 OpenClaw 公開預覽',
+      '目前未等於原生 macOS 全流程已驗證',
     ],
     forbidden: [
       '/zh-hk/start-here/',
@@ -337,6 +332,7 @@ const sectionReferenceChecks = {
       'Knowledge',
       'Approved batch',
       'Batch 1',
+      '首批核准頁面',
       'Reading order',
       'Phase 15',
       '評測寫作結構',
@@ -346,12 +342,15 @@ const sectionReferenceChecks = {
   },
   'zh-hk/guides/index.html': {
     expected: [
+      '目前公開可見的指南頁有四篇',
+      '普通用家用官方 CLI 進入公開預覽',
+      '目前仍偏 repo-backed 啟動核對頁',
       '如何在 Mac 安裝 OpenClaw',
       '如何確認 OpenClaw 已正常啟動',
       '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
       'Mac 上的 Codex 三人協作流程',
     ],
-    forbidden: ['Mac 上三人協作的 Codex 工作流程'],
+    forbidden: ['Mac 上三人協作的 Codex 工作流程', '目前已核准的指南頁有四篇'],
   },
   'zh-hk/review/index.html': {
     expected: ['從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容'],
@@ -390,7 +389,7 @@ const forbiddenRootFiles = [
 ];
 const expectedRootRedirectRule = '/ /zh-hk/ 302';
 const sitemapCandidates = ['sitemap-index.xml', 'sitemap.xml', 'sitemap-0.xml'];
-const requiredHeadings = [
+const defaultRequiredHeadings = [
   '先看結論',
   '為什麼值得關心',
   '核心模型',
@@ -398,6 +397,88 @@ const requiredHeadings = [
   '相關頁面',
   '更新與覆核',
 ];
+const pageSpecificRequiredHeadings = {
+  'zh-hk/guides/openclaw/mac-install/index.html': [
+    '先看結論',
+    '步驟',
+    '驗證方式',
+    '常見錯誤',
+    '下一步',
+    '更新與覆核',
+  ],
+  'zh-hk/guides/openclaw/health-check/index.html': [
+    '先看結論',
+    '步驟',
+    '驗證方式',
+    '常見錯誤',
+    '下一步',
+    '更新與覆核',
+  ],
+};
+const pageSpecificPhraseChecks = {
+  'zh-hk/guides/openclaw/mac-install/index.html': {
+    expected: [
+      '最短成功路徑',
+      '首次設定精靈',
+      'OpenClaw 在你電腦上的入口服務',
+      '本機管理畫面',
+      'href="#error-1"',
+      'href="#step-1"',
+      'href="#step-5"',
+      '未在乾淨原生 Mac 上完整重跑一次普通用家流程',
+    ],
+    forbidden: [
+      '這篇適合誰',
+      '前置條件',
+      'OC-Site local preview',
+      'OpenClaw core install',
+      '指南資訊',
+      'Python 3.12 虛擬環境',
+      'Slack token',
+      'container_smoke_verified',
+      'preview_only',
+      'doc_checked',
+    ],
+  },
+  'zh-hk/guides/openclaw/health-check/index.html': {
+    expected: [
+      '最短檢查路徑',
+      'OpenClaw 的本機服務',
+      '本機管理畫面',
+      '自動檢查常見設定問題的工具',
+      '1. 確認 CLI 仲用得',
+      '2. 看 gateway 狀態',
+      '3. 打開 dashboard',
+      '4. 跑自檢',
+      '5. 需要時重跑首次設定',
+      'href="#error-1"',
+      'href="#step-1"',
+      'href="#step-5"',
+      '未在乾淨原生 Mac 上完整重跑一次普通用家 health-check',
+      '可以直接複製錯誤文字，或者截圖目前畫面，然後問 AI 幫你解讀下一步',
+    ],
+    forbidden: [
+      '為什麼值得關心',
+      '核心模型',
+      '例子與常見誤解',
+      '相關頁面',
+      'GuideMetadata',
+      '指南資訊',
+      'repo-backed evidence',
+      'LaunchAgents',
+      'Slack root task',
+      'DoD',
+      'task_contract',
+      'receipt',
+      'review gate',
+      'Local mode',
+      'openclaw status',
+      'preview_only',
+      'researched_only',
+      'doc_checked',
+    ],
+  },
+};
 const forbiddenStrings = [
   'TL;DR',
   'Description',
@@ -468,6 +549,7 @@ async function verifyApprovedPage(relativePath, { extraHeadings = [] } = {}) {
   const pagePath = formatPagePath(relativePath);
   const issues = [];
   const canonical = `${site}${pagePath}`;
+  const requiredHeadings = pageSpecificRequiredHeadings[relativePath] ?? defaultRequiredHeadings;
 
   if (!html.includes(`rel="canonical" href="${canonical}"`)) {
     issues.push(`canonical mismatch for ${pagePath}`);
@@ -678,6 +760,10 @@ async function main() {
     issues.push(...(await verifySearchExcludedPage('zh-hk/404/index.html')));
 
     for (const [relativePath, rules] of Object.entries(approvedTitleChecks)) {
+      issues.push(...(await verifyTextSync(relativePath, rules)));
+    }
+
+    for (const [relativePath, rules] of Object.entries(pageSpecificPhraseChecks)) {
       issues.push(...(await verifyTextSync(relativePath, rules)));
     }
 

@@ -1,6 +1,6 @@
 ---
 title: '如何在 Mac 安裝 OpenClaw'
-description: '只適用於 Mac mini 單機第一版 OpenClaw 的安裝指南，按 repo-backed evidence 逐步準備工作目錄、啟動檔與最小設定。'
+description: '給第一次想在 Mac 試用 OpenClaw 的普通用家，跟官方 CLI 完成安裝、首次設定、gateway 檢查、dashboard 開啟與自檢。'
 type: guide
 topic: openclaw-mac-install
 status: publish_ready
@@ -9,18 +9,40 @@ guideVersion: 'v1'
 verifiedAt: '2026-03-19'
 nextReviewAt: '2026-04-19'
 platforms:
-  - Mac mini
-  - Python 3.12
-  - SQLite WAL
-  - Slack Socket Mode
-  - per-user LaunchAgents
-audience: '第一次在 Mac mini 上安裝 OpenClaw 的讀者'
+  - macOS
+  - Terminal
+  - 官方 OpenClaw CLI
+  - Docker Desktop
+audience: '第一次想在 Mac 上試用 OpenClaw 公開預覽的普通用家'
 difficulty: '入門'
+guide_audience: end_user
+guide_surface: official_cli
+verification_class: container_smoke_verified
+tested_on:
+  - platform: docker
+    host_os: macOS
+    runtime: official_openclaw_image
+    verified_at: '2026-03-19'
+    note: gateway healthy、onboarding completed、healthz returned 200/live
+evidence_refs:
+  - kind: docker_smoke_log
+    target: artifacts/guides/openclaw/mac-install/docker-smoke.log
+    note: official image pulled and gateway became healthy
+  - kind: onboarding_output
+    target: artifacts/guides/openclaw/mac-install/onboarding-output.txt
+    note: config generated successfully
+known_limitations:
+  - 未在乾淨原生 macOS 普通用家流程完整重跑
+  - 未驗證 Homebrew / standalone installer user flow
+  - 目前不應宣稱 Mac end-user fully verified
+  - OC-Site local preview 需要另一條 Node.js / Astro 路線
+shipping_lane: preview_only
 tags:
   - OpenClaw
-  - Mac mini
+  - Mac
   - install
-  - single-machine
+  - official-cli
+  - preview
 verificationLevelCode: doc_checked
 updateTriggers:
   - openclaw_release
@@ -28,57 +50,152 @@ updateTriggers:
   - verification_fail
   - user_report
   - docs_change
+retest_trigger:
+  - openclaw_release
+  - installer_changed
+  - onboarding_flow_changed
+  - gateway_health_contract_changed
+  - user_report
+  - docs_change
+  - verification_fail
 stalePolicyCode: remove_from_primary_entry_when_overdue
 stalePolicy: 如超過下次覆核日仍未更新，會先退出首頁與指南入口，待完成覆核後再重新列入。
 related:
   - guides/openclaw/health-check
   - knowledge/openclaw/private-truth-to-public-projection
-  - guides/codex/how-chatgpt-and-codex-built-openclaw
   - review/from-zero-to-live-preview
 sidebar:
   label: Mac 安裝 OpenClaw
 ---
 
-import GuideMetadata from '../../../../../components/GuideMetadata.astro';
-
 ## 先看結論
 
-呢篇只適用於 Mac mini 單機第一版 OpenClaw。你會先準備乾淨工作目錄、放齊 repo 支援檔、用 Codex App Local mode 貼 bootstrap prompt，再用 launchd 同最小 `.env` 把系統起好。
+如果你想盡快在 Mac 上開始用 OpenClaw，照住下面 5 步做就可以：安裝 CLI、跑首次設定、檢查 gateway、打開 dashboard、最後跑一次自檢。
 
-## 為什麼值得關心
+`onboarding` 即是首次設定精靈；`gateway` 即是 OpenClaw 在你電腦上的入口服務；`dashboard` 即是本機管理畫面。
 
-如果安裝路線一開始就走偏，後面 health-check、receipt 同 review gate 都會變成唔可靠的證據。這頁只教你做 repo-backed 的最小安裝，不教你擴成多機或多服務架構。
+<div class="loom-note">
+  <strong>最短成功路徑</strong>
+  <p>裝好 `openclaw` CLI，跑一次首次設定精靈（onboarding），確認 gateway 有回應，再打開 dashboard，最後用 `openclaw doctor` 做一次自檢。</p>
+</div>
 
-<GuideMetadata />
+## 步驟
 
-## 核心模型
+### <span id="step-1">1. 安裝 CLI</span>
 
-你可以照以下順序做：
+先安裝 `openclaw` 指令。CLI 即是你之後會在 Terminal 輸入的主要命令。
 
-1. 建立一個乾淨工作目錄，例如 `~/openclaw`，避免舊檔同舊路徑污染。
-2. 將 `AGENTS.md`、runbook、`CODEX_BOOTSTRAP_PROMPT.md` 同 `bootstrap/` 放入工作目錄，讓之後每一步都按同一套 repo-backed 證據進行。
-3. 用 Codex App 開專案，確認係 Local mode，再貼 bootstrap prompt，避免一開始就把 thread 當成真相來源。
-4. 只準備 `.env` 的最小必需鍵，先寫 key 名，不要偽造值。
-5. 先替換 launchd plist 入面的 `__OPENCLAW_HOME__`，再做後續載入。
-6. 載入並 kickstart 三個 LaunchAgents，令單機服務按預期起動。
-7. 最後去 `runtime/logs/` 同 DoD checkpoints 核對，確認安裝唔止「有 process」，而係真的落到可追蹤的狀態。
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+exec $SHELL -l
+openclaw --version
+```
 
-## 例子與常見誤解
+做完之後，你應該見到 `openclaw --version` 印出版本號，而唔係 `command not found`。
 
-- 使用：先跑 `python -m bootstrap.platform_ops preflight`，再按順序做 `init-db`、`render-launchd`、`verify-launchd`、`smoke`、`status`、`doctor`。
-- 失效模式：只睇 process 有冇出現，唔去核對 `healthz`、`readyz`、receipt 同 DoD，會誤以為安裝成功。
-- 失效模式：未替換 `__OPENCLAW_HOME__` 就 bootstrap launchd，會令路徑全部指向錯位。
-- 失效模式：DB 未初始化就跑 smoke，通常只會得到假失敗或假成功。
-- 失效模式：把 Slack thread 當 truth，會同 SQLite/WAL 與 task contract 產生衝突。
-- 失效模式：將 `doc_checked` 寫成 `verified`，會把文件核對誤當實機驗證。
+[遇到 `command not found`？看錯誤 1](#error-1)
 
-## 相關頁面
+### <span id="step-2">2. 跑首次設定</span>
 
-- [OpenClaw 啟動檢查](/zh-hk/guides/openclaw/health-check/)
-- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
-- [我如何用 ChatGPT 與 Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
-- [從空殼到公開預覽](/zh-hk/review/from-zero-to-live-preview/)
+首次設定精靈會帶你做第一次設定，並把背景常駐程式一併裝好。
+
+```bash
+openclaw onboard --install-daemon
+```
+
+根據 [官方 Onboarding 文件](https://docs.openclaw.ai/start/wizard)，精靈會一步步帶你設定 gateway、workspace、登入方式，同埋第一輪健康檢查。今篇建議先用 QuickStart 完成第一次設定。
+
+做完之後，你至少應該回到可繼續輸入命令的 Terminal，並且唔會停喺未完成設定的中途畫面。
+
+[首次設定一開始就要求你處理舊設定？看錯誤 2](#error-2)
+
+### <span id="step-3">3. 檢查 gateway</span>
+
+第一次設定完成後，先確認 gateway 已經起好。你可以把它理解成 OpenClaw 在你電腦上的入口服務。
+
+```bash
+openclaw gateway status
+```
+
+做完之後，你應該見到狀態摘要，而唔係連線失敗或找不到 gateway。
+
+[gateway 起唔到？看錯誤 3](#error-3)
+
+### <span id="step-4">4. 打開 dashboard</span>
+
+dashboard 即是本機管理畫面。當 gateway 正常之後，再打開 dashboard。
+
+```bash
+openclaw dashboard
+```
+
+做完之後，你應該見到本機畫面打開，或者命令列至少印出可打開的本機網址。
+
+[dashboard 冇打開？看錯誤 4](#error-4)
+
+### <span id="step-5">5. 跑自檢</span>
+
+最後跑一次自檢，確認目前冇阻擋你繼續用落去的致命問題。
+
+```bash
+openclaw doctor
+```
+
+做完之後，你應該見到檢查結果；如果有錯，重點睇係咪出現阻擋你繼續使用的致命錯誤。
+
+[自檢出現阻擋性錯誤？看錯誤 5](#error-5)
+
+## 驗證方式
+
+你完成上面 5 步之後，只要下面 5 件事都成立，就代表主線安裝大致完成：
+
+- `openclaw --version` 有正常回傳版本號。
+- 首次設定精靈可以完整跑完。
+- `openclaw gateway status` 有回到狀態摘要。
+- `openclaw dashboard` 有打開本機畫面，或者印出可打開的網址。
+- `openclaw doctor` 沒有出現阻擋你繼續使用的致命錯誤。
+
+如果其中一項未過，直接跳去下面的 `常見錯誤`，再按對應連結回到相關步驟。
+
+## 常見錯誤
+
+### <span id="error-1">錯誤 1：`openclaw: command not found`</span>
+
+通常係安裝後仲未重開 shell。先執行 `exec $SHELL -l`，再試 `openclaw --version`；如果仍然唔得，再重跑安裝步驟。
+
+[返回步驟 1](#step-1)
+
+### <span id="error-2">錯誤 2：首次設定精靈要求你處理舊設定</span>
+
+這通常代表你機器上已經有 `~/.openclaw/openclaw.json`。官方流程容許你保留、修改或重設；如果它提示 legacy config 問題，先跑 `openclaw doctor`，再決定要保留還是重設。
+
+[返回步驟 2](#step-2)
+
+### <span id="error-3">錯誤 3：`openclaw gateway status` 顯示 gateway 未起好</span>
+
+先重新跑 `openclaw onboard --install-daemon`，確認你在首次設定精靈裡選的是 local gateway 路線，之後再重試狀態檢查。
+
+[返回步驟 3](#step-3)
+
+### <span id="error-4">錯誤 4：`openclaw dashboard` 冇打開</span>
+
+先回到步驟 3 再檢查一次 gateway 狀態。如果 gateway 未起好，dashboard 多數都唔會正常打開。
+
+[返回步驟 4](#step-4)
+
+### <span id="error-5">錯誤 5：`openclaw doctor` 出現阻擋性錯誤</span>
+
+先看錯誤訊息指向的是安裝、設定，還是 gateway 問題。大多數情況下，回到步驟 2 或步驟 3 再做一次，就可以排到根源。
+
+[返回步驟 5](#step-5)
+
+## 下一步
+
+- 如果你已經見到 gateway 狀態正常、dashboard 打得開，而且 `doctor` 冇阻擋性錯誤，下一篇可以看 [如何確認 OpenClaw 已正常啟動](/zh-hk/guides/openclaw/health-check/)。
+- 如果你仲卡住，先回到上面對應的 `常見錯誤`，再按連結返回相關步驟逐個排。
 
 ## 更新與覆核
 
-本頁只整理成可照做的 Mac 安裝步驟，並保留 repo-backed 證據邊界；如果之後 runbook、bootstrap 或 launchd 模板變動，請先重新核對再公開。
+- 最近覆核：2026-03-19。
+- 這一版按官方 [Install](https://docs.openclaw.ai/install)、[Onboarding](https://docs.openclaw.ai/start/wizard) 同 [Docker](https://docs.openclaw.ai/install/docker) 文件主線整理。
+- 目前仍未在乾淨原生 Mac 上完整重跑一次普通用家流程；如果官方安裝器、首次設定或 gateway / dashboard 行為有變，這頁會再更新。

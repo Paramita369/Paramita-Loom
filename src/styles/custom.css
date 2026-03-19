@@ -358,24 +358,47 @@ h3,
   margin: 2rem 0;
 }
 
+.loom-guide-metadata-primary,
+.loom-guide-metadata-secondary,
 .loom-guide-metadata-grid {
   display: grid;
+}
+
+.loom-guide-metadata-primary {
   gap: 0.9rem;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
   margin: 0;
 }
 
+.loom-guide-metadata-secondary {
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  margin-top: 1rem;
+}
+
+.loom-guide-metadata-grid {
+  gap: 0.9rem;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+}
+
+.loom-guide-metadata-card,
+.loom-guide-metadata-panel,
 .loom-guide-metadata-row {
+  min-width: 0;
   padding: 0.9rem 1rem;
   border: 1px solid var(--loom-line);
   border-radius: 0.95rem;
   background: rgba(255, 255, 255, 0.58);
 }
 
+:root[data-theme='dark'] .loom-guide-metadata-card,
+:root[data-theme='dark'] .loom-guide-metadata-panel,
 :root[data-theme='dark'] .loom-guide-metadata-row {
   background: rgba(27, 35, 29, 0.78);
 }
 
+.loom-guide-metadata-card dt,
 .loom-guide-metadata-row dt {
   margin: 0 0 0.35rem;
   color: var(--sl-color-text-accent);
@@ -385,10 +408,51 @@ h3,
   text-transform: uppercase;
 }
 
+.loom-guide-metadata-card dd,
 .loom-guide-metadata-row dd {
   margin: 0;
   color: var(--loom-ink);
   line-height: 1.65;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.loom-guide-metadata-card dd {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.loom-guide-metadata-panel {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.loom-guide-metadata-panel-head {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.loom-guide-metadata-panel-head h3,
+.loom-guide-metadata-panel-head p {
+  margin: 0;
+}
+
+.loom-guide-metadata-panel-head p {
+  color: var(--loom-copy);
+  font-size: 0.94rem;
+}
+
+.loom-guide-metadata-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+
+.loom-guide-metadata-list li {
+  color: var(--loom-copy);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .loom-guide-metadata-tags {
@@ -454,6 +518,10 @@ h3,
 @media (max-width: 50rem) {
   .loom-section {
     padding: 1.2rem;
+  }
+
+  .loom-guide-metadata-secondary {
+    grid-template-columns: 1fr;
   }
 
   .loom-step {

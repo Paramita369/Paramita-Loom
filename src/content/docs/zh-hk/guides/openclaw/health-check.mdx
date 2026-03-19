@@ -1,6 +1,6 @@
 ---
 title: '如何確認 OpenClaw 已正常啟動'
-description: '用 repo-backed evidence 確認 Mac mini 單機第一版 OpenClaw 真的已經啟動，唔好只因 process 在場就當成功。'
+description: '給已完成安裝的普通用家，用 gateway 狀態、dashboard、自檢與需要時重跑首次設定，確認 OpenClaw 已正常啟動。'
 type: guide
 topic: openclaw-health-check
 status: publish_ready
@@ -9,18 +9,25 @@ guideVersion: 'v1'
 verifiedAt: '2026-03-19'
 nextReviewAt: '2026-04-19'
 platforms:
-  - Mac mini
-  - Python 3.12
-  - SQLite WAL
-  - Slack Socket Mode
-  - per-user LaunchAgents
-audience: '已完成 Mac mini 安裝、想確認 OpenClaw 已正常啟動的讀者'
+  - macOS
+  - Terminal
+  - 官方 OpenClaw CLI
+audience: '已完成安裝、想確認 OpenClaw 可以正常使用的普通用家'
 difficulty: '入門'
+guide_audience: end_user
+guide_surface: official_cli
+verification_class: researched_only
+known_limitations:
+  - 未在乾淨原生 Mac 普通用家流程完整重跑
+  - 未驗證所有 dashboard / status 畫面在不同版本下完全一致
+  - 目前不應宣稱 Mac end-user health-check fully verified
+shipping_lane: preview_only
 tags:
   - OpenClaw
-  - Mac mini
+  - Mac
   - health-check
-  - single-machine
+  - official-cli
+  - preview
 verificationLevelCode: doc_checked
 updateTriggers:
   - openclaw_release
@@ -28,57 +35,148 @@ updateTriggers:
   - verification_fail
   - user_report
   - docs_change
+retest_trigger:
+  - openclaw_release
+  - onboarding_flow_changed
+  - gateway_health_contract_changed
+  - user_report
+  - docs_change
+  - verification_fail
 stalePolicyCode: remove_from_primary_entry_when_overdue
 stalePolicy: 如超過下次覆核日仍未更新，會先退出首頁與指南入口，待完成覆核後再重新列入。
 related:
   - guides/openclaw/mac-install
-  - knowledge/openclaw/private-truth-to-public-projection
-  - guides/mac/three-agent-codex-workflow
-  - review/from-zero-to-live-preview
-  - resources/ai-builder-stack/actual-openclaw-stack
 sidebar:
   label: OpenClaw 啟動檢查
 ---
 
-import GuideMetadata from '../../../../../components/GuideMetadata.astro';
-
 ## 先看結論
 
-呢篇用來確認 OpenClaw 已經正常啟動，而唔係只係「某啲 process 仲在場」。你要同時看到 healthz、readyz、LaunchAgents、receipt 同 DoD checkpoint 都對齊，先可以放心。
+如果你已經跟住安裝頁裝好 OpenClaw，呢一頁會幫你做 5 個最實用的檢查：確認 CLI 仲用得、看 gateway 狀態、打開 dashboard、跑一次自檢，以及有需要時重跑首次設定。
 
-## 為什麼值得關心
+`gateway` 即是 OpenClaw 在你電腦上的入口服務；`dashboard` 即是本機管理畫面；`doctor` 即是自動檢查常見設定問題的工具。
 
-啟動檢查如果做得鬆散，最容易把文件整理、process 存活、或者 thread 訊息，誤認成真正的系統真相。呢頁只教你用 repo-backed evidence 收口。
+<div class="loom-note">
+  <strong>最短檢查路徑</strong>
+  <p>先跑 `openclaw --version`，再用 `openclaw gateway status` 看 gateway 有冇正常回應，之後打開 `openclaw dashboard`，最後用 `openclaw doctor` 做一次自檢。</p>
+</div>
 
-<GuideMetadata />
+## 步驟
 
-## 核心模型
+### <span id="step-1">1. 確認 CLI 仲用得</span>
 
-你可以照以下順序做：
+先確認 `openclaw` 指令本身仲可以在 Terminal 正常執行。
 
-1. 先跑 `python -m bootstrap.platform_ops preflight`，確認環境、路徑同最基本前置條件都合理。
-2. 如果資料庫未落地，先做 `init-db`，再做 `render-launchd` 同 `verify-launchd`，避免 launchd 模板同實際路徑對唔上。
-3. 載入並 kickstart 三個 LaunchAgents，之後再檢查 `runtime/logs/` 同服務狀態。
-4. 用 `GET /healthz` 同 `GET /readyz` 去分清「活著」同「可以服務」。
-5. 回到 Slack root task，核對 `@OpenClaw`、`task_contract`、receipt 同 review gate，確保根任務真係落到 DB truth。
-6. 最後對照 DoD checkpoints，確認安裝與啟動唔止完成到表面，而係有證據可回放。
+```bash
+openclaw --version
+```
 
-## 例子與常見誤解
+做完之後，你應該見到版本號，而唔係 `command not found`。
 
-- 使用：process 在場只代表啟動過，不代表 ready。
-- 失效模式：未替換 `__OPENCLAW_HOME__` 就起 launchd，會令 health check 指向錯位路徑。
-- 失效模式：DB 未初始化就跑 smoke，通常會得到唔穩定或假性的結果。
-- 失效模式：把 Slack thread 當 truth，會令 root task、receipt 同 review gate 失去唯一來源。
-- 失效模式：不要把文件整理誤寫成已完成實機驗證；這頁只屬「文件已核對階段」，不是現場跑過的證明。
+[睇唔到版本號？看錯誤 1](#error-1)
 
-## 相關頁面
+### <span id="step-2">2. 看 gateway 狀態</span>
 
-- [如何在 Mac 安裝 OpenClaw](/zh-hk/guides/openclaw/mac-install/)
-- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
-- [Mac 上的 Codex 三人協作流程](/zh-hk/guides/mac/three-agent-codex-workflow/)
-- [從空殼到公開預覽](/zh-hk/review/from-zero-to-live-preview/)
-- [OpenClaw 實際使用的 AI 開發工具組合](/zh-hk/resources/ai-builder-stack/actual-openclaw-stack/)
+再看一次 gateway 狀態。你可以把 gateway 理解成 OpenClaw 在你電腦上的入口服務。
+
+```bash
+openclaw gateway status
+```
+
+做完之後，你應該見到狀態摘要，而唔係卡住、連線失敗，或者完全冇回應。
+
+[gateway 狀態顯示有問題？看錯誤 2](#error-2)
+
+### <span id="step-3">3. 打開 dashboard</span>
+
+dashboard 即是本機管理畫面。當狀態摘要正常之後，再打開 dashboard 看畫面有冇起到。
+
+```bash
+openclaw dashboard
+```
+
+做完之後，你應該見到瀏覽器打開本機畫面，或者命令列至少印出一個可以打開的本機網址。
+
+[dashboard 冇打開？看錯誤 3](#error-3)
+
+### <span id="step-4">4. 跑自檢</span>
+
+`doctor` 會幫你檢查常見設定問題。呢一步最適合用來確認你唔係「畫面勉強打開，但其實後面仲有阻擋性錯誤」。
+
+```bash
+openclaw doctor
+```
+
+做完之後，你應該見到檢查結果；如果有錯，重點睇係咪出現阻擋你繼續使用的致命問題。
+
+[自檢出現阻擋性錯誤？看錯誤 4](#error-4)
+
+### <span id="step-5">5. 需要時重跑首次設定</span>
+
+如果上面任何一步都過唔到，最直接的補救通常係再跑一次首次設定精靈。它會重新帶你走一次基本設定。
+
+```bash
+openclaw onboard --install-daemon
+```
+
+做完之後，你應該回到可繼續輸入命令的 Terminal，之後再返回步驟 2 到步驟 4 重試。
+
+[首次設定重跑時卡住？看錯誤 5](#error-5)
+
+## 驗證方式
+
+你完成上面 5 步之後，只要下面幾件事都成立，就代表 OpenClaw 大致已經正常啟動：
+
+- `openclaw --version` 有正常回傳版本號。
+- `openclaw gateway status` 有回到狀態摘要。
+- `openclaw dashboard` 有打開本機畫面，或者印出可打開的網址。
+- `openclaw doctor` 沒有出現阻擋你繼續使用的致命錯誤。
+- 如果你需要重跑首次設定，重跑之後再做一次步驟 2 到步驟 4，結果應該比之前穩定。
+
+如果其中一項未過，直接跳去下面 `常見錯誤` 的對應項目，再按連結返回相關步驟。
+
+## 常見錯誤
+
+### <span id="error-1">錯誤 1：`openclaw --version` 冇回應或顯示 `command not found`</span>
+
+先重新開一個新的 Terminal 視窗，再試一次。如果仍然唔得，就回到安裝頁重新做 CLI 安裝。
+
+[返回步驟 1](#step-1)
+
+### <span id="error-2">錯誤 2：`openclaw gateway status` 顯示連線失敗、卡住，或者冇狀態摘要</span>
+
+這通常代表 OpenClaw 的本機服務未完全起好。先等一陣再試一次；如果仍然唔得，就去步驟 5 重跑首次設定。
+
+[返回步驟 2](#step-2)
+
+### <span id="error-3">錯誤 3：`openclaw dashboard` 冇打開畫面</span>
+
+先回到步驟 2，再確認狀態摘要是否正常。如果狀態摘要本身已經有問題，dashboard 多數都唔會正常打開。
+
+[返回步驟 3](#step-3)
+
+### <span id="error-4">錯誤 4：`openclaw doctor` 顯示阻擋性錯誤</span>
+
+先看錯誤內容指向的是設定問題、登入問題，還是本機服務問題。最常見的處理方式係回到步驟 5，重跑一次首次設定。
+
+[返回步驟 4](#step-4)
+
+### <span id="error-5">錯誤 5：重跑首次設定時處理唔到舊設定或中途卡住</span>
+
+如果首次設定精靈要求你處理舊設定，通常代表你機器上已經有舊的 OpenClaw 設定。先按畫面提示決定保留、修改或重設；之後再回到步驟 2 繼續檢查。
+
+[返回步驟 5](#step-5)
+
+如果上面都搵唔到你而家遇到的錯誤，可以直接複製錯誤文字，或者截圖目前畫面，然後問 AI 幫你解讀下一步。你只要講清楚自己做到邊一步、見到咩訊息，通常會快好多搵到下一個可試的方向。
+
+## 下一步
+
+- 如果 `gateway status`、`dashboard` 同 `doctor` 都正常，下一步就可以直接開始使用 OpenClaw。
+- 如果你發現自己其實未完成基本安裝，先回到 [如何在 Mac 安裝 OpenClaw](/zh-hk/guides/openclaw/mac-install/) 補完安裝主線。
+- 如果你仲卡住，先到上面的 `常見錯誤`，再按返回連結逐步重試。
 
 ## 更新與覆核
 
-本頁把啟動檢查整理成 repo-backed 的最小路線；若 healthz、readyz、launchd、receipt 或 DoD 的證據變動，請先重新核對再公開。
+- 最近覆核：2026-03-19。
+- 這一版按官方 [Install](https://docs.openclaw.ai/install) 同 [Onboarding](https://docs.openclaw.ai/start/wizard) 文件主線整理。
+- 目前仍未在乾淨原生 Mac 上完整重跑一次普通用家 health-check；如果官方 gateway status、dashboard、doctor 或首次設定流程有變，這頁會再更新。
