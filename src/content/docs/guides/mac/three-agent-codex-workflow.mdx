@@ -18,7 +18,13 @@ tags:
   - OpenClaw
   - multi-agent
   - workflow
-verificationLevel: '本地已驗證'
+verificationLevelCode: local_verified
+updateTriggers:
+  - openclaw_release
+  - dependency_major_bump
+  - verification_fail
+  - user_report
+  - docs_change
 related:
   - guides/codex/how-chatgpt-and-codex-built-openclaw
   - knowledge/openclaw/private-truth-to-public-projection

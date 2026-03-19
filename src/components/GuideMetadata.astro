@@ -8,7 +8,8 @@ interface GuideFrontmatter {
   platforms?: string[];
   audience?: string;
   difficulty?: string;
-  verificationLevel?: string;
+  verificationLevelCode?: 'doc_checked' | 'local_verified' | 'cross_platform_verified' | string;
+  updateTriggers?: string[];
   tags?: string[];
 }
 
@@ -22,6 +23,27 @@ interface Props {
 
 const routeData = (Astro.locals.starlightRoute?.entry?.data ?? {}) as GuideFrontmatter;
 const frontmatter = Astro.props.frontmatter ?? routeData;
+const verificationLevelLabels: Record<string, string> = {
+  doc_checked: '文件已核對',
+  local_verified: '本地已驗證',
+  cross_platform_verified: '跨平台已驗證',
+};
+const updateTriggerLabels: Record<string, string> = {
+  openclaw_release: 'OpenClaw 發布更新',
+  dependency_major_bump: '關鍵依賴有大版本變動',
+  verification_fail: '驗證步驟失效或結果改變',
+  user_report: '收到讀者或使用者回報',
+  docs_change: '相關文件或流程說明更新',
+};
+const verificationLevelValue = frontmatter.verificationLevelCode
+  ? verificationLevelLabels[frontmatter.verificationLevelCode] ?? frontmatter.verificationLevelCode
+  : '';
+const updateTriggersValue = Array.isArray(frontmatter.updateTriggers)
+  ? frontmatter.updateTriggers
+      .map((trigger) => updateTriggerLabels[trigger] ?? trigger)
+      .filter((trigger) => trigger.trim().length > 0)
+      .join('、')
+  : '';
 const title = Astro.props.title ?? '指南資訊';
 const intro =
   Astro.props.intro ??
@@ -38,7 +60,8 @@ const rows =
     },
     { label: '適合讀者', value: frontmatter.audience ?? '' },
     { label: '難度', value: frontmatter.difficulty ?? '' },
-    { label: '驗證層級', value: frontmatter.verificationLevel ?? '' },
+    { label: '驗證層級', value: verificationLevelValue },
+    { label: '重新檢查時機', value: updateTriggersValue },
   ].filter((row) => row.value.trim().length > 0);
 const tags = Array.isArray(Astro.props.tags)
   ? Astro.props.tags

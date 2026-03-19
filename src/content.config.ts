@@ -22,7 +22,10 @@ export const collections = {
         audience: z.string().min(1).optional(),
         difficulty: z.string().min(1).optional(),
         tags: z.array(z.string().min(1)).optional(),
-        verificationLevel: z.string().min(1).optional(),
+        verificationLevelCode: z
+          .enum(['doc_checked', 'local_verified', 'cross_platform_verified'])
+          .optional(),
+        updateTriggers: z.array(z.string().min(1)).optional(),
         related: z.array(z.string().min(1)).optional(),
         slug: z.string().min(1).optional(),
       }),
