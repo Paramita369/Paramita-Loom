@@ -1,23 +1,24 @@
 ---
 title: 評測寫作結構
-description: 範例評測方法頁，示範如何把優勢、限制與推薦說清楚。
+description: 說明公開評測如何把優勢、限制與推薦邊界寫清楚。
+pagefind: false
 type: review
 topic: review-craft
-status: reviewed
+status: publish_ready
 reviewedAt: '2026-03-18'
 related:
   - resources/topic-mapping-kit
   - guides/publishing-with-clarity
-slug: review/review-architecture
 editUrl: false
 sidebar:
   order: 1
 ---
 
+import BoundaryNote from '../../../../components/BoundaryNote.astro';
 import LabelList from '../../../../components/LabelList.astro';
 import ReviewBox from '../../../../components/ReviewBox.astro';
 
-<LabelList labels={['評測方法', '範例頁', '低噪音支持邊界']} />
+<LabelList labels={['評測方法', '公開頁', '低噪音支持邊界']} />
 
 <ReviewBox
   title="這裡的評測應該怎樣閱讀"
@@ -34,4 +35,17 @@ import ReviewBox from '../../../../components/ReviewBox.astro';
     '聯盟資訊不能默默改寫結論。',
     '在契約凍結之後，評測標準不應每頁各自發明。',
   ]}
+/>
+
+這一頁是第一批公開內容裡負責說明「評測如何成立」的頁面。它不是產品排行，也不是一句話總結，而是把判斷的骨架攤開給讀者看。
+
+## 閱讀評測時先看三件事
+
+- 標準是否被清楚說出，而不是藏在語氣裡；
+- 限制是否跟優勢一起出現，而不是被移到頁尾淡化；
+- 商業、支持或推薦背景是否被獨立揭露，而不是混進結論。
+
+<BoundaryNote
+  title="揭露原則"
+  body="若後續評測含工具、服務或其他推薦連結，揭露會集中在支持頁或頁內明示區，不會混入核心結論段落。"
 />
