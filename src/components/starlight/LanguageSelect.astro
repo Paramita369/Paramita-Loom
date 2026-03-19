@@ -34,7 +34,7 @@ function getTargetPath(localeCode: string) {
 }
 
 const options =
-  config.isMultilingual && config.locales
+  baseId !== '404' && config.isMultilingual && config.locales
     ? Object.entries(config.locales)
         .filter(([code]) => {
           const entry = docsById.get(getTargetId(code));

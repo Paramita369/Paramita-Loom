@@ -47,6 +47,15 @@ const approvedTitleChecks = {
 const sectionReferenceChecks = {
   'zh-hk/index.html': {
     expected: [
+      '先讀 OpenClaw',
+      '查看首批指南',
+      '編輯邏輯',
+      '站點入口',
+      '首批核准頁面',
+      '知識',
+      '指南',
+      '評測',
+      '資源',
       'OpenClaw 是什麼：系統真相與對外內容如何分工',
       '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
       'Mac 上的 Codex 三人協作流程',
@@ -59,6 +68,15 @@ const sectionReferenceChecks = {
       '/zh-hk/support/',
       '/zh-hk/review/review-architecture/',
       '/zh-hk/knowledge/topics/',
+      'Read OpenClaw',
+      'Guide',
+      'Review',
+      'Resource',
+      'Knowledge',
+      'Approved batch',
+      'Batch 1',
+      'Reading order',
+      'Phase 15',
       '評測寫作結構',
       '讀者支持',
       '從這裡開始',
@@ -120,7 +138,6 @@ const forbiddenStrings = [
   'Tool Recommendation',
   'Public Article Contract v2',
   'Public Article Contract v3',
-  'Phase 15',
   'Disclosure',
   'Review note',
   'Related pages',
@@ -230,6 +247,14 @@ async function verifySearchExcludedPage(relativePath) {
 
   if (html.includes('data-pagefind-body')) {
     issues.push(`pagefind body should be disabled for ${pagePath}`);
+  }
+
+  if (html.includes('<starlight-lang-select')) {
+    issues.push(`language selector should be hidden for ${pagePath}`);
+  }
+
+  if (html.includes('選擇語言')) {
+    issues.push(`language selector label should not be visible for ${pagePath}`);
   }
 
   return issues;

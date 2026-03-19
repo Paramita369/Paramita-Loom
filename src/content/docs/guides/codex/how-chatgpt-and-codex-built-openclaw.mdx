@@ -1,6 +1,6 @@
 ---
-title: '我如何用 ChatGPT + Codex 建立 OpenClaw'
-description: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。'
+title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw'
+description: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持清楚的分階段紀律。'
 type: guide
 topic: codex-workflow
 status: publish_ready
@@ -13,34 +13,34 @@ slug: guides/codex/how-chatgpt-and-codex-built-openclaw
 draft: true
 ---
 
-## TL;DR
+## 先看結論
 
-我用 ChatGPT 先鎖 scope、定 phase 同驗收口徑，再用 Codex 直接在 repo 內實作、測試、寫 build log，令 OpenClaw 一直保持可追溯同可回歸。
+我用 ChatGPT 先鎖 scope、定節奏同驗收口徑，再用 Codex 直接在 repo 內實作、測試、寫 build log，令 OpenClaw 一直保持可追溯同可回歸。
 
-## Why it matters
+## 為什麼值得關心
 
-呢頁將「規劃工具」同「系統真相」分開，避免把 prompt 或單次對話誤當成可交付的工程證據。
+呢頁將規劃工具同系統真相分開，避免把 prompt 或單次對話誤當成可交付的工程證據。
 
-## Core model / main idea
+## 核心模型
 
-- ChatGPT 或 Lead 負責收斂 scope、phase order、風險與驗收口徑。
+- ChatGPT 或 Lead 負責收斂 scope、節奏、風險與驗收口徑。
 - Codex 只喺 repo worktree 內做最小必要修改、測試同驗證，保持 review 粒度清楚。
 - 真正可運行的系統真相落在 repo、DB schema、tests、artifacts 同 build log，而唔係對話本身。
 - 每次交付都要附驗證結果，先可以變成下一個 agent 可安全消費的資產。
 
-## Examples / failure modes / usage
+## 例子與常見誤解
 
-- 使用：先由 Lead 鎖 phase scope 同 acceptance，再由 Codex 落 branch/worktree 做單一責任修改。
+- 使用：先由 Lead 鎖 scope 同 acceptance，再由 Codex 落 branch/worktree 做單一責任修改。
 - 失效模式：如果 prompt 冇落到 repo、tests、build log，同一個結論日後就無法回放或比對。
 - 使用：寫完之後用 pytest、build log 同 receipts 固化 outcome，再交俾下一個 agent 消費。
 - 失效模式：將 architecture change、cleanup backlog 同內容波次混埋一齊，會令 review gate 失焦。
 
-## Related pages
+## 相關頁面
 
-- [OpenClaw 是什麼：從 private truth 到 public projection](/knowledge/openclaw/private-truth-to-public-projection/)
-- [Mac 上用 3-Agent Codex workflow 的實戰方法](/guides/mac/three-agent-codex-workflow/)
-- [我實際在用的 AI Builder Stack](/resources/ai-builder-stack/actual-openclaw-stack/)
+- [OpenClaw 是什麼：系統真相與對外內容如何分工](/knowledge/openclaw/private-truth-to-public-projection/)
+- [Mac 上的 Codex 三人協作流程](/guides/mac/three-agent-codex-workflow/)
+- [OpenClaw 實際使用的 AI 開發工具組合](/resources/ai-builder-stack/actual-openclaw-stack/)
 
-## Review note
+## 更新與覆核
 
-本頁已把舊的工具建議改寫入 v2 允許 sections；public-facing body 唔再輸出 Tool Recommendation 呢類額外 heading。
+本頁已按現行編輯標準整理為可直接閱讀的版本；規劃與落地邊界已清楚對齊。
