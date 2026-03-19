@@ -92,6 +92,52 @@ const guideMetadataChecks = {
     ],
   },
 };
+const guideMetadataSourceChecks = {
+  'src/content/docs/guides/codex/how-chatgpt-and-codex-built-openclaw.mdx': [
+    'guideVersion:',
+    'verifiedAt:',
+    'nextReviewAt:',
+    'platforms:',
+    'audience:',
+    'difficulty:',
+    'tags:',
+    'verificationLevel:',
+    '<GuideMetadata />',
+  ],
+  'src/content/docs/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw.mdx': [
+    'guideVersion:',
+    'verifiedAt:',
+    'nextReviewAt:',
+    'platforms:',
+    'audience:',
+    'difficulty:',
+    'tags:',
+    'verificationLevel:',
+    '<GuideMetadata />',
+  ],
+  'src/content/docs/guides/mac/three-agent-codex-workflow.mdx': [
+    'guideVersion:',
+    'verifiedAt:',
+    'nextReviewAt:',
+    'platforms:',
+    'audience:',
+    'difficulty:',
+    'tags:',
+    'verificationLevel:',
+    '<GuideMetadata />',
+  ],
+  'src/content/docs/zh-hk/guides/mac/three-agent-codex-workflow.mdx': [
+    'guideVersion:',
+    'verifiedAt:',
+    'nextReviewAt:',
+    'platforms:',
+    'audience:',
+    'difficulty:',
+    'tags:',
+    'verificationLevel:',
+    '<GuideMetadata />',
+  ],
+};
 const sectionReferenceChecks = {
   'zh-hk/index.html': {
     expected: [
@@ -212,6 +258,10 @@ async function readDistFile(relativePath) {
   return readFile(path.join(distDir, relativePath), 'utf8');
 }
 
+async function readSourceFile(relativePath) {
+  return readFile(path.resolve(relativePath), 'utf8');
+}
+
 function formatPagePath(relativePath) {
   return `/${relativePath.replace(/\/index\.html$/, '/').replace(/^index\.html$/, '')}`;
 }
@@ -328,6 +378,19 @@ async function verifyTextSync(relativePath, { expected = [], forbidden = [] } = 
   return issues;
 }
 
+async function verifySourceTextSync(relativePath, expected = []) {
+  const source = await readSourceFile(relativePath);
+  const issues = [];
+
+  for (const text of expected) {
+    if (!source.includes(text)) {
+      issues.push(`missing expected source text "${text}" in ${relativePath}`);
+    }
+  }
+
+  return issues;
+}
+
 async function collectTextUnder(relativePath) {
   const contents = [];
   const queue = [path.join(distDir, relativePath)];
@@ -435,6 +498,10 @@ async function main() {
 
     for (const [relativePath, rules] of Object.entries(guideMetadataChecks)) {
       issues.push(...(await verifyTextSync(relativePath, rules)));
+    }
+
+    for (const [relativePath, expected] of Object.entries(guideMetadataSourceChecks)) {
+      issues.push(...(await verifySourceTextSync(relativePath, expected)));
     }
 
     for (const [relativePath, rules] of Object.entries(sectionReferenceChecks)) {

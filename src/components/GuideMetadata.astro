@@ -1,34 +1,75 @@
 ---
 import LabelList from './LabelList.astro';
 
-interface Props {
-  title: string;
-  intro: string;
-  rows: Array<{ label: string; value: string }>;
-  tags: string[];
+interface GuideFrontmatter {
+  guideVersion?: string;
+  verifiedAt?: string;
+  nextReviewAt?: string;
+  platforms?: string[];
+  audience?: string;
+  difficulty?: string;
+  verificationLevel?: string;
+  tags?: string[];
 }
 
-const { title, intro, rows, tags } = Astro.props;
+interface Props {
+  title?: string;
+  intro?: string;
+  rows?: Array<{ label: string; value: string }>;
+  tags?: string[];
+  frontmatter?: GuideFrontmatter;
+}
+
+const routeData = (Astro.locals.starlightRoute?.entry?.data ?? {}) as GuideFrontmatter;
+const frontmatter = Astro.props.frontmatter ?? routeData;
+const title = Astro.props.title ?? '指南資訊';
+const intro =
+  Astro.props.intro ??
+  '這些欄位幫你快速判斷這篇指南是否適合你，也知道它最近一次驗證與下一次覆核時間。';
+const rows =
+  Astro.props.rows ??
+  [
+    { label: '指南版本', value: frontmatter.guideVersion ?? '' },
+    { label: '已驗證於', value: frontmatter.verifiedAt ?? '' },
+    { label: '下次覆核', value: frontmatter.nextReviewAt ?? '' },
+    {
+      label: '平台',
+      value: Array.isArray(frontmatter.platforms) ? frontmatter.platforms.join('、') : '',
+    },
+    { label: '適合讀者', value: frontmatter.audience ?? '' },
+    { label: '難度', value: frontmatter.difficulty ?? '' },
+    { label: '驗證層級', value: frontmatter.verificationLevel ?? '' },
+  ].filter((row) => row.value.trim().length > 0);
+const tags = Array.isArray(Astro.props.tags)
+  ? Astro.props.tags
+  : Array.isArray(frontmatter.tags)
+    ? frontmatter.tags.filter((tag) => tag.trim().length > 0)
+    : [];
+const hasMetadata = rows.length > 0 || tags.length > 0;
 ---
 
-<section class="loom-section loom-guide-metadata">
-  <div class="loom-section-head">
-    <div class="loom-eyebrow">指南資訊</div>
-    <h2>{title}</h2>
-    <p>{intro}</p>
-  </div>
+{hasMetadata && (
+  <section class="loom-section loom-guide-metadata">
+    <div class="loom-section-head">
+      <div class="loom-eyebrow">指南資訊</div>
+      <h2>{title}</h2>
+      <p>{intro}</p>
+    </div>
 
-  <dl class="loom-guide-metadata-grid">
-    {rows.map((row) => (
-      <div class="loom-guide-metadata-row">
-        <dt>{row.label}</dt>
-        <dd>{row.value}</dd>
+    <dl class="loom-guide-metadata-grid">
+      {rows.map((row) => (
+        <div class="loom-guide-metadata-row">
+          <dt>{row.label}</dt>
+          <dd>{row.value}</dd>
+        </div>
+      ))}
+    </dl>
+
+    {tags.length > 0 && (
+      <div class="loom-guide-metadata-tags">
+        <strong>標籤</strong>
+        <LabelList labels={tags} />
       </div>
-    ))}
-  </dl>
-
-  <div class="loom-guide-metadata-tags">
-    <strong>標籤</strong>
-    <LabelList labels={tags} />
-  </div>
-</section>
+    )}
+  </section>
+)}
