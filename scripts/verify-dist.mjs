@@ -44,6 +44,54 @@ const approvedTitleChecks = {
     forbidden: ['OpenClaw 實際使用的 AI Builder Stack', '實際使用的 AI Builder Stack', '三人協作的 Codex 工作流程'],
   },
 };
+const guideMetadataChecks = {
+  'zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/index.html': {
+    expected: [
+      '指南資訊',
+      '指南版本',
+      '已驗證於',
+      '下次覆核',
+      '平台',
+      '適合讀者',
+      '難度',
+      '標籤',
+      '驗證層級',
+      'v1',
+      '2026-03-19',
+      '2026-04-19',
+      'ChatGPT、Codex、OpenClaw repo',
+      '想把規劃與實作分開的讀者',
+      '入門',
+      '本地已驗證',
+      'OpenClaw',
+      'workflow',
+      'review',
+    ],
+  },
+  'zh-hk/guides/mac/three-agent-codex-workflow/index.html': {
+    expected: [
+      '指南資訊',
+      '指南版本',
+      '已驗證於',
+      '下次覆核',
+      '平台',
+      '適合讀者',
+      '難度',
+      '標籤',
+      '驗證層級',
+      'v1',
+      '2026-03-19',
+      '2026-04-19',
+      'Mac mini、Codex、OpenClaw repo',
+      '需要單機多代理協作的人',
+      '中階',
+      '本地已驗證',
+      'OpenClaw',
+      'multi-agent',
+      'workflow',
+    ],
+  },
+};
 const sectionReferenceChecks = {
   'zh-hk/index.html': {
     expected: [
@@ -382,6 +430,10 @@ async function main() {
     issues.push(...(await verifySearchExcludedPage('zh-hk/404/index.html')));
 
     for (const [relativePath, rules] of Object.entries(approvedTitleChecks)) {
+      issues.push(...(await verifyTextSync(relativePath, rules)));
+    }
+
+    for (const [relativePath, rules] of Object.entries(guideMetadataChecks)) {
       issues.push(...(await verifyTextSync(relativePath, rules)));
     }
 

@@ -5,6 +5,20 @@ type: guide
 topic: codex-workflow
 status: publish_ready
 reviewedAt: '2026-03-18T12:41:50.146854+00:00'
+guideVersion: 'v1'
+verifiedAt: '2026-03-19'
+nextReviewAt: '2026-04-19'
+platforms:
+  - ChatGPT
+  - Codex
+  - OpenClaw repo
+audience: '想把規劃與實作分開的讀者'
+difficulty: '入門'
+tags:
+  - OpenClaw
+  - workflow
+  - review
+verificationLevel: '本地已驗證'
 related:
   - knowledge/openclaw/private-truth-to-public-projection
   - guides/mac/three-agent-codex-workflow
@@ -13,6 +27,8 @@ slug: guides/codex/how-chatgpt-and-codex-built-openclaw
 draft: true
 ---
 
+import GuideMetadata from '../../../../components/GuideMetadata.astro';
+
 ## 先看結論
 
 我用 ChatGPT 先鎖 scope、定節奏同驗收口徑，再用 Codex 直接在 repo 內實作、測試、寫 build log，令 OpenClaw 一直保持可追溯同可回歸。
@@ -20,6 +36,21 @@ draft: true
 ## 為什麼值得關心
 
 呢頁將規劃工具同系統真相分開，避免把 prompt 或單次對話誤當成可交付的工程證據。
+
+<GuideMetadata
+  title="指南資訊"
+  intro="這些欄位幫你快速判斷這篇指南是否適合你，也知道它最近一次驗證與下一次覆核時間。"
+  rows={[
+    { label: '指南版本', value: 'v1' },
+    { label: '已驗證於', value: '2026-03-19' },
+    { label: '下次覆核', value: '2026-04-19' },
+    { label: '平台', value: 'ChatGPT、Codex、OpenClaw repo' },
+    { label: '適合讀者', value: '想把規劃與實作分開的讀者' },
+    { label: '難度', value: '入門' },
+    { label: '驗證層級', value: '本地已驗證' },
+  ]}
+  tags={['OpenClaw', 'workflow', 'review']}
+/>
 
 ## 核心模型
 

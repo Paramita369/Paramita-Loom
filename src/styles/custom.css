@@ -354,6 +354,53 @@ h3,
   margin: 0;
 }
 
+.loom-guide-metadata {
+  margin: 2rem 0;
+}
+
+.loom-guide-metadata-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  margin: 0;
+}
+
+.loom-guide-metadata-row {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--loom-line);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+:root[data-theme='dark'] .loom-guide-metadata-row {
+  background: rgba(27, 35, 29, 0.78);
+}
+
+.loom-guide-metadata-row dt {
+  margin: 0 0 0.35rem;
+  color: var(--sl-color-text-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.loom-guide-metadata-row dd {
+  margin: 0;
+  color: var(--loom-ink);
+  line-height: 1.65;
+}
+
+.loom-guide-metadata-tags {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.loom-guide-metadata-tags strong {
+  color: var(--loom-ink);
+}
+
 .loom-labels {
   display: flex;
   flex-wrap: wrap;

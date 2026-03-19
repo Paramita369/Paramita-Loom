@@ -1,0 +1,34 @@
+---
+import LabelList from './LabelList.astro';
+
+interface Props {
+  title: string;
+  intro: string;
+  rows: Array<{ label: string; value: string }>;
+  tags: string[];
+}
+
+const { title, intro, rows, tags } = Astro.props;
+---
+
+<section class="loom-section loom-guide-metadata">
+  <div class="loom-section-head">
+    <div class="loom-eyebrow">指南資訊</div>
+    <h2>{title}</h2>
+    <p>{intro}</p>
+  </div>
+
+  <dl class="loom-guide-metadata-grid">
+    {rows.map((row) => (
+      <div class="loom-guide-metadata-row">
+        <dt>{row.label}</dt>
+        <dd>{row.value}</dd>
+      </div>
+    ))}
+  </dl>
+
+  <div class="loom-guide-metadata-tags">
+    <strong>標籤</strong>
+    <LabelList labels={tags} />
+  </div>
+</section>

@@ -5,6 +5,20 @@ type: guide
 topic: mac-codex-workflow
 status: publish_ready
 reviewedAt: '2026-03-18T12:41:50.163131+00:00'
+guideVersion: 'v1'
+verifiedAt: '2026-03-19'
+nextReviewAt: '2026-04-19'
+platforms:
+  - Mac mini
+  - Codex
+  - OpenClaw repo
+audience: '需要單機多代理協作的人'
+difficulty: '中階'
+tags:
+  - OpenClaw
+  - multi-agent
+  - workflow
+verificationLevel: '本地已驗證'
 related:
   - guides/codex/how-chatgpt-and-codex-built-openclaw
   - knowledge/openclaw/private-truth-to-public-projection
@@ -13,6 +27,8 @@ slug: guides/mac/three-agent-codex-workflow
 draft: true
 ---
 
+import GuideMetadata from '../../../../components/GuideMetadata.astro';
+
 ## 先看結論
 
 三人協作 workflow 的關鍵唔係人數越多越好，而係每個 agent 都只碰自己負責的 repo 與 scope，並由 Lead 明確決定 merge order 同 blocker escalation。
@@ -20,6 +36,21 @@ draft: true
 ## 為什麼值得關心
 
 呢頁提供單機 multi-agent 協作嘅最小秩序，避免 worktree 串染、repo 邊界鬆動，或者 Agent 2 倒推改 private 規格。
+
+<GuideMetadata
+  title="指南資訊"
+  intro="這些欄位幫你快速判斷這篇指南是否適合你，也知道它最近一次驗證與下一次覆核時間。"
+  rows={[
+    { label: '指南版本', value: 'v1' },
+    { label: '已驗證於', value: '2026-03-19' },
+    { label: '下次覆核', value: '2026-04-19' },
+    { label: '平台', value: 'Mac mini、Codex、OpenClaw repo' },
+    { label: '適合讀者', value: '需要單機多代理協作的人' },
+    { label: '難度', value: '中階' },
+    { label: '驗證層級', value: '本地已驗證' },
+  ]}
+  tags={['OpenClaw', 'multi-agent', 'workflow']}
+/>
 
 ## 核心模型
 
