@@ -45,6 +45,25 @@ const approvedTitleChecks = {
   },
 };
 const sectionReferenceChecks = {
+  'zh-hk/index.html': {
+    expected: [
+      'OpenClaw 是什麼：系統真相與對外內容如何分工',
+      '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
+      'Mac 上的 Codex 三人協作流程',
+      '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容',
+      'OpenClaw 實際使用的 AI 開發工具組合',
+    ],
+    forbidden: [
+      '/zh-hk/start-here/',
+      '/zh-hk/notes/',
+      '/zh-hk/support/',
+      '/zh-hk/review/review-architecture/',
+      '/zh-hk/knowledge/topics/',
+      '評測寫作結構',
+      '讀者支持',
+      '從這裡開始',
+    ],
+  },
   'zh-hk/guides/index.html': {
     expected: ['Mac 上的 Codex 三人協作流程'],
     forbidden: ['Mac 上三人協作的 Codex 工作流程'],
@@ -58,23 +77,27 @@ const sectionReferenceChecks = {
     forbidden: ['OpenClaw 實際使用的 AI Builder Stack'],
   },
 };
-const searchExcludedFiles = [
-  'zh-hk/index.html',
-  'zh-hk/about-now/index.html',
-  'zh-hk/guides/index.html',
-  'zh-hk/guides/publishing-with-clarity/index.html',
-  'zh-hk/knowledge/index.html',
-  'zh-hk/knowledge/commonplace-ledger/index.html',
-  'zh-hk/knowledge/topics/index.html',
-  'zh-hk/knowledge/topics/fragments-and-structure/index.html',
-  'zh-hk/notes/index.html',
-  'zh-hk/notes/field-note-fragments/index.html',
-  'zh-hk/resources/index.html',
-  'zh-hk/resources/topic-mapping-kit/index.html',
-  'zh-hk/review/index.html',
-  'zh-hk/review/review-architecture/index.html',
-  'zh-hk/start-here/index.html',
-  'zh-hk/support/index.html',
+const allowedZhHkPages = new Set([
+  '',
+  '404',
+  'guides',
+  'knowledge',
+  'resources',
+  'review',
+  ...approvedSlugs,
+]);
+const forbiddenZhHkPages = [
+  'about-now',
+  'guides/publishing-with-clarity',
+  'knowledge/commonplace-ledger',
+  'knowledge/topics',
+  'knowledge/topics/fragments-and-structure',
+  'notes',
+  'notes/field-note-fragments',
+  'resources/topic-mapping-kit',
+  'review/review-architecture',
+  'start-here',
+  'support',
 ];
 const forbiddenRootFiles = [
   'index.html',
@@ -126,6 +149,20 @@ async function readDistFile(relativePath) {
 
 function formatPagePath(relativePath) {
   return `/${relativePath.replace(/\/index\.html$/, '/').replace(/^index\.html$/, '')}`;
+}
+
+function normalizeBuiltZhHkPage(relativePath) {
+  if (relativePath === 'index.html') {
+    return '';
+  }
+  return relativePath.replace(/\/index\.html$/, '');
+}
+
+function zhHkLocFor(page) {
+  if (page === '') {
+    return `${site}/zh-hk/`;
+  }
+  return `${site}/zh-hk/${page}/`;
 }
 
 function escapeRegExp(value) {
@@ -241,6 +278,33 @@ async function collectTextUnder(relativePath) {
   return contents.join('\n');
 }
 
+async function listBuiltZhHkPages() {
+  const pages = [];
+  const queue = [path.join(distDir, 'zh-hk')];
+
+  while (queue.length > 0) {
+    const currentDir = queue.pop();
+    const entries = await readdir(currentDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const absolutePath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        queue.push(absolutePath);
+        continue;
+      }
+
+      if (entry.name !== 'index.html') {
+        continue;
+      }
+
+      const relativePath = path.relative(path.join(distDir, 'zh-hk'), absolutePath);
+      pages.push(normalizeBuiltZhHkPage(relativePath));
+    }
+  }
+
+  return pages.sort();
+}
+
 async function main() {
   const missing = [];
   const issues = [];
@@ -269,15 +333,25 @@ async function main() {
   }
 
   if (missing.length === 0) {
+    const builtZhHkPages = await listBuiltZhHkPages();
+
+    for (const page of builtZhHkPages) {
+      if (!allowedZhHkPages.has(page)) {
+        issues.push(`unexpected zh-HK public page built: /zh-hk/${page === '' ? '' : `${page}/`}`);
+      }
+    }
+
+    for (const page of forbiddenZhHkPages) {
+      if (builtZhHkPages.includes(page)) {
+        issues.push(`forbidden zh-HK public page still built: /zh-hk/${page}/`);
+      }
+    }
+
     for (const slug of approvedSlugs) {
       const extraHeadings = slug === 'resources/ai-builder-stack/actual-openclaw-stack'
         ? ['披露說明']
         : [];
       issues.push(...(await verifyApprovedPage(`zh-hk/${slug}/index.html`, { extraHeadings })));
-    }
-
-    for (const relativePath of searchExcludedFiles) {
-      issues.push(...(await verifySearchExcludedPage(relativePath)));
     }
 
     issues.push(...(await verifySearchExcludedPage('zh-hk/404/index.html')));
@@ -301,6 +375,9 @@ async function main() {
     const sitemapXml = (
       await Promise.all(existingSitemaps.map((candidate) => readDistFile(candidate)))
     ).join('\n');
+    const allowedZhHkLocs = new Set([...allowedZhHkPages].map((page) => zhHkLocFor(page)));
+    const allLocs = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+
     for (const slug of approvedSlugs) {
       const zhHkLoc = `${site}/zh-hk/${slug}/`;
       const rootLoc = `${site}/${slug}/`;
@@ -316,14 +393,20 @@ async function main() {
       issues.push('sitemap still exposes the root index route');
     }
 
+    for (const loc of allLocs) {
+      if (loc.startsWith(`${site}/zh-hk/`) && !allowedZhHkLocs.has(loc)) {
+        issues.push(`sitemap still exposes non-approved zh-HK page ${loc}`);
+      }
+    }
+
     if (!(await fileExists('pagefind'))) {
       missing.push('pagefind');
     } else {
       const pagefindText = await collectTextUnder('pagefind');
-      for (const relativePath of searchExcludedFiles) {
-        const pagePath = formatPagePath(relativePath);
+      for (const page of forbiddenZhHkPages) {
+        const pagePath = `/zh-hk/${page}/`;
         if (pagefindText.includes(pagePath)) {
-          issues.push(`pagefind still indexes non-Batch-1 zh-HK page ${pagePath}`);
+          issues.push(`pagefind still indexes forbidden zh-HK page ${pagePath}`);
         }
       }
     }
@@ -346,7 +429,7 @@ async function main() {
   }
 
   console.log('Dist verification passed.');
-  console.log('zh-HK approved pages, hreflang gating, search gating, root route removal, and forbidden-term checks all passed.');
+  console.log('zh-HK approved pages, public-scope gating, hreflang gating, sitemap gating, and forbidden-term checks all passed.');
 }
 
 await main();

@@ -8,11 +8,11 @@ hero:
   title: Paramita Loom · 知識經緯
   tagline: 從碎片到結構，從評閱到分享。
   actions:
-    - text: 從這裡開始
-      link: /zh-hk/start-here/
+    - text: 先讀 OpenClaw
+      link: /zh-hk/knowledge/openclaw/private-truth-to-public-projection/
       icon: right-arrow
-    - text: 進入知識區
-      link: /zh-hk/knowledge/
+    - text: 查看首批指南
+      link: /zh-hk/guides/
       variant: minimal
 ---
 
@@ -48,78 +48,78 @@ import SectionCardGrid from '../../../components/SectionCardGrid.astro';
 <SectionCardGrid
   eyebrow="站點入口"
   title="依照閱讀目的進入不同路徑"
-  intro="每個區塊都代表不同的閱讀模式，而不是一般化的內容分類。"
+  intro="這一輪公開入口只保留已核准的四個內容區塊與對應批次頁，不再混入未公開範圍。"
   items={[
-    {
-      title: '從這裡開始',
-      href: '/zh-hk/start-here/',
-      eyebrow: '導覽',
-      summary: '先理解站點的結構、命名方式與建議閱讀順序。',
-      cta: '進入',
-    },
     {
       title: '知識',
       href: '/zh-hk/knowledge/',
       eyebrow: '參照',
-      summary: '把重複出現的片段整理成較穩定的主題圖譜與知識頁。',
+      summary: '從系統真相與公開投影邊界開始，建立對 OpenClaw 的基本理解。',
       cta: '瀏覽',
     },
     {
       title: '指南',
       href: '/zh-hk/guides/',
       eyebrow: '實作',
-      summary: '把評閱後的理解轉成可重複使用的流程、步驟與方法。',
+      summary: '閱讀已核准的 builder workflow 與三人協作流程，掌握實作節奏。',
       cta: '應用',
-    },
-    {
-      title: '筆記',
-      href: '/zh-hk/notes/',
-      eyebrow: '現場感',
-      summary: '保留仍在生成中的觀察，不強行把一切都寫成定論。',
-      cta: '閱讀',
     },
     {
       title: '評測',
       href: '/zh-hk/review/',
       eyebrow: '判斷',
-      summary: '把觀察、標準與建議拆開來寫，讓推薦與限制都清楚可見。',
+      summary: '沿住 private -> public 閉環理解已落地能力、驗證節點與公開閱讀順序。',
       cta: '比較',
     },
     {
       title: '資源',
       href: '/zh-hk/resources/',
       eyebrow: '延伸',
-      summary: '提供模版、清單與補充材料，幫助讀者把內容帶回自己的工作流。',
+      summary: '整理 OpenClaw 真正在用的 AI 開發工具組合與選型邏輯。',
       cta: '收藏',
     },
   ]}
 />
 
 <SectionCardGrid
-  eyebrow="主題樞紐"
-  title="也可以從模式而不是類型進入"
-  intro="主題樞紐把相關頁面聚在一起，但不會假裝每一則片段都已經是最終定稿。"
+  eyebrow="首批核准頁面"
+  title="按照推薦順序讀 Batch 1"
+  intro="先讀系統邊界，再讀 builder workflow，最後讀驗證閉環與工具選型。"
   items={[
     {
-      title: '碎片與結構',
-      href: '/zh-hk/knowledge/topics/fragments-and-structure/',
-      eyebrow: '樞紐',
-      summary: '看見片段如何被評閱、整理，最後形成穩定參照與公開頁面。',
-      cta: '查看',
+      title: 'OpenClaw 是什麼：系統真相與對外內容如何分工',
+      href: '/zh-hk/knowledge/openclaw/private-truth-to-public-projection/',
+      eyebrow: 'Knowledge',
+      summary: '先分清系統真相、control plane 與 public projection 邊界。',
+      cta: '先讀',
     },
     {
-      title: '評測寫作結構',
-      href: '/zh-hk/review/review-architecture/',
-      eyebrow: '方法',
-      summary: '用可說明的標準、比較與信心邊界來建立可信的評測頁。',
-      cta: '學習',
+      title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
+      href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+      eyebrow: 'Guide',
+      summary: '理解高層規劃與 repo execution 如何分工，避免把對話誤當工程證據。',
+      cta: '再讀',
     },
     {
-      title: '讀者支持',
-      href: '/zh-hk/support/',
-      eyebrow: '邊界',
-      summary: '支持區有自己的位置，但不干擾主要的編輯閱讀體驗。',
-      cta: '了解',
+      title: 'Mac 上的 Codex 三人協作流程',
+      href: '/zh-hk/guides/mac/three-agent-codex-workflow/',
+      eyebrow: 'Guide',
+      summary: '看清 Lead、OC-AGENT 與 OC-SITE-AGENT 的 repo 邊界與 merge 次序。',
+      cta: '應用',
+    },
+    {
+      title: '從空殼到公開預覽：OpenClaw 如何整理成可公開閱讀的內容',
+      href: '/zh-hk/review/phase15/from-zero-to-live-preview/',
+      eyebrow: 'Review',
+      summary: '沿住 private -> public 閉環，理解規格、驗證與公開閱讀如何串起。',
+      cta: '檢視',
+    },
+    {
+      title: 'OpenClaw 實際使用的 AI 開發工具組合',
+      href: '/zh-hk/resources/ai-builder-stack/actual-openclaw-stack/',
+      eyebrow: 'Resource',
+      summary: '最後核對 builder stack、工具分工與刻意不引入的額外層。',
+      cta: '收藏',
     },
   ]}
 />
