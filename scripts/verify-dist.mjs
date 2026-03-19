@@ -12,6 +12,7 @@ const approvedSlugs = [
   'resources/ai-builder-stack/actual-openclaw-stack',
 ];
 const requiredFiles = [
+  '_redirects',
   '404.html',
   'robots.txt',
   'zh-hk/404/index.html',
@@ -215,6 +216,7 @@ const forbiddenRootFiles = [
   'index.html',
   ...approvedSlugs.map((slug) => `${slug}/index.html`),
 ];
+const expectedRootRedirectRule = '/ /zh-hk/ 302';
 const sitemapCandidates = ['sitemap-index.xml', 'sitemap.xml', 'sitemap-0.xml'];
 const requiredHeadings = [
   '先看結論',
@@ -391,6 +393,17 @@ async function verifySourceTextSync(relativePath, expected = []) {
   return issues;
 }
 
+async function verifyRootRedirectRule(relativePath) {
+  const contents = await readDistFile(relativePath);
+  const issues = [];
+
+  if (!contents.split('\n').some((line) => line.trim() === expectedRootRedirectRule)) {
+    issues.push(`missing root redirect rule "${expectedRootRedirectRule}" in ${relativePath}`);
+  }
+
+  return issues;
+}
+
 async function collectTextUnder(relativePath) {
   const contents = [];
   const queue = [path.join(distDir, relativePath)];
@@ -507,6 +520,8 @@ async function main() {
     for (const [relativePath, rules] of Object.entries(sectionReferenceChecks)) {
       issues.push(...(await verifyTextSync(relativePath, rules)));
     }
+
+    issues.push(...(await verifyRootRedirectRule('_redirects')));
 
     const robotsTxt = await readDistFile('robots.txt');
     if (robotsTxt.includes('loom.paramita.example')) {
