@@ -1,0 +1,84 @@
+---
+title: '如何在 Mac 安裝 OpenClaw'
+description: '只適用於 Mac mini 單機第一版 OpenClaw 的安裝指南，按 repo-backed evidence 逐步準備工作目錄、啟動檔與最小設定。'
+type: guide
+topic: openclaw-mac-install
+status: publish_ready
+reviewedAt: '2026-03-19T10:00:00+00:00'
+guideVersion: 'v1'
+verifiedAt: '2026-03-19'
+nextReviewAt: '2026-04-19'
+platforms:
+  - Mac mini
+  - Python 3.12
+  - SQLite WAL
+  - Slack Socket Mode
+  - per-user LaunchAgents
+audience: '第一次在 Mac mini 上安裝 OpenClaw 的讀者'
+difficulty: '入門'
+tags:
+  - OpenClaw
+  - Mac mini
+  - install
+  - single-machine
+verificationLevelCode: doc_checked
+updateTriggers:
+  - openclaw_release
+  - dependency_major_bump
+  - verification_fail
+  - user_report
+  - docs_change
+stalePolicyCode: remove_from_primary_entry_when_overdue
+stalePolicy: 如超過下次覆核日仍未更新，會先退出首頁與指南入口，待完成覆核後再重新列入。
+related:
+  - guides/openclaw/health-check
+  - knowledge/openclaw/private-truth-to-public-projection
+  - guides/codex/how-chatgpt-and-codex-built-openclaw
+  - review/from-zero-to-live-preview
+sidebar:
+  label: Mac 安裝 OpenClaw
+---
+
+import GuideMetadata from '../../../../../components/GuideMetadata.astro';
+
+## 先看結論
+
+呢篇只適用於 Mac mini 單機第一版 OpenClaw。你會先準備乾淨工作目錄、放齊 repo 支援檔、用 Codex App Local mode 貼 bootstrap prompt，再用 launchd 同最小 `.env` 把系統起好。
+
+## 為什麼值得關心
+
+如果安裝路線一開始就走偏，後面 health-check、receipt 同 review gate 都會變成唔可靠的證據。這頁只教你做 repo-backed 的最小安裝，不教你擴成多機或多服務架構。
+
+<GuideMetadata />
+
+## 核心模型
+
+你可以照以下順序做：
+
+1. 建立一個乾淨工作目錄，例如 `~/openclaw`，避免舊檔同舊路徑污染。
+2. 將 `AGENTS.md`、runbook、`CODEX_BOOTSTRAP_PROMPT.md` 同 `bootstrap/` 放入工作目錄，讓之後每一步都按同一套 repo-backed 證據進行。
+3. 用 Codex App 開專案，確認係 Local mode，再貼 bootstrap prompt，避免一開始就把 thread 當成真相來源。
+4. 只準備 `.env` 的最小必需鍵，先寫 key 名，不要偽造值。
+5. 先替換 launchd plist 入面的 `__OPENCLAW_HOME__`，再做後續載入。
+6. 載入並 kickstart 三個 LaunchAgents，令單機服務按預期起動。
+7. 最後去 `runtime/logs/` 同 DoD checkpoints 核對，確認安裝唔止「有 process」，而係真的落到可追蹤的狀態。
+
+## 例子與常見誤解
+
+- 使用：先跑 `python -m bootstrap.platform_ops preflight`，再按順序做 `init-db`、`render-launchd`、`verify-launchd`、`smoke`、`status`、`doctor`。
+- 失效模式：只睇 process 有冇出現，唔去核對 `healthz`、`readyz`、receipt 同 DoD，會誤以為安裝成功。
+- 失效模式：未替換 `__OPENCLAW_HOME__` 就 bootstrap launchd，會令路徑全部指向錯位。
+- 失效模式：DB 未初始化就跑 smoke，通常只會得到假失敗或假成功。
+- 失效模式：把 Slack thread 當 truth，會同 SQLite/WAL 與 task contract 產生衝突。
+- 失效模式：將 `doc_checked` 寫成 `verified`，會把文件核對誤當實機驗證。
+
+## 相關頁面
+
+- [OpenClaw 啟動檢查](/zh-hk/guides/openclaw/health-check/)
+- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
+- [我如何用 ChatGPT 與 Codex 建立 OpenClaw](/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/)
+- [從空殼到公開預覽](/zh-hk/review/from-zero-to-live-preview/)
+
+## 更新與覆核
+
+本頁只整理成可照做的 Mac 安裝步驟，並保留 repo-backed 證據邊界；如果之後 runbook、bootstrap 或 launchd 模板變動，請先重新核對再公開。

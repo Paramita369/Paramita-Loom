@@ -1,0 +1,84 @@
+---
+title: '如何確認 OpenClaw 已正常啟動'
+description: '用 repo-backed evidence 確認 Mac mini 單機第一版 OpenClaw 真的已經啟動，唔好只因 process 在場就當成功。'
+type: guide
+topic: openclaw-health-check
+status: publish_ready
+reviewedAt: '2026-03-19T11:15:00+00:00'
+guideVersion: 'v1'
+verifiedAt: '2026-03-19'
+nextReviewAt: '2026-04-19'
+platforms:
+  - Mac mini
+  - Python 3.12
+  - SQLite WAL
+  - Slack Socket Mode
+  - per-user LaunchAgents
+audience: '已完成 Mac mini 安裝、想確認 OpenClaw 已正常啟動的讀者'
+difficulty: '入門'
+tags:
+  - OpenClaw
+  - Mac mini
+  - health-check
+  - single-machine
+verificationLevelCode: doc_checked
+updateTriggers:
+  - openclaw_release
+  - dependency_major_bump
+  - verification_fail
+  - user_report
+  - docs_change
+stalePolicyCode: remove_from_primary_entry_when_overdue
+stalePolicy: 如超過下次覆核日仍未更新，會先退出首頁與指南入口，待完成覆核後再重新列入。
+related:
+  - guides/openclaw/mac-install
+  - knowledge/openclaw/private-truth-to-public-projection
+  - guides/mac/three-agent-codex-workflow
+  - review/from-zero-to-live-preview
+  - resources/ai-builder-stack/actual-openclaw-stack
+sidebar:
+  label: OpenClaw 啟動檢查
+---
+
+import GuideMetadata from '../../../../../components/GuideMetadata.astro';
+
+## 先看結論
+
+呢篇用來確認 OpenClaw 已經正常啟動，而唔係只係「某啲 process 仲在場」。你要同時看到 healthz、readyz、LaunchAgents、receipt 同 DoD checkpoint 都對齊，先可以放心。
+
+## 為什麼值得關心
+
+啟動檢查如果做得鬆散，最容易把文件整理、process 存活、或者 thread 訊息，誤認成真正的系統真相。呢頁只教你用 repo-backed evidence 收口。
+
+<GuideMetadata />
+
+## 核心模型
+
+你可以照以下順序做：
+
+1. 先跑 `python -m bootstrap.platform_ops preflight`，確認環境、路徑同最基本前置條件都合理。
+2. 如果資料庫未落地，先做 `init-db`，再做 `render-launchd` 同 `verify-launchd`，避免 launchd 模板同實際路徑對唔上。
+3. 載入並 kickstart 三個 LaunchAgents，之後再檢查 `runtime/logs/` 同服務狀態。
+4. 用 `GET /healthz` 同 `GET /readyz` 去分清「活著」同「可以服務」。
+5. 回到 Slack root task，核對 `@OpenClaw`、`task_contract`、receipt 同 review gate，確保根任務真係落到 DB truth。
+6. 最後對照 DoD checkpoints，確認安裝與啟動唔止完成到表面，而係有證據可回放。
+
+## 例子與常見誤解
+
+- 使用：process 在場只代表啟動過，不代表 ready。
+- 失效模式：未替換 `__OPENCLAW_HOME__` 就起 launchd，會令 health check 指向錯位路徑。
+- 失效模式：DB 未初始化就跑 smoke，通常會得到唔穩定或假性的結果。
+- 失效模式：把 Slack thread 當 truth，會令 root task、receipt 同 review gate 失去唯一來源。
+- 失效模式：不要把文件整理誤寫成已完成實機驗證；這頁只屬「文件已核對階段」，不是現場跑過的證明。
+
+## 相關頁面
+
+- [如何在 Mac 安裝 OpenClaw](/zh-hk/guides/openclaw/mac-install/)
+- [系統真相與對外內容](/zh-hk/knowledge/openclaw/private-truth-to-public-projection/)
+- [Mac 上的 Codex 三人協作流程](/zh-hk/guides/mac/three-agent-codex-workflow/)
+- [從空殼到公開預覽](/zh-hk/review/from-zero-to-live-preview/)
+- [OpenClaw 實際使用的 AI 開發工具組合](/zh-hk/resources/ai-builder-stack/actual-openclaw-stack/)
+
+## 更新與覆核
+
+本頁把啟動檢查整理成 repo-backed 的最小路線；若 healthz、readyz、launchd、receipt 或 DoD 的證據變動，請先重新核對再公開。

@@ -9,9 +9,19 @@ import { filterVisibleGuides } from '../../../../utils/guideStalePolicy.js';
 
 指南是反思與應用之間的橋。它應該有結構、可測試、可重複，但仍保有這個站的語氣與細緻度。
 
-目前已核准的指南頁有兩篇：
+目前已核准的指南頁有四篇：
 
 {filterVisibleGuides([
+  {
+    title: '如何在 Mac 安裝 OpenClaw',
+    href: '/zh-hk/guides/openclaw/mac-install/',
+    nextReviewAt: '2026-04-19',
+  },
+  {
+    title: '如何確認 OpenClaw 已正常啟動',
+    href: '/zh-hk/guides/openclaw/health-check/',
+    nextReviewAt: '2026-04-19',
+  },
   {
     title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
     href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
@@ -25,6 +35,16 @@ import { filterVisibleGuides } from '../../../../utils/guideStalePolicy.js';
 ]).length > 0 ? (
   <ul>
     {filterVisibleGuides([
+      {
+        title: '如何在 Mac 安裝 OpenClaw',
+        href: '/zh-hk/guides/openclaw/mac-install/',
+        nextReviewAt: '2026-04-19',
+      },
+      {
+        title: '如何確認 OpenClaw 已正常啟動',
+        href: '/zh-hk/guides/openclaw/health-check/',
+        nextReviewAt: '2026-04-19',
+      },
       {
         title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
         href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',

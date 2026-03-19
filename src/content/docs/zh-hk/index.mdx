@@ -85,7 +85,7 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
 <SectionCardGrid
   eyebrow="首批核准頁面"
   title="按照推薦順序閱讀這一波核准內容"
-  intro="先讀系統邊界，再讀建置流程，最後讀驗證閉環與工具選型。"
+  intro="先讀系統邊界，再讀安裝與啟動檢查，最後讀驗證閉環與工具選型。"
   items={[
     {
       title: 'OpenClaw 是什麼：系統真相與對外內容如何分工',
@@ -95,6 +95,22 @@ import { filterVisibleGuides } from '../../../utils/guideStalePolicy.js';
       cta: '先讀',
     },
     ...filterVisibleGuides([
+      {
+        title: '如何在 Mac 安裝 OpenClaw',
+        href: '/zh-hk/guides/openclaw/mac-install/',
+        eyebrow: '指南',
+        summary: '先把 Mac mini 單機第一版 OpenClaw 的工作目錄、啟動檔與最小設定準備好。',
+        cta: '安裝',
+        nextReviewAt: '2026-04-19',
+      },
+      {
+        title: '如何確認 OpenClaw 已正常啟動',
+        href: '/zh-hk/guides/openclaw/health-check/',
+        eyebrow: '指南',
+        summary: '用 healthz、readyz、LaunchAgents、receipt 與 review gate 核對啟動是否真的到位。',
+        cta: '檢查',
+        nextReviewAt: '2026-04-19',
+      },
       {
         title: '我如何用 ChatGPT 與 Codex 建立 OpenClaw',
         href: '/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/',
