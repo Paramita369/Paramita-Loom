@@ -2,6 +2,16 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { docsLoader, i18nLoader } from '@astrojs/starlight/loaders';
 import { docsSchema, i18nSchema } from '@astrojs/starlight/schema';
+import {
+  CLAIM_REGIMES,
+  CONTENT_FAMILIES,
+  CONTENT_INTENTS,
+  INSTRUCTION_MODES,
+  PROJECTION_CONFIDENCE_VALUES,
+  PUBLICATION_STATE_VALUES,
+  PUBLIC_SITE_TYPES,
+} from './utils/publicProjectionMap.ts';
+import { CHINESE_TEMPLATE_KEYS } from './utils/chineseTemplateContract.ts';
 
 const CONTENT_TYPES = ['knowledge', 'guide', 'note', 'review', 'resource', 'support'] as const;
 const STATUS_VALUES = ['draft', 'reviewed', 'publish_ready', 'published', 'archived'] as const;
@@ -49,6 +59,22 @@ export const collections = {
         topic: z.string().min(1).optional(),
         status: z.enum(STATUS_VALUES).optional(),
         reviewedAt: z.string().min(1).optional(),
+        content_family: z.enum(CONTENT_FAMILIES).optional(),
+        content_intent: z.enum(CONTENT_INTENTS).optional(),
+        instruction_mode: z.enum(INSTRUCTION_MODES).optional(),
+        claim_regime: z.enum(CLAIM_REGIMES).optional(),
+        site_type_projection: z.enum(PUBLIC_SITE_TYPES).optional(),
+        projection_confidence: z.enum(PROJECTION_CONFIDENCE_VALUES).optional(),
+        publication_state: z.enum(PUBLICATION_STATE_VALUES).optional(),
+        target_template: z.enum(CHINESE_TEMPLATE_KEYS).optional(),
+        compat_primary_profile: z.string().min(1).optional(),
+        route_version: z.string().min(1).optional(),
+        route_origin: z.string().min(1).optional(),
+        route_signature: z.string().min(1).optional(),
+        recipe_key: z.string().min(1).optional(),
+        appendix_policy: z.string().min(1).optional(),
+        nav_hidden: z.boolean().optional(),
+        search_hidden: z.boolean().optional(),
         guideVersion: z.string().min(1).optional(),
         verifiedAt: z.string().min(1).optional(),
         nextReviewAt: z.string().min(1).optional(),

@@ -1,13 +1,35 @@
 ---
+import { getChineseTemplateContract } from '../utils/chineseTemplateContract.ts';
+
 interface Props {
   title: string;
   body: string;
+  eyebrow?: string;
+  items?: string[];
+  template?: string;
 }
 
-const { title, body } = Astro.props;
+const { title, body, eyebrow, items, template } = Astro.props;
+const templateContract = getChineseTemplateContract(template);
+const listItems = Array.isArray(items) ? items.filter((item) => item.trim().length > 0) : [];
 ---
 
 <aside class="loom-note">
+  {eyebrow && <div class="loom-note-eyebrow">{eyebrow}</div>}
   <strong>{title}</strong>
   <p>{body}</p>
+  {templateContract && (
+    <p>
+      這個模板固定用
+      {templateContract.sections.join('、')}
+      這幾段，避免 reader body 混入 operator-only 雜訊。
+    </p>
+  )}
+  {listItems.length > 0 && (
+    <ul>
+      {listItems.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  )}
 </aside>

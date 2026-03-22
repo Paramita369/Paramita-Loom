@@ -1,11 +1,33 @@
 ---
 import { GUIDE_STALE_POLICY_TEXT } from '../utils/guideStalePolicy.js';
+import {
+  getExpectedSiteTypeForRoute,
+  getExpectedTemplateForRoute,
+  getRouteReaderSections,
+  resolvePublicProjection,
+} from '../utils/publicProjectionMap.ts';
 import LabelList from './LabelList.astro';
 
 interface GuideFrontmatter {
   guideVersion?: string;
   verifiedAt?: string;
   nextReviewAt?: string;
+  content_family?: string;
+  content_intent?: string;
+  instruction_mode?: string;
+  claim_regime?: string;
+  site_type_projection?: string;
+  projection_confidence?: 'low' | 'medium' | 'high' | string;
+  publication_state?: 'private_preview_candidate' | 'public_candidate' | 'preview_deployment_candidate' | 'publish_ready' | string;
+  target_template?: string;
+  compat_primary_profile?: string;
+  route_version?: string;
+  route_origin?: string;
+  route_signature?: string;
+  recipe_key?: string;
+  appendix_policy?: string;
+  nav_hidden?: boolean;
+  search_hidden?: boolean;
   stalePolicyCode?: 'remove_from_primary_entry_when_overdue' | string;
   stalePolicy?: string;
   platforms?: string[];
@@ -190,6 +212,10 @@ const knownLimitationsItems = formatTextList(frontmatter.known_limitations);
 const shippingLaneValue = formatLabelValue(frontmatter.shipping_lane, shippingLaneLabels);
 const updateTriggerItems = formatCodeItems(frontmatter.updateTriggers, updateTriggerLabels);
 const retestTriggerItems = formatCodeItems(frontmatter.retest_trigger, updateTriggerLabels);
+const projection = resolvePublicProjection(frontmatter);
+const expectedTemplate = getExpectedTemplateForRoute(frontmatter);
+const expectedSiteType = getExpectedSiteTypeForRoute(frontmatter);
+const projectionSections = getRouteReaderSections(frontmatter);
 const title = Astro.props.title ?? '指南資訊';
 const intro =
   Astro.props.intro ??
@@ -244,12 +270,22 @@ const metadataSections: MetadataSection[] =
           ]),
         },
       ].filter((section) => section.rows.length > 0);
+const projectionRows = compactRows([
+  makeValueRow(
+    '公開類型',
+    expectedSiteType ?? projection.siteTypeProjection ?? '',
+  ),
+  makeValueRow('中文模板', expectedTemplate ?? frontmatter.target_template ?? ''),
+  makeListRow('讀者段落', projectionSections),
+]);
+const showProjectionSection = projectionRows.length > 0 && projection.isWave1SupportedRoute;
 const tags = Array.isArray(Astro.props.tags)
   ? Astro.props.tags
   : Array.isArray(frontmatter.tags)
     ? frontmatter.tags.filter((tag) => tag.trim().length > 0)
     : [];
-const hasMetadata = primaryRows.length > 0 || metadataSections.length > 0 || tags.length > 0;
+const hasMetadata =
+  primaryRows.length > 0 || metadataSections.length > 0 || tags.length > 0 || showProjectionSection;
 ---
 
 {hasMetadata && (
@@ -301,6 +337,34 @@ const hasMetadata = primaryRows.length > 0 || metadataSections.length > 0 || tag
           </section>
         ))}
       </div>
+    )}
+
+    {showProjectionSection && (
+      <section class="loom-guide-metadata-panel">
+        <div class="loom-guide-metadata-panel-head">
+          <h3>公開投影</h3>
+          <p>只顯示已凍結的公開類型與中文模板，唔會暴露內部 route truth。</p>
+        </div>
+
+        <dl class="loom-guide-metadata-grid">
+          {projectionRows.map((row) => (
+            <div class="loom-guide-metadata-row">
+              <dt>{row.label}</dt>
+              <dd>
+                {row.items ? (
+                  <ul class="loom-guide-metadata-list">
+                    {row.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  row.value
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
     )}
 
     {tags.length > 0 && (

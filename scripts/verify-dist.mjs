@@ -321,12 +321,82 @@ const guideMetadataSourceChecks = {
     'known_limitations:',
     'shipping_lane:',
     'retest_trigger:',
+    'content_family:',
+    'content_intent:',
+    'instruction_mode:',
+    'claim_regime:',
+    'site_type_projection:',
+    'projection_confidence:',
+    'publication_state:',
+    'target_template:',
+    'compat_primary_profile:',
+    'route_version:',
+    'route_origin:',
+    'route_signature:',
+    'recipe_key:',
+    'appendix_policy:',
+    'nav_hidden:',
+    'search_hidden:',
   ],
   'src/utils/guideStalePolicy.js': [
     'GUIDE_STALE_POLICY_CODE',
     'GUIDE_STALE_POLICY_TEXT',
     'isGuideOverdue',
     'filterVisibleGuides',
+  ],
+  'src/utils/publicProjectionMap.ts': [
+    'product:intro',
+    'product:release_update',
+    'product:deep_test',
+    'product:compare',
+    'product:how_to:tutorial',
+    'openclaw_related:system_update',
+    'openclaw_related:workflow_explain',
+    'openclaw_related:how_to',
+    'religious_text:text_explain',
+    'generic:general_summary',
+    'PUBLIC_SITE_TYPES',
+    'CONTENT_FAMILIES',
+    'CONTENT_INTENTS',
+    'INSTRUCTION_MODES',
+    'CLAIM_REGIMES',
+    'PUBLICATION_STATE_VALUES',
+    'resolvePublicProjection',
+  ],
+  'src/utils/chineseTemplateContract.ts': [
+    '先看結論',
+    '適合誰',
+    '開始前準備',
+    '步驟',
+    '預期結果',
+    '常見錯誤',
+    '下一步',
+    '這是什麼',
+    '核心特點',
+    '替代方案',
+    '測試目的',
+    '測試環境',
+    '觀察結果',
+    '與宣稱對照',
+    '這是什麼內容',
+    '來源聲稱 vs 可驗證事實',
+    '這篇在講什麼',
+    'Knowledge Recommendation',
+    'A/B/C/D/E',
+    'Learning Points',
+    '對 OpenClaw 的意義',
+  ],
+  'src/components/GuideMetadata.astro': [
+    '公開投影',
+    '公開類型',
+    '中文模板',
+    '讀者段落',
+    '只顯示已凍結的公開類型與中文模板',
+  ],
+  'src/components/BoundaryNote.astro': [
+    'eyebrow',
+    'templateContract',
+    'reader body 混入 operator-only 雜訊',
   ],
 };
 const futureReferenceDate = new Date('2026-04-20T00:00:00+08:00');
@@ -739,6 +809,52 @@ async function verifySourceTextSync(relativePath, expected = []) {
   return issues;
 }
 
+const forbiddenPublicLeakPhrases = [
+  'Knowledge Recommendation',
+  'A/B/C/D/E',
+  'Learning Points',
+  '對 OpenClaw 的意義',
+  'raw subtitle fragments',
+  'subtitle residue',
+  'generic fallback',
+];
+
+async function verifyForbiddenPublicLeaks() {
+  const htmlFiles = [];
+
+  async function walk(currentDir) {
+    const entries = await readdir(currentDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const absolutePath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        await walk(absolutePath);
+        continue;
+      }
+
+      if (entry.isFile() && entry.name.endsWith('.html')) {
+        htmlFiles.push(absolutePath);
+      }
+    }
+  }
+
+  await walk(distDir);
+
+  const issues = [];
+  for (const file of htmlFiles) {
+    const text = await readFile(file, 'utf8').catch(() => '');
+    for (const phrase of forbiddenPublicLeakPhrases) {
+      if (text.includes(phrase)) {
+        issues.push(
+          `forbidden public leak phrase "${phrase}" found in ${path.relative(process.cwd(), file)}`,
+        );
+      }
+    }
+  }
+
+  return issues;
+}
+
 async function verifyRootRedirectRule(relativePath) {
   const contents = await readDistFile(relativePath);
   const issues = [];
@@ -866,6 +982,8 @@ async function main() {
     for (const [relativePath, expected] of Object.entries(guideMetadataSourceChecks)) {
       issues.push(...(await verifySourceTextSync(relativePath, expected)));
     }
+
+    issues.push(...(await verifyForbiddenPublicLeaks()));
 
     const futureVisiblePrimaryGuides = filterVisibleGuides(
       primaryGuideEntries,
