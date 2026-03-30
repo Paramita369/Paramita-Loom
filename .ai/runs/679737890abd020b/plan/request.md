@@ -1,0 +1,1 @@
+UI redesign: design tokens統一、accessibility修正、GuideMetadata progressive disclosure、landing page去重、tablet breakpoint、ReviewBox統一

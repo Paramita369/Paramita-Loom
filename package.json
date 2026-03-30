@@ -8,6 +8,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "node --test",
     "check": "astro check",
     "verify:dist": "node ./scripts/verify-dist.mjs",
     "preview:prepare": "npm run build && npm run verify:dist"

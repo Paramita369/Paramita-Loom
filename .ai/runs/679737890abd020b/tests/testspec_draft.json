@@ -1,0 +1,61 @@
+{
+  "status": "draft",
+  "summary": "Test specification for design-token consolidation, accessibility fixes, progressive disclosure in GuideMetadata, landing-page deduplication, tablet responsive behavior, and ReviewBox styling updates.",
+  "testspec_md": "# Test Specification: Paramita Loom UI Redesign\n\n## Scope\nThis specification covers the UI changes described in the redesign plan, with emphasis on:\n- design token unification for border radius and card surfaces\n- WCAG AA contrast corrections for `--loom-soft`\n- progressive disclosure behavior in `GuideMetadata`\n- landing page deduplication on `src/content/docs/index.mdx`\n- a new tablet breakpoint at `72rem`\n- `ReviewBox` background and border updates\n- regression checks for `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote`\n\n## Test Objectives\n1. Confirm the site still builds cleanly after the CSS and component changes.\n2. Verify the public UI uses the intended tokens consistently.\n3. Verify accessibility improvements are real in both light and dark themes.\n4. Verify the new disclosure pattern is usable without breaking server-rendered output.\n5. Verify responsive layout behavior at mobile, tablet, and wide viewport sizes.\n6. Verify no duplicate landing-page content remains.\n\n## Test Environment\n- Local development server\n- Production build output\n- Browser-based inspection with responsive viewport emulation\n- Accessibility contrast checking using browser devtools or a comparable contrast tool\n\n## Pages / Components to Verify\n- `/`\n- `/guides/*` pages that render `GuideMetadata`\n- `/review/review-architecture/` and other pages using `ReviewBox`\n- pages using `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote`\n\n## Test Coverage\n\n### 1. Build and smoke validation\n- Run the site build.\n- Open the homepage and at least one guide page in the dev server.\n- Confirm there are no runtime errors, broken imports, or render failures.\n\n### 2. Token consistency\n- Verify card and section surfaces use `var(--loom-card)` where the plan requires it.\n- Verify the targeted components no longer rely on ad hoc border-radius values for card-like surfaces.\n- Verify the new radius tokens are used consistently in `custom.css` and affected components.\n\n### 3. Accessibility and contrast\n- Verify `--loom-soft` in light mode meets WCAG AA contrast against its intended background context.\n- Verify dark mode contrast does not regress below WCAG AA expectations.\n- Verify eyebrow and metadata text remain readable after the font-size adjustments.\n\n### 4. GuideMetadata progressive disclosure\n- Verify secondary metadata sections are wrapped in native `<details>` elements.\n- Verify these sections are collapsed by default.\n- Verify clicking the `<summary>` opens and closes each section.\n- Verify primary rows remain visible without interaction.\n- Verify projection and tags remain visible when present.\n- Verify there are no hydration, SSR, or console errors related to the disclosure pattern.\n\n### 5. Landing page deduplication\n- Verify the homepage contains only one approved batch card grid.\n- Verify the former duplicated \"Reading order\" card section is removed.\n- Verify the replacement guidance text is present in the approved batch intro.\n- Verify all intended links remain accessible from the page.\n\n### 6. Responsive behavior\n- Verify mobile layout at widths below `50rem` still stacks cleanly.\n- Verify tablet layout at widths up to and including `72rem` uses the new 2-column grid behavior.\n- Verify wide screens above `72rem` retain the intended multi-column layout.\n- Verify `GuideMetadata` primary and secondary grids adapt correctly at tablet width.\n\n### 7. ReviewBox update\n- Verify `ReviewBox` uses `var(--loom-card)` as its background.\n- Verify the left accent border is present and uses `var(--sl-color-accent)`.\n- Verify the box still reads clearly in dark mode.\n\n### 8. Regression checks on related components\n- Verify `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote` still render correctly after radius token changes.\n- Verify hover, spacing, and text hierarchy remain intact.\n- Verify no unintended visual clipping or overflow appears from the token changes.\n\n## Pass Criteria\nThe redesign is considered acceptable when all of the following are true:\n- build completes successfully\n- light-mode `--loom-soft` meets WCAG AA contrast\n- dark mode does not introduce a contrast regression\n- progressive disclosure works with native interaction and default collapsed state\n- homepage duplication is removed\n- tablet breakpoint behavior is correct at `72rem`\n- `ReviewBox` uses the new tokenized surface and accent border\n- related components remain visually stable\n\n## Notes\n- The landing page is marked `draft: true`, so this spec should validate both dev preview behavior and build behavior.\n- If any token change causes broad visual drift, capture screenshots before deciding whether the drift is acceptable.\n- Native `<details>` is preferred for disclosure because it avoids extra client-side complexity.\n",
+  "test_cases": [
+    {
+      "id": "TS-01",
+      "description": "Build and smoke test the site after all UI changes are applied.",
+      "type": "build",
+      "acceptance_criteria": "The site builds successfully with zero errors; the dev server renders the homepage and at least one guide page without runtime exceptions or broken imports."
+    },
+    {
+      "id": "TS-02",
+      "description": "Verify border-radius and card-surface token standardization across the affected UI.",
+      "type": "regression",
+      "acceptance_criteria": "Affected section and card surfaces use the planned radius tokens and `var(--loom-card)`; no unintended hardcoded radii remain in the targeted components/styles."
+    },
+    {
+      "id": "TS-03",
+      "description": "Validate WCAG AA contrast for `--loom-soft` and related text in light and dark mode.",
+      "type": "a11y",
+      "acceptance_criteria": "Light-mode `--loom-soft` reaches at least 4.5:1 contrast against its intended background; dark mode does not regress below WCAG AA expectations; eyebrow and metadata text remain readable."
+    },
+    {
+      "id": "TS-04",
+      "description": "Verify GuideMetadata secondary sections use native progressive disclosure.",
+      "type": "functional",
+      "acceptance_criteria": "Secondary sections render inside `<details>` elements, are collapsed by default, expand and collapse via `<summary>` interaction, and do not cause SSR or console errors; primary rows, projection, and tags remain visible when present."
+    },
+    {
+      "id": "TS-05",
+      "description": "Ensure the homepage no longer repeats the reading-order cards.",
+      "type": "content",
+      "acceptance_criteria": "The homepage contains only one approved batch card grid; the duplicate Reading order card section is removed; replacement guidance text appears in the approved batch intro; all intended links still work."
+    },
+    {
+      "id": "TS-06",
+      "description": "Check responsive layout behavior at mobile, tablet, and wide viewport sizes.",
+      "type": "responsive",
+      "acceptance_criteria": "Below `50rem` the layout stacks cleanly; at and below `72rem` the tablet layout uses the intended two-column behavior; above `72rem` the wide layout remains stable; `GuideMetadata` adapts correctly at tablet width."
+    },
+    {
+      "id": "TS-07",
+      "description": "Verify ReviewBox surface and border styling.",
+      "type": "visual",
+      "acceptance_criteria": "ReviewBox uses `var(--loom-card)` for its background, shows a left accent border using `var(--sl-color-accent)`, and remains legible in dark mode."
+    },
+    {
+      "id": "TS-08",
+      "description": "Regression-test `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote` after token changes.",
+      "type": "regression",
+      "acceptance_criteria": "All three components render correctly with expected spacing, hover behavior, and text hierarchy; no clipping, overflow, or broken rounding appears."
+    },
+    {
+      "id": "TS-09",
+      "description": "Validate that the draft homepage remains previewable in development.",
+      "type": "functional",
+      "acceptance_criteria": "Despite `draft: true`, the homepage is viewable in local development and the updated content/layout can be inspected without special workarounds."
+    }
+  ]
+}

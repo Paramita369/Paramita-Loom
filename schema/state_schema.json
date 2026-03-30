@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Vibe Commander State",
+  "description": "Single source of truth for a Vibe Commander run. Version must match SCHEMA_VERSION in code.",
+  "type": "object",
+  "required": ["schema_version", "run_id", "status", "created_at", "updated_at", "request"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.1.0",
+      "enum": ["1.0.0", "1.1.0"],
+      "description": "Schema version — bump when fields are added/removed."
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Unique run identifier (8-char hex)."
+    },
+    "status": {
+      "type": "string",
+      "description": "Current state machine position.",
+      "enum": [
+        "INTAKE",
+        "CLAUDE_PLAN_DRAFT",
+        "GEMINI_ARCH_REVIEW",
+        "CODEX_PLAN_REVIEW",
+        "GEMINI_PROJECT_SCAN_PREFLIGHT",
+        "WAIT_SCAN_APPROVAL",
+        "GEMINI_PROJECT_SCAN",
+        "CLAUDE_DOC_DRAFT",
+        "CODEX_TESTSPEC_DRAFT",
+        "TARGETED_REVIEW",
+        "REFINED_SYNTHESIS",
+        "WAIT_APPROVAL",
+        "REVISE_PLAN",
+        "CODEX_WRITE_TESTS",
+        "CODEX_IMPLEMENT",
+        "CLAUDE_VERIFY",
+        "CODEX_REPAIR",
+        "FINAL_REVIEW",
+        "DONE",
+        "STUCK",
+        "HUMAN_INTERVENTION_NEEDED",
+        "AUTH_BLOCKED",
+        "STOPPED_BY_BUDGET",
+        "SYSTEM_ERROR"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "request": {
+      "type": "string",
+      "description": "Original user request text."
+    },
+    "approval_stage": {
+      "type": ["string", "null"],
+      "description": "What is awaiting user approval, if any."
+    },
+    "current_step": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Index of the step currently being implemented."
+    },
+    "total_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of implementation steps planned."
+    },
+    "revision_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of times plan has been revised after rejection. Max: 3."
+    },
+    "repair_attempts": {
+      "type": "object",
+      "description": "Map of step_id → repair attempt count. Max per step: 2.",
+      "additionalProperties": { "type": "integer" }
+    },
+    "auth": {
+      "type": "object",
+      "description": "Provider auth status snapshot.",
+      "properties": {
+        "gemini": { "type": "string", "enum": ["ok", "blocked", "unknown"] },
+        "codex":  { "type": "string", "enum": ["ok", "blocked", "unknown"] }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "description": "Per-provider cost tracking. Never fabricate numbers — use 'unknown' if unavailable.",
+      "properties": {
+        "claude": {
+          "type": "object",
+          "properties": {
+            "used":    { "type": ["number", "string"] },
+            "max":     { "type": ["number", "null"] },
+            "currency": { "type": "string", "default": "USD" }
+          }
+        },
+        "gemini": {
+          "type": "object",
+          "properties": {
+            "used":    { "type": ["number", "string"] },
+            "max":     { "type": ["number", "null"] },
+            "currency": { "type": "string", "default": "USD" }
+          }
+        },
+        "codex": {
+          "type": "object",
+          "properties": {
+            "used":    { "type": ["number", "string"] },
+            "max":     { "type": ["number", "null"] },
+            "currency": { "type": "string", "default": "USD" }
+          }
+        }
+      }
+    },
+    "active_session_ids": {
+      "type": "object",
+      "description": "Active Codex session IDs for --resume support.",
+      "properties": {
+        "codex": { "type": ["string", "null"] }
+      }
+    },
+    "lessons_applied": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Lesson tags applied during plan draft"
+    },
+    "artifacts": {
+      "type": "object",
+      "description": "Paths to key artifact files.",
+      "properties": {
+        "plan_draft":    { "type": ["string", "null"] },
+        "arch_review":   { "type": ["string", "null"] },
+        "scan_preflight":      { "type": ["string", "null"] },
+        "project_scan_report": { "type": ["string", "null"] },
+        "doc_draft":           { "type": ["string", "null"] },
+        "contract":      { "type": ["string", "null"] },
+        "plan_review":   { "type": ["string", "null"] },
+        "synthesis": {
+          "anyOf": [
+            { "type": ["string", "null"] },
+            {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string" },
+                "confidence_score": { "type": ["number", "null"] }
+              }
+            }
+          ]
+        },
+        "refined_synthesis": {
+          "anyOf": [
+            { "type": ["string", "null"] },
+            {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string" },
+                "confidence_score": { "type": ["number", "null"] }
+              }
+            }
+          ]
+        },
+        "confidence_score": { "type": ["number", "null"], "description": "Average reviewer confidence 0-100" },
+        "testspec":      { "type": ["string", "null"] },
+        "approved_plan": { "type": ["string", "null"] }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "steps": {
+      "type": "array",
+      "description": "Step definitions.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id":          { "type": "string" },
+          "title":       { "type": "string" },
+          "status":      { "type": "string", "enum": ["pending", "in_progress", "done", "failed"] },
+          "input_file":  { "type": "string" }
+        }
+      }
+    },
+    "git_checkpoints": {
+      "type": "array",
+      "description": "Git checkpoint commit SHAs for rollback.",
+      "items": { "type": "string" }
+    },
+    "checkpoint_meta": {
+      "type": "object",
+      "description": "Metadata for interrupt recovery — set before each implement-step.",
+      "properties": {
+        "step_id":     { "type": "string" },
+        "commit_sha":  { "type": "string" },
+        "recorded_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

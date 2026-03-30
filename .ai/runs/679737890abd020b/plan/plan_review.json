@@ -1,0 +1,28 @@
+{
+  "status": "retryable_error",
+  "summary": "Plan addresses the right accessibility and consistency problems, but it mixes public-impact work with a draft-only page, and several steps need tighter accessibility, responsive, and rollback safeguards before approval.",
+  "issues": [
+    {
+      "severity": "high",
+      "description": "S4 targets `src/content/docs/index.mdx`, but that page is marked `draft: true`, so the landing-page deduplication will not affect the shipped public site unless the draft status changes.",
+      "suggestion": "Confirm whether this is intended as a dev-only preview fix or move the change to a published route; otherwise it should not be counted as public-facing remediation."
+    },
+    {
+      "severity": "high",
+      "description": "S3 introduces native `<details>` disclosure without a concrete accessibility/styling plan. Default disclosure markers, focus states, and summary spacing may clash with the current card layout and make the section harder to scan.",
+      "suggestion": "Specify the summary markup, keyboard/focus styling, and open/closed states in CSS, then validate with keyboard navigation and a screen reader pass."
+    },
+    {
+      "severity": "medium",
+      "description": "S1/S2 change shared tokens (`--loom-soft`, `--loom-card`, radius values) that are reused across many surfaces, but the plan only names a few sample contrasts. That leaves the risk of unintended regressions elsewhere in the site.",
+      "suggestion": "Add a token-usage audit or a broader visual regression checklist covering every component that consumes the changed tokens, not just the examples listed."
+    },
+    {
+      "severity": "medium",
+      "description": "The rollback strategy is fragile: it assumes one step equals one clean commit and uses manual tags plus `git revert HEAD`, but several steps touch the same CSS file, so revert boundaries may not stay isolated.",
+      "suggestion": "Require one commit per step or define explicit checkpoints/branches so each change can be reverted independently without depending on exact commit ordering."
+    }
+  ],
+  "overall_recommendation": "revise",
+  "confidence_score": 70
+}

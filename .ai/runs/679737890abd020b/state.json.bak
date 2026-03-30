@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.1.0",
+  "run_id": "679737890abd020b",
+  "status": "CODEX_WRITE_TESTS",
+  "created_at": "2026-03-30T15:36:03Z",
+  "updated_at": "2026-03-30T15:45:28Z",
+  "request": "UI redesign: design tokens\u7d71\u4e00\u3001accessibility\u4fee\u6b63\u3001GuideMetadata progressive disclosure\u3001landing page\u53bb\u91cd\u3001tablet breakpoint\u3001ReviewBox\u7d71\u4e00",
+  "approval_stage": null,
+  "current_step": 0,
+  "total_steps": 0,
+  "revision_count": 0,
+  "repair_attempts": {},
+  "auth": {
+    "gemini": "unknown",
+    "codex": "unknown"
+  },
+  "budget": {
+    "claude": {
+      "used": "unknown",
+      "max": null
+    },
+    "gemini": {
+      "used": "unknown",
+      "max": null
+    },
+    "codex": {
+      "used": "unknown",
+      "max": null
+    }
+  },
+  "active_session_ids": {
+    "codex": null
+  },
+  "artifacts": {
+    "plan_draft": null,
+    "arch_review": null,
+    "contract": null,
+    "plan_review": null,
+    "testspec": null,
+    "approved_plan": null
+  },
+  "steps": [],
+  "git_checkpoints": []
+}

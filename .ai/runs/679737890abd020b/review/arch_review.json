@@ -1,0 +1,4 @@
+{
+  "status": "retryable_error",
+  "summary": "Command '['gemini', '-m', 'gemini-2.5-pro', '-p', 'You are a senior software architect reviewing an implementation plan.\\n\\nRULES:\\n- Do NOT suggest code implementations or patches\\n- Focus on: archit"
+}

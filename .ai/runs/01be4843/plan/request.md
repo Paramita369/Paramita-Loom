@@ -1,0 +1,1 @@
+UI redesign: design token unification, accessibility fixes, GuideMetadata progressive disclosure, landing page dedup, tablet breakpoint
