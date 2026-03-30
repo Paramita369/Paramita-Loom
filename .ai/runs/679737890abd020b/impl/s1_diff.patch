@@ -1,0 +1,5045 @@
+diff --git a/.ai/current b/.ai/current
+new file mode 120000
+index 0000000..42fc0e9
+--- /dev/null
++++ b/.ai/current
+@@ -0,0 +1 @@
++/Users/ai-paramita/Desktop/Project/Paramita-Loom/.ai/runs/679737890abd020b
+\ No newline at end of file
+diff --git a/.ai/lessons_learned.md b/.ai/lessons_learned.md
+new file mode 100644
+index 0000000..0efc945
+--- /dev/null
++++ b/.ai/lessons_learned.md
+@@ -0,0 +1,7 @@
++# Vibe Commander — Lessons Learned
++
++## Run d7936f95 — 2026-03-29
++**Tags**: [testing] [security] [hooks] [state] [auth] [backup]
++**What went wrong**: 補強了 pre_tool_gate、post_tool_validator、codex_worker、state_manager 備份、auth adapters 共 32 個測試。state_manager.save_state() 新增備份邏輯（先備份舊檔再原子寫入）。
++**Root cause**: 最關鍵元件（唯一寫入閘道、安全 hook、auth）缺乏直接測試，形成「最重要的元件最少測試」反模式。
++**Prevention**: 每個新元件實作後必須立即補充測試。P0 安全相關元件需在計畫階段即列入 test coverage plan，不得延後。
+diff --git a/.ai/logs/audit.log b/.ai/logs/audit.log
+new file mode 100644
+index 0000000..0321e9e
+--- /dev/null
++++ b/.ai/logs/audit.log
+@@ -0,0 +1,58 @@
++2026-03-30T14:22:21.565321+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom
++2026-03-30T14:22:23.506542+00:00 BASH: git config --list | head -20
++2026-03-30T14:22:24.852958+00:00 BASH: cat .gitmodules 2>/dev/null || echo "No .gitmodules file found"
++2026-03-30T14:22:26.127424+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom -type l 2>/dev/null
++2026-03-30T14:22:40.037501+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom/src -type f -name "*.ts" -o -name "*.tsx" -o -name "*.astro" -o -name "*.json" | head -30
++2026-03-30T14:22:48.683985+00:00 BASH: tree -L 2 /Users/ai-paramita/Desktop/Project/Paramita-Loom/src -I node_modules
++2026-03-30T14:22:50.327055+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom/src -type d | head -20
++2026-03-30T14:22:52.538197+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/ | head -25
++2026-03-30T14:22:54.068113+00:00 BASH: find /Users/ai-paramita/Desktop/Project -maxdepth 1 -type d | sort
++2026-03-30T14:22:55.313142+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Openclaw | head -40
++2026-03-30T14:22:59.842529+00:00 BASH: grep -r "Openclaw\|openclaw\|../Openclaw\|../openclaw" /Users/ai-paramita/Desktop/Project/Paramita-Loom/src --include="*.ts" --include="*.tsx" --include="*.json" --include="*.mjs" 2>/dev/null
++2026-03-30T14:23:01.528848+00:00 BASH: cat /Users/ai-paramita/Desktop/Project/Paramita-Loom/astro.config.mjs | grep -A5 -B5 "openclaw\|OpenClaw"
++2026-03-30T14:23:02.973900+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom -name "CLAUDE.md" -o -name "claude.md"
++2026-03-30T14:23:04.189556+00:00 BASH: git -C /Users/ai-paramita/Desktop/Project/Paramita-Loom log --oneline --all | head -20
++2026-03-30T14:23:05.956161+00:00 BASH: git -C /Users/ai-paramita/Desktop/Project/Paramita-Loom remote -v
++2026-03-30T14:23:07.142568+00:00 BASH: git -C /Users/ai-paramita/Desktop/Project/Openclaw remote -v
++2026-03-30T14:23:08.688297+00:00 BASH: git -C /Users/ai-paramita/Desktop/Project/Paramita-Loom log --all --oneline --grep="submodule\|openclaw\|Openclaw" | head -20
++2026-03-30T14:23:11.625158+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/knowledge/openclaw/
++2026-03-30T14:23:15.952155+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom/.github/workflows/
++2026-03-30T14:23:18.793257+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom/.ai -type f 2>/dev/null | head -10
++2026-03-30T14:23:20.432244+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom/scripts -type f
++2026-03-30T14:23:23.297651+00:00 BASH: grep -i "openclaw\|paramita" /Users/ai-paramita/Desktop/Project/Paramita-Loom/scripts/verify-dist.mjs | head -10
++2026-03-30T15:02:04.638272+00:00 BASH: npm run dev 2>&1 &
++sleep 3
++echo "Server started"
++2026-03-30T15:02:11.292777+00:00 BASH: npx astro dev --port 4321 2>&1 &
++sleep 5
++echo "Server started"
++2026-03-30T15:02:20.553490+00:00 BASH: npx --prefix . astro dev --port 4321 2>&1 &
++sleep 8
++curl -s -o /dev/null -w "%{http_code}" http://localhost:4321/ 2>&1
++2026-03-30T15:02:32.793142+00:00 BASH: ls node_modules/.bin/astro 2>&1 && node_modules/.bin/astro dev --port 4322 2>&1 &
++sleep 8
++curl -s -o /dev/null -w "%{http_code}" http://localhost:4322/ 2>&1
++2026-03-30T15:02:44.688790+00:00 BASH: ls /Users/ai-paramita/Desktop/Project/Paramita-Loom/node_modules 2>&1 | head -5
++2026-03-30T15:02:48.213915+00:00 BASH: npm install 2>&1
++2026-03-30T15:03:22.180550+00:00 BASH: node_modules/.bin/astro dev --port 4321 2>&1 &
++sleep 6
++curl -s -o /dev/null -w "%{http_code}" http://localhost:4321/ 2>&1
++2026-03-30T15:03:37.392318+00:00 BASH: kill $(lsof -ti:4322) 2>/dev/null; echo "killed"
++2026-03-30T15:03:41.569245+00:00 BLOCKED Write: {'file_path': '/Users/ai-paramita/Desktop/Project/Paramita-Loom/.claude/launch.json', 'content': '{\n  "version": "0.0.1",\n  "configurations": [\n   
++2026-03-30T15:03:56.905341+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom -type f \( -name "*.css" -o -name "*.scss" \) | head -20
++2026-03-30T15:04:08.350640+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom/src -type f -name "*.md" -o -name "*.mdx" | head -20
++2026-03-30T15:04:11.869301+00:00 BASH: find /Users/ai-paramita/Desktop/Project/Paramita-Loom/src -type f \( -name "*.css" -o -name "*.scss" \) ! -path "*/node_modules/*" | head -20
++2026-03-30T15:04:13.313752+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom/src/
++2026-03-30T15:04:14.841154+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom/src/assets/
++2026-03-30T15:04:16.617269+00:00 BASH: ls -la /Users/ai-paramita/Desktop/Project/Paramita-Loom/src/utils/
++2026-03-30T15:06:14.820335+00:00 BLOCKED Write: {'file_path': '/Users/ai-paramita/.claude/plans/zazzy-enchanting-lighthouse.md', 'content': '# Paramita Loom — UI 前端版面重新設計\n\n## Context\n\nParamita L
++2026-03-30T15:20:05.669897+00:00 BASH: ls ~/.claude/tools/new_run.py 2>/dev/null; ls tools/new_run.py 2>/dev/null; ls .ai/ 2>/dev/null
++2026-03-30T15:20:10.899579+00:00 BASH: python3 ~/.claude/tools/new_run.py "UI redesign: design token unification, accessibility fixes, GuideMetadata progressive disclosure, landing page dedup, tablet breakpoint"
++2026-03-30T15:20:15.465182+00:00 BASH: ls .ai/runs/01be4843/
++2026-03-30T15:20:18.686691+00:00 BASH: python3 ~/.claude/tools/state_manager.py update --run-id 01be4843 --status CLAUDE_PLAN_DRAFT
++2026-03-30T15:20:32.283219+00:00 BASH: python3 ~/.claude/tools/state_manager.py update --run-id 01be4843 --status WAIT_APPROVAL
++2026-03-30T15:20:58.728893+00:00 BASH: python3 ~/.claude/tools/state_manager.py update --run-id 01be4843 --status IMPLEMENT
++2026-03-30T15:21:03.687073+00:00 BASH: cat .ai/runs/01be4843/state.json
++2026-03-30T15:21:06.575667+00:00 BASH: python3 ~/.claude/tools/state_manager.py update --run-id 01be4843 --status IMPLEMENTING
++2026-03-30T15:21:15.505051+00:00 BASH: python3 ~/.claude/tools/state_manager.py update --run-id 01be4843 --status CODEX_IMPLEMENT
++2026-03-30T15:21:37.746212+00:00 BLOCKED Write: {'file_path': '/Users/ai-paramita/.claude/plans/bright-honking-storm.md', 'content': '# UI Redesign Plan — Run 01be4843\n\n## Context\nDesign critique
+diff --git a/.ai/runs/01be4843/events.jsonl b/.ai/runs/01be4843/events.jsonl
+new file mode 100644
+index 0000000..313a384
+--- /dev/null
++++ b/.ai/runs/01be4843/events.jsonl
+@@ -0,0 +1,4 @@
++{"ts": "2026-03-30T15:20:10Z", "run_id": "01be4843", "event": "RUN_CREATED", "data": {"request": "UI redesign: design token unification, accessibility fixes, GuideMetadata progressive disclosure, landing page dedup, tablet breakpoint"}}
++{"ts": "2026-03-30T15:20:18Z", "run_id": "01be4843", "event": "STATUS_TRANSITION", "data": {"from": "INTAKE", "to": "CLAUDE_PLAN_DRAFT"}}
++{"ts": "2026-03-30T15:20:32Z", "run_id": "01be4843", "event": "STATUS_TRANSITION", "data": {"from": "CLAUDE_PLAN_DRAFT", "to": "WAIT_APPROVAL"}}
++{"ts": "2026-03-30T15:21:15Z", "run_id": "01be4843", "event": "STATUS_TRANSITION", "data": {"from": "WAIT_APPROVAL", "to": "CODEX_IMPLEMENT"}}
+diff --git a/.ai/runs/01be4843/plan/request.md b/.ai/runs/01be4843/plan/request.md
+new file mode 100644
+index 0000000..93b63a7
+--- /dev/null
++++ b/.ai/runs/01be4843/plan/request.md
+@@ -0,0 +1 @@
++UI redesign: design token unification, accessibility fixes, GuideMetadata progressive disclosure, landing page dedup, tablet breakpoint
+\ No newline at end of file
+diff --git a/.ai/runs/01be4843/state.json b/.ai/runs/01be4843/state.json
+new file mode 100644
+index 0000000..fbe3795
+--- /dev/null
++++ b/.ai/runs/01be4843/state.json
+@@ -0,0 +1,15 @@
++{
++  "schema_version": "1.0.0",
++  "run_id": "01be4843",
++  "status": "CODEX_IMPLEMENT",
++  "created_at": "2026-03-30T15:20:10Z",
++  "updated_at": "2026-03-30T15:21:15Z",
++  "request": "UI redesign: design token unification, accessibility fixes, GuideMetadata progressive disclosure, landing page dedup, tablet breakpoint",
++  "current_step": 0,
++  "total_steps": 0,
++  "revision_count": 0,
++  "repair_attempts": {},
++  "artifacts": {},
++  "steps": [],
++  "git_checkpoints": []
++}
+diff --git a/.ai/runs/679737890abd020b/events.jsonl b/.ai/runs/679737890abd020b/events.jsonl
+new file mode 100644
+index 0000000..599b830
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/events.jsonl
+@@ -0,0 +1,5 @@
++{"ts": "2026-03-30T15:36:03Z", "run_id": "679737890abd020b", "event": "RUN_CREATED", "data": {"request": "UI redesign: design tokens\u7d71\u4e00\u3001accessibility\u4fee\u6b63\u3001GuideMetadata progressive disclosure\u3001landing page\u53bb\u91cd\u3001tablet breakpoint\u3001ReviewBox\u7d71\u4e00"}}
++{"ts": "2026-03-30T15:36:07Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "INTAKE", "to": "CLAUDE_PLAN_DRAFT"}}
++{"ts": "2026-03-30T15:43:17Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CLAUDE_PLAN_DRAFT", "to": "WAIT_APPROVAL"}}
++{"ts": "2026-03-30T15:45:28Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "WAIT_APPROVAL", "to": "CODEX_WRITE_TESTS"}}
++{"ts": "2026-03-30T15:55:08Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CODEX_WRITE_TESTS", "to": "CODEX_IMPLEMENT"}}
+diff --git a/.ai/runs/679737890abd020b/plan/plan_draft.md b/.ai/runs/679737890abd020b/plan/plan_draft.md
+new file mode 100644
+index 0000000..84a2133
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/plan/plan_draft.md
+@@ -0,0 +1,125 @@
++## Goal
++統一 Paramita Loom 的 design tokens（border-radius、card backgrounds），修正 WCAG AA 色彩對比問題，為 GuideMetadata 加入 progressive disclosure，移除英文版 landing page 重複 card section，加入 tablet breakpoint，統一 ReviewBox 樣式。
++
++## Motivation
++Design critique 發現 6 個核心問題：(1) GuideMetadata 資訊過載無法收合 — 首次讀者被淹沒；(2) --loom-soft 色彩對比僅 3.2:1，未達 WCAG AA 4.5:1 標準；(3) 至少 6 種不同 border-radius 值缺乏系統性；(4) 英文版 Landing page "Reading order" 重複 "Approved batch" 的 3 張 cards（zh-hk 版不受影響，兩個 grid 內容不同）；(5) 只有 50rem 一個 breakpoint，tablet 體驗缺失；(6) ReviewBox background 不用 token。這些問題影響 accessibility compliance、visual consistency 和 usability。
++
++## Affected Files
++- `src/styles/custom.css` — design tokens 定義、border-radius 統一（限定範圍）、contrast 修正、tablet breakpoint
++- `src/components/GuideMetadata.astro` — secondary sections 加入 `<details>` progressive disclosure
++- `src/content/docs/index.mdx` — 移除重複 Reading order SectionCardGrid（僅英文版）
++- `src/components/ReviewBox.astro` — background 改用 --loom-card token、加 accent border
++- **不受影響**：`src/content/docs/zh-hk/index.mdx`（結構已正確，無重複問題）
++- **不受影響**：`src/components/SectionCardGrid.astro`、`ProcessSteps.astro`、`BoundaryNote.astro`（只改 CSS token，不改 component code）
++
++## Risk Areas
++- **GuideMetadata `<details>` 元素**：Astro SSR 對 native `<details>` 應有良好支持（純 HTML），但需驗證 Starlight 沒有覆蓋其樣式
++- **色彩對比連鎖影響**：修改 --loom-soft 會影響所有使用該 token 的元素；需在 light mode 和 dark mode 都驗證。具體配對：`--loom-soft` on `--sl-color-bg`（body text）、`--loom-soft` on `--loom-card`（card 內 meta text）、`--loom-soft` on `--loom-warm`（review box 內 text）
++- **Landing page draft: true**：index.mdx 標記為 draft，修改後可在 dev mode 預覽但不進 production build
++- **Border-radius 替換範圍**：只替換卡片/容器類圓角（見下方明確清單），不動 pill button (999px)、code inline (0.4rem)、label chips (999px)
++
++## Rollback Strategy
++每個 step 執行前，手動建立 git tag `pre-s{n}-679737890abd020b`。如任何 step 導致問題：
++1. `git log --oneline` 找到對應 tag
++2. `git revert HEAD` 回退該 step 的 commit
++3. 各 step 改不同檔案區域，可獨立 revert
++
++明確可執行的 revert 路徑：
++- S1（CSS tokens）: `git revert` CSS commit — 所有 component 自動回到硬編碼值
++- S2（contrast）: `git revert` — --loom-soft 回到原值
++- S3（disclosure）: `git revert` — GuideMetadata 回到原本無收合狀態
++- S4（landing dedup）: `git revert` — index.mdx 回到原本三個 section
++- S5（breakpoint）: `git revert` — 移除 72rem media query
++- S6（ReviewBox）: `git revert` — background 回到硬編碼值
++
++## Open Questions
++- `index.mdx` 的 `draft: true` 是否 intentional？如果是，S4 的修改對 production 無實際影響但改善 dev 體驗
++- Dark mode 的 --loom-soft (#97a89d) 在深色背景上（#131814）對比度約 5.8:1，已達 AA，但如果覺得太亮可微調
++
++## Out of Scope
++- Content schema 變更（content.config.ts、publicProjectionMap.ts、chineseTemplateContract.ts）
++- zh-hk/index.mdx 的結構（已確認無重複問題）
++- 新增或移除 component
++- Sidebar 結構調整
++- Content 文字修改（只動 UI/layout，不動 editorial content）
++- Astro/Starlight 版本升級
++- pill button、code chip、label chip 的圓角（語義性圓角，不在統一範圍內）
++
++## Test Coverage Plan
++- **Build test**: `npm run build` 確認零 error
++- **Visual regression**: dev server 啟動後截圖比對 landing page、guide page（含 GuideMetadata）
++- **Accessibility contrast 矩陣**:
++  - Light mode: --loom-soft (#566b5e) on --sl-color-bg (#f8f6f1) → 目標 ≥ 4.5:1
++  - Light mode: --loom-soft on --loom-card (white 82%) → 驗證
++  - Dark mode: --loom-soft (#97a89d) on --sl-color-bg (#131814) → 驗證 ≥ 4.5:1
++  - Dark mode: --loom-soft on --loom-card (dark) → 驗證
++- **Responsive**: 檢查 <50rem（mobile）、50-72rem（tablet）、>72rem（desktop）三個區間
++- **Dark mode**: 切換 dark mode 確認色彩 token 正確套用
++- **Progressive disclosure**: 確認 GuideMetadata secondary sections 預設收合，點擊可展開，無 console error
++- **Landing page**: 確認英文版只有一個 card grid，zh-hk 版不受影響
++
++## Implementation Steps (6 steps)
++
++### S1: 統一 Design Tokens（custom.css only）
++在 custom.css `:root` 加入三個 radius token：
++- `--loom-radius-sm: 0.5rem`（inline code 等小元素保留原值不動）
++- `--loom-radius-md: 1rem`（cards、notes、metadata panels）
++- `--loom-radius-lg: 1.5rem`（sections、大容器）
++
++**替換清單**（僅 custom.css）：
++| Selector | 原值 | 新值 | 理由 |
++|----------|------|------|------|
++| `.loom-section` | 1.5rem | var(--loom-radius-lg) | 大容器 |
++| `.loom-card` | 1.15rem | var(--loom-radius-md) | 卡片 |
++| `.sl-link-card` | 1.25rem | var(--loom-radius-md) | 卡片 |
++| `.loom-note` | 1rem | var(--loom-radius-md) | 卡片級 |
++| `.loom-guide-metadata-card/panel/row` | 0.95rem | var(--loom-radius-md) | 卡片級 |
++| `.loom-review-box` | 1rem | var(--loom-radius-md) | 卡片級 |
++| `.loom-section` (mobile) | 1.2rem | var(--loom-radius-md) | mobile 容器 |
++
++**不動的圓角**（例外清單）：
++- `.hero .actions a` — 999px（pill button，語義性）
++- `.sl-markdown-content code` — 0.4rem（inline code，語義性）
++- `.loom-step-number` — 999px（circle badge）
++- `.loom-labels li` — 999px（chip/tag）
++
++統一 card background：`.loom-card` 從 `rgba(255,255,255,0.72)` 改為 `var(--loom-card)`。
++移除 `.loom-section::before` wash overlay（測試後如層次感不足，可用 box-shadow 補償）。
++
++### S2: 修正 Accessibility
++Light mode：
++- `--loom-soft` 從 `#6d7d74` 改為 `#566b5e`（on #f8f6f1 ≈ 4.6:1 ✓）
++- `.loom-eyebrow` font-size 從 `0.8rem` → `0.85rem`
++- `.loom-meta` font-size 從 `0.82rem` → `0.85rem`
++- `.loom-guide-metadata-card dt` font-size 從 `0.8rem` → `0.85rem`
++
++Dark mode：
++- `--loom-soft` (#97a89d) on #131814 ≈ 5.8:1 — 已達 AA，不改
++- 驗證 --loom-soft on --loom-card (dark) 對比度
++
++### S3: GuideMetadata Progressive Disclosure
++將 `metadataSections` 的每個 section 用 native `<details>` 包裹：
++- `<summary>` 顯示 section title + intro（粗體 title + 灰色 intro）
++- 預設關閉（無 `open` attribute）
++- Primary rows 不變（始終可見）
++- Projection section 始終可見
++- Tags 始終可見
++- 不需 JS hydration（純 HTML 行為）
++
++### S4: 英文版 Landing Page 去重（僅 index.mdx）
++移除 index.mdx 第二個 `<SectionCardGrid>`（Reading order, line 91-118）。
++在 Approved batch 的 `intro` 加入簡短閱讀順序建議：
++「These are the only public pages in this batch. Suggested reading order: start with the system boundary, then the builder workflow, then the verification loop.」
++
++zh-hk/index.mdx **不做任何修改** — 兩個 SectionCardGrid 的內容不同（站點入口 vs 首批公開頁面），不構成重複。
++
++### S5: Tablet Breakpoint
++在 custom.css 加入 `@media (max-width: 72rem)` 斷點（放在現有 50rem 斷點之前）：
++- `.loom-grid`: `grid-template-columns: repeat(2, 1fr)`
++- `.loom-section`: padding 調整為 `1.4rem`
++- `.loom-guide-metadata-primary`: `grid-template-columns: repeat(3, 1fr)`
++
++### S6: ReviewBox 統一
++- `.loom-review-box` background 從 `rgba(241, 235, 225, 0.48)` 改為 `var(--loom-card)`
++- 加入左側 accent border：`border-left: 3px solid var(--sl-color-accent)`
++- Dark mode 的 `.loom-review-box` background 也改為 `var(--loom-card)`
+diff --git a/.ai/runs/679737890abd020b/plan/plan_review.json b/.ai/runs/679737890abd020b/plan/plan_review.json
+new file mode 100644
+index 0000000..f60dc98
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/plan/plan_review.json
+@@ -0,0 +1,28 @@
++{
++  "status": "retryable_error",
++  "summary": "Plan addresses the right accessibility and consistency problems, but it mixes public-impact work with a draft-only page, and several steps need tighter accessibility, responsive, and rollback safeguards before approval.",
++  "issues": [
++    {
++      "severity": "high",
++      "description": "S4 targets `src/content/docs/index.mdx`, but that page is marked `draft: true`, so the landing-page deduplication will not affect the shipped public site unless the draft status changes.",
++      "suggestion": "Confirm whether this is intended as a dev-only preview fix or move the change to a published route; otherwise it should not be counted as public-facing remediation."
++    },
++    {
++      "severity": "high",
++      "description": "S3 introduces native `<details>` disclosure without a concrete accessibility/styling plan. Default disclosure markers, focus states, and summary spacing may clash with the current card layout and make the section harder to scan.",
++      "suggestion": "Specify the summary markup, keyboard/focus styling, and open/closed states in CSS, then validate with keyboard navigation and a screen reader pass."
++    },
++    {
++      "severity": "medium",
++      "description": "S1/S2 change shared tokens (`--loom-soft`, `--loom-card`, radius values) that are reused across many surfaces, but the plan only names a few sample contrasts. That leaves the risk of unintended regressions elsewhere in the site.",
++      "suggestion": "Add a token-usage audit or a broader visual regression checklist covering every component that consumes the changed tokens, not just the examples listed."
++    },
++    {
++      "severity": "medium",
++      "description": "The rollback strategy is fragile: it assumes one step equals one clean commit and uses manual tags plus `git revert HEAD`, but several steps touch the same CSS file, so revert boundaries may not stay isolated.",
++      "suggestion": "Require one commit per step or define explicit checkpoints/branches so each change can be reverted independently without depending on exact commit ordering."
++    }
++  ],
++  "overall_recommendation": "revise",
++  "confidence_score": 70
++}
+\ No newline at end of file
+diff --git a/.ai/runs/679737890abd020b/plan/request.md b/.ai/runs/679737890abd020b/plan/request.md
+new file mode 100644
+index 0000000..b7b7bf8
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/plan/request.md
+@@ -0,0 +1 @@
++UI redesign: design tokens統一、accessibility修正、GuideMetadata progressive disclosure、landing page去重、tablet breakpoint、ReviewBox統一
+\ No newline at end of file
+diff --git a/.ai/runs/679737890abd020b/plan/synthesis.json b/.ai/runs/679737890abd020b/plan/synthesis.json
+new file mode 100644
+index 0000000..5f63d6a
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/plan/synthesis.json
+@@ -0,0 +1,52 @@
++{
++  "run_id": "679737890abd020b",
++  "status": "COMMANDER_SYNTHESIS",
++  "confidence_score": 70,
++  "confidence_level": "moderate",
++  "codex_review": {
++    "confidence": 70,
++    "recommendation": "revise",
++    "high_severity_count": 2,
++    "medium_severity_count": 2
++  },
++  "gemini_review": {
++    "status": "unavailable",
++    "reason": "gemini CLI not installed"
++  },
++  "testspec": {
++    "status": "drafted",
++    "test_count": 9
++  },
++  "remaining_concerns": [
++    {
++      "severity": "high",
++      "id": "C1",
++      "concern": "S4 targets draft:true page — deduplication is dev-only improvement",
++      "commander_assessment": "Acknowledged. index.mdx is draft:true so S4 is dev/preview improvement only. This is acceptable — the fix improves authoring experience and will be visible when draft is removed. No production risk.",
++      "action": "Proceed as-is with explicit note that S4 is dev-preview scope"
++    },
++    {
++      "severity": "high",
++      "id": "C2",
++      "concern": "S3 <details> needs accessibility/styling plan",
++      "commander_assessment": "Valid. Will add to S3: (1) custom CSS for summary marker, (2) focus-visible ring on summary, (3) padding/spacing for open state. Keyboard nav is native with <details>. Screen reader support is inherent in semantic HTML.",
++      "action": "Amend S3 implementation detail before implementation begins"
++    },
++    {
++      "severity": "medium",
++      "id": "C3",
++      "concern": "Token changes may cause unintended regressions",
++      "commander_assessment": "Test coverage plan already includes visual regression screenshots. Will add explicit token-usage audit in S1 verification step.",
++      "action": "Add token audit to S1 verify step"
++    },
++    {
++      "severity": "medium",
++      "id": "C4",
++      "concern": "Rollback fragile when multiple steps touch same CSS file",
++      "commander_assessment": "codex_worker.py creates automatic checkpoint commits per step. Steps that share custom.css (S1, S2, S5, S6) modify different sections of the file. Git revert can handle section-level changes. Will ensure each step is one atomic commit.",
++      "action": "Enforce one commit per step via codex_worker.py"
++    }
++  ],
++  "lessons_applied": [],
++  "routing_decision": "WAIT_APPROVAL_MODERATE"
++}
+diff --git a/.ai/runs/679737890abd020b/review/arch_review.json b/.ai/runs/679737890abd020b/review/arch_review.json
+new file mode 100644
+index 0000000..c251d75
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/review/arch_review.json
+@@ -0,0 +1,4 @@
++{
++  "status": "retryable_error",
++  "summary": "Command '['gemini', '-m', 'gemini-2.5-pro', '-p', 'You are a senior software architect reviewing an implementation plan.\\n\\nRULES:\\n- Do NOT suggest code implementations or patches\\n- Focus on: archit"
++}
+\ No newline at end of file
+diff --git a/.ai/runs/679737890abd020b/state.json b/.ai/runs/679737890abd020b/state.json
+new file mode 100644
+index 0000000..9f784fb
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/state.json
+@@ -0,0 +1,44 @@
++{
++  "schema_version": "1.1.0",
++  "run_id": "679737890abd020b",
++  "status": "CODEX_IMPLEMENT",
++  "created_at": "2026-03-30T15:36:03Z",
++  "updated_at": "2026-03-30T15:55:08Z",
++  "request": "UI redesign: design tokens\u7d71\u4e00\u3001accessibility\u4fee\u6b63\u3001GuideMetadata progressive disclosure\u3001landing page\u53bb\u91cd\u3001tablet breakpoint\u3001ReviewBox\u7d71\u4e00",
++  "approval_stage": null,
++  "current_step": 0,
++  "total_steps": 0,
++  "revision_count": 0,
++  "repair_attempts": {},
++  "auth": {
++    "gemini": "unknown",
++    "codex": "unknown"
++  },
++  "budget": {
++    "claude": {
++      "used": "unknown",
++      "max": null
++    },
++    "gemini": {
++      "used": "unknown",
++      "max": null
++    },
++    "codex": {
++      "used": "unknown",
++      "max": null
++    }
++  },
++  "active_session_ids": {
++    "codex": null
++  },
++  "artifacts": {
++    "plan_draft": null,
++    "arch_review": null,
++    "contract": null,
++    "plan_review": null,
++    "testspec": null,
++    "approved_plan": null
++  },
++  "steps": [],
++  "git_checkpoints": []
++}
+diff --git a/.ai/runs/679737890abd020b/state.json.bak b/.ai/runs/679737890abd020b/state.json.bak
+new file mode 100644
+index 0000000..9bbf34c
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/state.json.bak
+@@ -0,0 +1,44 @@
++{
++  "schema_version": "1.1.0",
++  "run_id": "679737890abd020b",
++  "status": "CODEX_WRITE_TESTS",
++  "created_at": "2026-03-30T15:36:03Z",
++  "updated_at": "2026-03-30T15:45:28Z",
++  "request": "UI redesign: design tokens\u7d71\u4e00\u3001accessibility\u4fee\u6b63\u3001GuideMetadata progressive disclosure\u3001landing page\u53bb\u91cd\u3001tablet breakpoint\u3001ReviewBox\u7d71\u4e00",
++  "approval_stage": null,
++  "current_step": 0,
++  "total_steps": 0,
++  "revision_count": 0,
++  "repair_attempts": {},
++  "auth": {
++    "gemini": "unknown",
++    "codex": "unknown"
++  },
++  "budget": {
++    "claude": {
++      "used": "unknown",
++      "max": null
++    },
++    "gemini": {
++      "used": "unknown",
++      "max": null
++    },
++    "codex": {
++      "used": "unknown",
++      "max": null
++    }
++  },
++  "active_session_ids": {
++    "codex": null
++  },
++  "artifacts": {
++    "plan_draft": null,
++    "arch_review": null,
++    "contract": null,
++    "plan_review": null,
++    "testspec": null,
++    "approved_plan": null
++  },
++  "steps": [],
++  "git_checkpoints": []
++}
+diff --git a/.ai/runs/679737890abd020b/tests/tests_result.json b/.ai/runs/679737890abd020b/tests/tests_result.json
+new file mode 100644
+index 0000000..aa9ee6a
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/tests/tests_result.json
+@@ -0,0 +1,6 @@
++{
++  "status": "ok",
++  "summary": "1. files changed\n\n[tests/ui-redesign.test.mjs](/Users/ai-paramita/Desktop/Project/Paramita-Loom/tests/ui-redesign.test.mjs)  \n[tests/helpers/site-test-utils.mjs](/Users/ai-paramita/Desktop/Project/Paramita-Loom/tests/helpers/site-test-utils.mjs)\n\n2. what was done\n\nAdded a real `node:test` suite for ",
++  "details_md": "1. files changed\n\n[tests/ui-redesign.test.mjs](/Users/ai-paramita/Desktop/Project/Paramita-Loom/tests/ui-redesign.test.mjs)  \n[tests/helpers/site-test-utils.mjs](/Users/ai-paramita/Desktop/Project/Paramita-Loom/tests/helpers/site-test-utils.mjs)\n\n2. what was done\n\nAdded a real `node:test` suite for the redesign spec. The tests now follow the repo\u2019s existing convention: build once, inspect source/CSS/built HTML, and assert the spec items by test ID `TS-01` through `TS-09`.\n\nI also added small helper support for path existence and local port capability detection so the suite can validate build output reliably and skip the dev-preview check only when the environment blocks loopback binding.\n\n3. why this is minimal\n\nThe change stays inside `tests/` and does not touch site code, content schema, or runtime behavior. It reuses the existing Node test harness and existing helper style instead of introducing a new test framework.\n\n4. validation performed\n\nRan `npm test -- --test tests/ui-redesign.test.mjs`.\n\nCurrent result:\n- Pass: `TS-01`, `TS-08`\n- Skip: `TS-09` in this sandbox because local port binding is blocked\n- Fail as expected against current implementation: `TS-02`, `TS-03`, `TS-04`, `TS-05`, `TS-06`, `TS-07`\n\n5. open risks\n\nThe suite is intentionally asserting the redesign target state, so several tests fail until the UI work is implemented.\n\n`TS-09` depends on local dev server access. In this environment it is skipped because `127.0.0.1` binding returns `EPERM`; on a normal local machine it should run.\n\n6. recommended next step\n\nImplement the redesign changes in CSS/components/content, then rerun `npm test -- --test tests/ui-redesign.test.mjs` and `npm run build`.",
++  "raw": true
++}
+\ No newline at end of file
+diff --git a/.ai/runs/679737890abd020b/tests/testspec.md b/.ai/runs/679737890abd020b/tests/testspec.md
+new file mode 100644
+index 0000000..b7e9c4c
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/tests/testspec.md
+@@ -0,0 +1,94 @@
++# Test Specification: Paramita Loom UI Redesign
++
++## Scope
++This specification covers the UI changes described in the redesign plan, with emphasis on:
++- design token unification for border radius and card surfaces
++- WCAG AA contrast corrections for `--loom-soft`
++- progressive disclosure behavior in `GuideMetadata`
++- landing page deduplication on `src/content/docs/index.mdx`
++- a new tablet breakpoint at `72rem`
++- `ReviewBox` background and border updates
++- regression checks for `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote`
++
++## Test Objectives
++1. Confirm the site still builds cleanly after the CSS and component changes.
++2. Verify the public UI uses the intended tokens consistently.
++3. Verify accessibility improvements are real in both light and dark themes.
++4. Verify the new disclosure pattern is usable without breaking server-rendered output.
++5. Verify responsive layout behavior at mobile, tablet, and wide viewport sizes.
++6. Verify no duplicate landing-page content remains.
++
++## Test Environment
++- Local development server
++- Production build output
++- Browser-based inspection with responsive viewport emulation
++- Accessibility contrast checking using browser devtools or a comparable contrast tool
++
++## Pages / Components to Verify
++- `/`
++- `/guides/*` pages that render `GuideMetadata`
++- `/review/review-architecture/` and other pages using `ReviewBox`
++- pages using `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote`
++
++## Test Coverage
++
++### 1. Build and smoke validation
++- Run the site build.
++- Open the homepage and at least one guide page in the dev server.
++- Confirm there are no runtime errors, broken imports, or render failures.
++
++### 2. Token consistency
++- Verify card and section surfaces use `var(--loom-card)` where the plan requires it.
++- Verify the targeted components no longer rely on ad hoc border-radius values for card-like surfaces.
++- Verify the new radius tokens are used consistently in `custom.css` and affected components.
++
++### 3. Accessibility and contrast
++- Verify `--loom-soft` in light mode meets WCAG AA contrast against its intended background context.
++- Verify dark mode contrast does not regress below WCAG AA expectations.
++- Verify eyebrow and metadata text remain readable after the font-size adjustments.
++
++### 4. GuideMetadata progressive disclosure
++- Verify secondary metadata sections are wrapped in native `<details>` elements.
++- Verify these sections are collapsed by default.
++- Verify clicking the `<summary>` opens and closes each section.
++- Verify primary rows remain visible without interaction.
++- Verify projection and tags remain visible when present.
++- Verify there are no hydration, SSR, or console errors related to the disclosure pattern.
++
++### 5. Landing page deduplication
++- Verify the homepage contains only one approved batch card grid.
++- Verify the former duplicated "Reading order" card section is removed.
++- Verify the replacement guidance text is present in the approved batch intro.
++- Verify all intended links remain accessible from the page.
++
++### 6. Responsive behavior
++- Verify mobile layout at widths below `50rem` still stacks cleanly.
++- Verify tablet layout at widths up to and including `72rem` uses the new 2-column grid behavior.
++- Verify wide screens above `72rem` retain the intended multi-column layout.
++- Verify `GuideMetadata` primary and secondary grids adapt correctly at tablet width.
++
++### 7. ReviewBox update
++- Verify `ReviewBox` uses `var(--loom-card)` as its background.
++- Verify the left accent border is present and uses `var(--sl-color-accent)`.
++- Verify the box still reads clearly in dark mode.
++
++### 8. Regression checks on related components
++- Verify `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote` still render correctly after radius token changes.
++- Verify hover, spacing, and text hierarchy remain intact.
++- Verify no unintended visual clipping or overflow appears from the token changes.
++
++## Pass Criteria
++The redesign is considered acceptable when all of the following are true:
++- build completes successfully
++- light-mode `--loom-soft` meets WCAG AA contrast
++- dark mode does not introduce a contrast regression
++- progressive disclosure works with native interaction and default collapsed state
++- homepage duplication is removed
++- tablet breakpoint behavior is correct at `72rem`
++- `ReviewBox` uses the new tokenized surface and accent border
++- related components remain visually stable
++
++## Notes
++- The landing page is marked `draft: true`, so this spec should validate both dev preview behavior and build behavior.
++- If any token change causes broad visual drift, capture screenshots before deciding whether the drift is acceptable.
++- Native `<details>` is preferred for disclosure because it avoids extra client-side complexity.
+diff --git a/.ai/runs/679737890abd020b/tests/testspec_draft.json b/.ai/runs/679737890abd020b/tests/testspec_draft.json
+new file mode 100644
+index 0000000..5c4b111
+--- /dev/null
++++ b/.ai/runs/679737890abd020b/tests/testspec_draft.json
+@@ -0,0 +1,61 @@
++{
++  "status": "draft",
++  "summary": "Test specification for design-token consolidation, accessibility fixes, progressive disclosure in GuideMetadata, landing-page deduplication, tablet responsive behavior, and ReviewBox styling updates.",
++  "testspec_md": "# Test Specification: Paramita Loom UI Redesign\n\n## Scope\nThis specification covers the UI changes described in the redesign plan, with emphasis on:\n- design token unification for border radius and card surfaces\n- WCAG AA contrast corrections for `--loom-soft`\n- progressive disclosure behavior in `GuideMetadata`\n- landing page deduplication on `src/content/docs/index.mdx`\n- a new tablet breakpoint at `72rem`\n- `ReviewBox` background and border updates\n- regression checks for `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote`\n\n## Test Objectives\n1. Confirm the site still builds cleanly after the CSS and component changes.\n2. Verify the public UI uses the intended tokens consistently.\n3. Verify accessibility improvements are real in both light and dark themes.\n4. Verify the new disclosure pattern is usable without breaking server-rendered output.\n5. Verify responsive layout behavior at mobile, tablet, and wide viewport sizes.\n6. Verify no duplicate landing-page content remains.\n\n## Test Environment\n- Local development server\n- Production build output\n- Browser-based inspection with responsive viewport emulation\n- Accessibility contrast checking using browser devtools or a comparable contrast tool\n\n## Pages / Components to Verify\n- `/`\n- `/guides/*` pages that render `GuideMetadata`\n- `/review/review-architecture/` and other pages using `ReviewBox`\n- pages using `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote`\n\n## Test Coverage\n\n### 1. Build and smoke validation\n- Run the site build.\n- Open the homepage and at least one guide page in the dev server.\n- Confirm there are no runtime errors, broken imports, or render failures.\n\n### 2. Token consistency\n- Verify card and section surfaces use `var(--loom-card)` where the plan requires it.\n- Verify the targeted components no longer rely on ad hoc border-radius values for card-like surfaces.\n- Verify the new radius tokens are used consistently in `custom.css` and affected components.\n\n### 3. Accessibility and contrast\n- Verify `--loom-soft` in light mode meets WCAG AA contrast against its intended background context.\n- Verify dark mode contrast does not regress below WCAG AA expectations.\n- Verify eyebrow and metadata text remain readable after the font-size adjustments.\n\n### 4. GuideMetadata progressive disclosure\n- Verify secondary metadata sections are wrapped in native `<details>` elements.\n- Verify these sections are collapsed by default.\n- Verify clicking the `<summary>` opens and closes each section.\n- Verify primary rows remain visible without interaction.\n- Verify projection and tags remain visible when present.\n- Verify there are no hydration, SSR, or console errors related to the disclosure pattern.\n\n### 5. Landing page deduplication\n- Verify the homepage contains only one approved batch card grid.\n- Verify the former duplicated \"Reading order\" card section is removed.\n- Verify the replacement guidance text is present in the approved batch intro.\n- Verify all intended links remain accessible from the page.\n\n### 6. Responsive behavior\n- Verify mobile layout at widths below `50rem` still stacks cleanly.\n- Verify tablet layout at widths up to and including `72rem` uses the new 2-column grid behavior.\n- Verify wide screens above `72rem` retain the intended multi-column layout.\n- Verify `GuideMetadata` primary and secondary grids adapt correctly at tablet width.\n\n### 7. ReviewBox update\n- Verify `ReviewBox` uses `var(--loom-card)` as its background.\n- Verify the left accent border is present and uses `var(--sl-color-accent)`.\n- Verify the box still reads clearly in dark mode.\n\n### 8. Regression checks on related components\n- Verify `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote` still render correctly after radius token changes.\n- Verify hover, spacing, and text hierarchy remain intact.\n- Verify no unintended visual clipping or overflow appears from the token changes.\n\n## Pass Criteria\nThe redesign is considered acceptable when all of the following are true:\n- build completes successfully\n- light-mode `--loom-soft` meets WCAG AA contrast\n- dark mode does not introduce a contrast regression\n- progressive disclosure works with native interaction and default collapsed state\n- homepage duplication is removed\n- tablet breakpoint behavior is correct at `72rem`\n- `ReviewBox` uses the new tokenized surface and accent border\n- related components remain visually stable\n\n## Notes\n- The landing page is marked `draft: true`, so this spec should validate both dev preview behavior and build behavior.\n- If any token change causes broad visual drift, capture screenshots before deciding whether the drift is acceptable.\n- Native `<details>` is preferred for disclosure because it avoids extra client-side complexity.\n",
++  "test_cases": [
++    {
++      "id": "TS-01",
++      "description": "Build and smoke test the site after all UI changes are applied.",
++      "type": "build",
++      "acceptance_criteria": "The site builds successfully with zero errors; the dev server renders the homepage and at least one guide page without runtime exceptions or broken imports."
++    },
++    {
++      "id": "TS-02",
++      "description": "Verify border-radius and card-surface token standardization across the affected UI.",
++      "type": "regression",
++      "acceptance_criteria": "Affected section and card surfaces use the planned radius tokens and `var(--loom-card)`; no unintended hardcoded radii remain in the targeted components/styles."
++    },
++    {
++      "id": "TS-03",
++      "description": "Validate WCAG AA contrast for `--loom-soft` and related text in light and dark mode.",
++      "type": "a11y",
++      "acceptance_criteria": "Light-mode `--loom-soft` reaches at least 4.5:1 contrast against its intended background; dark mode does not regress below WCAG AA expectations; eyebrow and metadata text remain readable."
++    },
++    {
++      "id": "TS-04",
++      "description": "Verify GuideMetadata secondary sections use native progressive disclosure.",
++      "type": "functional",
++      "acceptance_criteria": "Secondary sections render inside `<details>` elements, are collapsed by default, expand and collapse via `<summary>` interaction, and do not cause SSR or console errors; primary rows, projection, and tags remain visible when present."
++    },
++    {
++      "id": "TS-05",
++      "description": "Ensure the homepage no longer repeats the reading-order cards.",
++      "type": "content",
++      "acceptance_criteria": "The homepage contains only one approved batch card grid; the duplicate Reading order card section is removed; replacement guidance text appears in the approved batch intro; all intended links still work."
++    },
++    {
++      "id": "TS-06",
++      "description": "Check responsive layout behavior at mobile, tablet, and wide viewport sizes.",
++      "type": "responsive",
++      "acceptance_criteria": "Below `50rem` the layout stacks cleanly; at and below `72rem` the tablet layout uses the intended two-column behavior; above `72rem` the wide layout remains stable; `GuideMetadata` adapts correctly at tablet width."
++    },
++    {
++      "id": "TS-07",
++      "description": "Verify ReviewBox surface and border styling.",
++      "type": "visual",
++      "acceptance_criteria": "ReviewBox uses `var(--loom-card)` for its background, shows a left accent border using `var(--sl-color-accent)`, and remains legible in dark mode."
++    },
++    {
++      "id": "TS-08",
++      "description": "Regression-test `SectionCardGrid`, `ProcessSteps`, and `BoundaryNote` after token changes.",
++      "type": "regression",
++      "acceptance_criteria": "All three components render correctly with expected spacing, hover behavior, and text hierarchy; no clipping, overflow, or broken rounding appears."
++    },
++    {
++      "id": "TS-09",
++      "description": "Validate that the draft homepage remains previewable in development.",
++      "type": "functional",
++      "acceptance_criteria": "Despite `draft: true`, the homepage is viewable in local development and the updated content/layout can be inspected without special workarounds."
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/package.json b/package.json
+index 9c55dbd..c9456d3 100644
+--- a/package.json
++++ b/package.json
+@@ -8,6 +8,7 @@
+     "start": "astro dev",
+     "build": "astro build",
+     "preview": "astro preview",
++    "test": "node --test",
+     "check": "astro check",
+     "verify:dist": "node ./scripts/verify-dist.mjs",
+     "preview:prepare": "npm run build && npm run verify:dist"
+diff --git a/schema/state_schema.json b/schema/state_schema.json
+new file mode 100644
+index 0000000..deed08f
+--- /dev/null
++++ b/schema/state_schema.json
+@@ -0,0 +1,207 @@
++{
++  "$schema": "http://json-schema.org/draft-04/schema#",
++  "title": "Vibe Commander State",
++  "description": "Single source of truth for a Vibe Commander run. Version must match SCHEMA_VERSION in code.",
++  "type": "object",
++  "required": ["schema_version", "run_id", "status", "created_at", "updated_at", "request"],
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "type": "string",
++      "const": "1.1.0",
++      "enum": ["1.0.0", "1.1.0"],
++      "description": "Schema version — bump when fields are added/removed."
++    },
++    "run_id": {
++      "type": "string",
++      "description": "Unique run identifier (8-char hex)."
++    },
++    "status": {
++      "type": "string",
++      "description": "Current state machine position.",
++      "enum": [
++        "INTAKE",
++        "CLAUDE_PLAN_DRAFT",
++        "GEMINI_ARCH_REVIEW",
++        "CODEX_PLAN_REVIEW",
++        "GEMINI_PROJECT_SCAN_PREFLIGHT",
++        "WAIT_SCAN_APPROVAL",
++        "GEMINI_PROJECT_SCAN",
++        "CLAUDE_DOC_DRAFT",
++        "CODEX_TESTSPEC_DRAFT",
++        "TARGETED_REVIEW",
++        "REFINED_SYNTHESIS",
++        "WAIT_APPROVAL",
++        "REVISE_PLAN",
++        "CODEX_WRITE_TESTS",
++        "CODEX_IMPLEMENT",
++        "CLAUDE_VERIFY",
++        "CODEX_REPAIR",
++        "FINAL_REVIEW",
++        "DONE",
++        "STUCK",
++        "HUMAN_INTERVENTION_NEEDED",
++        "AUTH_BLOCKED",
++        "STOPPED_BY_BUDGET",
++        "SYSTEM_ERROR"
++      ]
++    },
++    "created_at": {
++      "type": "string",
++      "format": "date-time"
++    },
++    "updated_at": {
++      "type": "string",
++      "format": "date-time"
++    },
++    "request": {
++      "type": "string",
++      "description": "Original user request text."
++    },
++    "approval_stage": {
++      "type": ["string", "null"],
++      "description": "What is awaiting user approval, if any."
++    },
++    "current_step": {
++      "type": "integer",
++      "minimum": 0,
++      "description": "Index of the step currently being implemented."
++    },
++    "total_steps": {
++      "type": "integer",
++      "minimum": 0,
++      "description": "Total number of implementation steps planned."
++    },
++    "revision_count": {
++      "type": "integer",
++      "minimum": 0,
++      "description": "Number of times plan has been revised after rejection. Max: 3."
++    },
++    "repair_attempts": {
++      "type": "object",
++      "description": "Map of step_id → repair attempt count. Max per step: 2.",
++      "additionalProperties": { "type": "integer" }
++    },
++    "auth": {
++      "type": "object",
++      "description": "Provider auth status snapshot.",
++      "properties": {
++        "gemini": { "type": "string", "enum": ["ok", "blocked", "unknown"] },
++        "codex":  { "type": "string", "enum": ["ok", "blocked", "unknown"] }
++      }
++    },
++    "budget": {
++      "type": "object",
++      "description": "Per-provider cost tracking. Never fabricate numbers — use 'unknown' if unavailable.",
++      "properties": {
++        "claude": {
++          "type": "object",
++          "properties": {
++            "used":    { "type": ["number", "string"] },
++            "max":     { "type": ["number", "null"] },
++            "currency": { "type": "string", "default": "USD" }
++          }
++        },
++        "gemini": {
++          "type": "object",
++          "properties": {
++            "used":    { "type": ["number", "string"] },
++            "max":     { "type": ["number", "null"] },
++            "currency": { "type": "string", "default": "USD" }
++          }
++        },
++        "codex": {
++          "type": "object",
++          "properties": {
++            "used":    { "type": ["number", "string"] },
++            "max":     { "type": ["number", "null"] },
++            "currency": { "type": "string", "default": "USD" }
++          }
++        }
++      }
++    },
++    "active_session_ids": {
++      "type": "object",
++      "description": "Active Codex session IDs for --resume support.",
++      "properties": {
++        "codex": { "type": ["string", "null"] }
++      }
++    },
++    "lessons_applied": {
++      "type": "array",
++      "items": { "type": "string" },
++      "description": "Lesson tags applied during plan draft"
++    },
++    "artifacts": {
++      "type": "object",
++      "description": "Paths to key artifact files.",
++      "properties": {
++        "plan_draft":    { "type": ["string", "null"] },
++        "arch_review":   { "type": ["string", "null"] },
++        "scan_preflight":      { "type": ["string", "null"] },
++        "project_scan_report": { "type": ["string", "null"] },
++        "doc_draft":           { "type": ["string", "null"] },
++        "contract":      { "type": ["string", "null"] },
++        "plan_review":   { "type": ["string", "null"] },
++        "synthesis": {
++          "anyOf": [
++            { "type": ["string", "null"] },
++            {
++              "type": "object",
++              "properties": {
++                "path": { "type": "string" },
++                "confidence_score": { "type": ["number", "null"] }
++              }
++            }
++          ]
++        },
++        "refined_synthesis": {
++          "anyOf": [
++            { "type": ["string", "null"] },
++            {
++              "type": "object",
++              "properties": {
++                "path": { "type": "string" },
++                "confidence_score": { "type": ["number", "null"] }
++              }
++            }
++          ]
++        },
++        "confidence_score": { "type": ["number", "null"], "description": "Average reviewer confidence 0-100" },
++        "testspec":      { "type": ["string", "null"] },
++        "approved_plan": { "type": ["string", "null"] }
++      }
++    },
++    "history": {
++      "type": "array",
++      "items": { "type": "object" }
++    },
++    "steps": {
++      "type": "array",
++      "description": "Step definitions.",
++      "items": {
++        "type": "object",
++        "properties": {
++          "id":          { "type": "string" },
++          "title":       { "type": "string" },
++          "status":      { "type": "string", "enum": ["pending", "in_progress", "done", "failed"] },
++          "input_file":  { "type": "string" }
++        }
++      }
++    },
++    "git_checkpoints": {
++      "type": "array",
++      "description": "Git checkpoint commit SHAs for rollback.",
++      "items": { "type": "string" }
++    },
++    "checkpoint_meta": {
++      "type": "object",
++      "description": "Metadata for interrupt recovery — set before each implement-step.",
++      "properties": {
++        "step_id":     { "type": "string" },
++        "commit_sha":  { "type": "string" },
++        "recorded_at": { "type": "string", "format": "date-time" }
++      }
++    }
++  }
++}
+diff --git a/src/components/GuideMetadata.astro b/src/components/GuideMetadata.astro
+index de17979..078c9bd 100644
+--- a/src/components/GuideMetadata.astro
++++ b/src/components/GuideMetadata.astro
+@@ -310,12 +310,11 @@ const hasMetadata =
+     {metadataSections.length > 0 && (
+       <div class="loom-guide-metadata-secondary">
+         {metadataSections.map((section) => (
+-          <section class="loom-guide-metadata-panel">
+-            <div class="loom-guide-metadata-panel-head">
+-              <h3>{section.title}</h3>
+-              <p>{section.intro}</p>
+-            </div>
+-
++          <details class="loom-guide-metadata-disclosure">
++            <summary>
++              <strong>{section.title}</strong>
++              <span>{section.intro}</span>
++            </summary>
+             <dl class="loom-guide-metadata-grid">
+               {section.rows.map((row) => (
+                 <div class="loom-guide-metadata-row">
+@@ -329,12 +328,12 @@ const hasMetadata =
+                       </ul>
+                     ) : (
+                       row.value
+-                    )}
+-                  </dd>
+-                </div>
+-              ))}
+-            </dl>
+-          </section>
++                )}
++              </dd>
++            </div>
++          ))}
++        </dl>
++          </details>
+         ))}
+       </div>
+     )}
+diff --git a/src/content/docs/index.mdx b/src/content/docs/index.mdx
+index cb8d1b8..3c00102 100644
+--- a/src/content/docs/index.mdx
++++ b/src/content/docs/index.mdx
+@@ -48,7 +48,7 @@ import SectionCardGrid from '../../components/SectionCardGrid.astro';
+ <SectionCardGrid
+   eyebrow="Approved batch"
+   title="Start with the first approved five pages"
+-  intro="These are the only public pages wired into this batch, each consumed from the approved manifest and reviewed body."
++  intro="These are the only public pages wired into this batch, each consumed from the approved manifest and reviewed body. These are the only public pages in this batch. Suggested reading order: start with the system boundary, then the builder workflow, then the verification loop."
+   items={[
+     {
+       title: 'OpenClaw 是什麼：從 private truth 到 public projection',
+@@ -88,35 +88,6 @@ import SectionCardGrid from '../../components/SectionCardGrid.astro';
+   ]}
+ />
+ 
+-<SectionCardGrid
+-  eyebrow="Reading order"
+-  title="A simple path through the approved batch"
+-  intro="Read the system boundary first, then the builder workflow, then the verification loop."
+-  items={[
+-    {
+-      title: 'System boundary',
+-      href: '/knowledge/openclaw/private-truth-to-public-projection/',
+-      eyebrow: 'Knowledge',
+-      summary: '解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。',
+-      cta: 'Start',
+-    },
+-    {
+-      title: 'Builder workflow',
+-      href: '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
+-      eyebrow: 'Guide',
+-      summary: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。',
+-      cta: 'Next',
+-    },
+-    {
+-      title: 'Preview proof',
+-      href: '/review/from-zero-to-live-preview/',
+-      eyebrow: 'Review',
+-      summary: '回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。',
+-      cta: 'Finish',
+-    },
+-  ]}
+-/>
+-
+ <BoundaryNote
+   title="Editorial boundary"
+   body="This public shell is not the canonical truth source. Drafting, queueing, and private review happen elsewhere; this layer is for clear public projection only."
+diff --git a/src/styles/custom.css b/src/styles/custom.css
+index d5d1405..854f425 100644
+--- a/src/styles/custom.css
++++ b/src/styles/custom.css
+@@ -10,6 +10,9 @@
+   --sl-font-system: 'Instrument Sans', sans-serif;
+   --sl-font-serif: 'Newsreader', serif;
+   --loom-scroll-offset: clamp(5.75rem, 8vw, 7.5rem);
++  --loom-radius-sm: 0.5rem;
++  --loom-radius-md: 1rem;
++  --loom-radius-lg: 1.5rem;
+   --sl-color-accent-low: #eef4ef;
+   --sl-color-accent: #4f7a62;
+   --sl-color-accent-high: #234433;
+@@ -21,7 +24,7 @@
+   --sl-color-hairline: rgba(43, 52, 47, 0.18);
+   --loom-ink: #203028;
+   --loom-copy: #415148;
+-  --loom-soft: #6d7d74;
++  --loom-soft: #566b5e;
+   --loom-card: rgba(255, 255, 255, 0.82);
+   --loom-wash: linear-gradient(180deg, rgba(235, 240, 233, 0.7), rgba(248, 246, 241, 0));
+   --loom-line: rgba(43, 52, 47, 0.1);
+@@ -126,7 +129,7 @@ h3,
+ }
+ 
+ .sl-link-card {
+-  border-radius: 1.25rem;
++  border-radius: var(--loom-radius-md);
+ }
+ 
+ .loom-section {
+@@ -134,27 +137,11 @@ h3,
+   margin: 2.5rem 0;
+   padding: 1.6rem;
+   border: 1px solid var(--loom-line);
+-  border-radius: 1.5rem;
+-  background:
+-    linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent),
+-    var(--loom-card);
++  border-radius: var(--loom-radius-lg);
++  background: var(--loom-card);
+   box-shadow: 0 18px 55px rgba(43, 52, 47, 0.06);
+ }
+ 
+-.loom-section::before {
+-  content: '';
+-  position: absolute;
+-  inset: 0;
+-  border-radius: inherit;
+-  pointer-events: none;
+-  background: var(--loom-wash);
+-  opacity: 0.9;
+-}
+-
+-.loom-section > * {
+-  position: relative;
+-}
+-
+ .loom-section-head {
+   display: grid;
+   gap: 0.55rem;
+@@ -162,7 +149,7 @@ h3,
+ }
+ 
+ .loom-eyebrow {
+-  font-size: 0.8rem;
++  font-size: 0.85rem;
+   font-weight: 600;
+   letter-spacing: 0.12em;
+   text-transform: uppercase;
+@@ -191,8 +178,8 @@ h3,
+   min-height: 100%;
+   padding: 1.1rem;
+   border: 1px solid var(--loom-line);
+-  border-radius: 1.15rem;
+-  background: rgba(255, 255, 255, 0.72);
++  border-radius: var(--loom-radius-md);
++  background: var(--loom-card);
+   text-decoration: none;
+   color: inherit;
+   transition:
+@@ -201,10 +188,6 @@ h3,
+     box-shadow 180ms ease;
+ }
+ 
+-:root[data-theme='dark'] .loom-card {
+-  background: rgba(27, 35, 29, 0.82);
+-}
+-
+ .loom-card:hover {
+   transform: translateY(-2px);
+   border-color: rgba(79, 122, 98, 0.45);
+@@ -228,7 +211,7 @@ h3,
+ }
+ 
+ .loom-meta {
+-  font-size: 0.82rem;
++  font-size: 0.85rem;
+   letter-spacing: 0.08em;
+   text-transform: uppercase;
+   color: var(--loom-soft);
+@@ -275,6 +258,20 @@ h3,
+   gap: 0.25rem;
+ }
+ 
++@media (max-width: 72rem) {
++  .loom-grid {
++    grid-template-columns: repeat(2, 1fr);
++  }
++
++  .loom-section {
++    padding: 1.4rem;
++  }
++
++  .loom-guide-metadata-primary {
++    grid-template-columns: repeat(3, 1fr);
++  }
++}
++
+ @media (max-width: 50rem) {
+   .hero {
+     margin-bottom: 1.25rem;
+@@ -307,7 +304,7 @@ h3,
+   .loom-section {
+     margin: 1.6rem 0;
+     padding: 1.1rem;
+-    border-radius: 1.2rem;
++    border-radius: var(--loom-radius-md);
+   }
+ 
+   .loom-grid {
+@@ -341,7 +338,7 @@ h3,
+   display: grid;
+   gap: 0.45rem;
+   padding: 1rem 1.1rem;
+-  border-radius: 1rem;
++  border-radius: var(--loom-radius-md);
+   border: 1px solid var(--loom-line);
+   background: rgba(79, 122, 98, 0.08);
+ }
+@@ -388,7 +385,7 @@ h3,
+   min-width: 0;
+   padding: 0.9rem 1rem;
+   border: 1px solid var(--loom-line);
+-  border-radius: 0.95rem;
++  border-radius: var(--loom-radius-md);
+   background: rgba(255, 255, 255, 0.58);
+ }
+ 
+@@ -402,7 +399,7 @@ h3,
+ .loom-guide-metadata-row dt {
+   margin: 0 0 0.35rem;
+   color: var(--sl-color-text-accent);
+-  font-size: 0.8rem;
++  font-size: 0.85rem;
+   font-weight: 700;
+   letter-spacing: 0.08em;
+   text-transform: uppercase;
+@@ -427,6 +424,55 @@ h3,
+   gap: 0.9rem;
+ }
+ 
++.loom-guide-metadata-disclosure {
++  border: 1px solid var(--loom-line);
++  border-radius: var(--loom-radius-md);
++  background: rgba(255, 255, 255, 0.58);
++}
++
++:root[data-theme='dark'] .loom-guide-metadata-disclosure {
++  background: rgba(27, 35, 29, 0.78);
++}
++
++.loom-guide-metadata-disclosure > summary {
++  position: relative;
++  display: grid;
++  gap: 0.25rem;
++  padding: 0.9rem 1rem;
++  cursor: pointer;
++  list-style: none;
++}
++
++.loom-guide-metadata-disclosure > summary::-webkit-details-marker {
++  display: none;
++}
++
++.loom-guide-metadata-disclosure > summary::after {
++  content: '+';
++  position: absolute;
++  top: 1rem;
++  right: 1rem;
++  color: var(--sl-color-text-accent);
++  font-weight: 700;
++}
++
++.loom-guide-metadata-disclosure[open] > summary::after {
++  content: '−';
++}
++
++.loom-guide-metadata-disclosure > summary strong {
++  color: var(--loom-ink);
++}
++
++.loom-guide-metadata-disclosure > summary span {
++  color: var(--loom-soft);
++  font-size: 0.94rem;
++}
++
++.loom-guide-metadata-disclosure .loom-guide-metadata-grid {
++  padding: 0 1rem 1rem;
++}
++
+ .loom-guide-metadata-panel-head {
+   display: grid;
+   gap: 0.25rem;
+@@ -487,12 +533,9 @@ h3,
+   gap: 0.7rem;
+   padding: 1rem 1.1rem;
+   border: 1px solid var(--loom-line);
+-  border-radius: 1rem;
+-  background: rgba(241, 235, 225, 0.48);
+-}
+-
+-:root[data-theme='dark'] .loom-review-box {
+-  background: rgba(34, 40, 31, 0.78);
++  border-left: 3px solid var(--sl-color-accent);
++  border-radius: var(--loom-radius-md);
++  background: var(--loom-card);
+ }
+ 
+ .loom-review-box h3 {
+diff --git a/tests/helpers/site-test-utils.mjs b/tests/helpers/site-test-utils.mjs
+new file mode 100644
+index 0000000..acb88f0
+--- /dev/null
++++ b/tests/helpers/site-test-utils.mjs
+@@ -0,0 +1,287 @@
++import { access, readFile } from 'node:fs/promises';
++import { spawn, spawnSync } from 'node:child_process';
++import net from 'node:net';
++
++const NPM_COMMAND = process.platform === 'win32' ? 'npm.cmd' : 'npm';
++
++export async function readText(path) {
++  return readFile(path, 'utf8');
++}
++
++export async function pathExists(path) {
++  try {
++    await access(path);
++    return true;
++  } catch {
++    return false;
++  }
++}
++
++export function countOccurrences(text, needle) {
++  if (!needle) {
++    return 0;
++  }
++
++  return text.split(needle).length - 1;
++}
++
++export function parseCssVariables(css, scopeSelector) {
++  const block = extractBlock(css, scopeSelector);
++  const variables = new Map();
++  const variablePattern = /(--[\w-]+)\s*:\s*([^;]+);/g;
++  let match;
++
++  while ((match = variablePattern.exec(block)) !== null) {
++    variables.set(match[1], match[2].trim());
++  }
++
++  return variables;
++}
++
++export function extractBlock(text, marker) {
++  const markerIndex = text.indexOf(marker);
++  if (markerIndex === -1) {
++    throw new Error(`Could not find block marker: ${marker}`);
++  }
++
++  const braceStart = text.indexOf('{', markerIndex);
++  if (braceStart === -1) {
++    throw new Error(`Could not find opening brace for block marker: ${marker}`);
++  }
++
++  let depth = 0;
++  for (let index = braceStart; index < text.length; index += 1) {
++    const char = text[index];
++
++    if (char === '{') {
++      depth += 1;
++    } else if (char === '}') {
++      depth -= 1;
++      if (depth === 0) {
++        return text.slice(braceStart + 1, index);
++      }
++    }
++  }
++
++  throw new Error(`Could not find closing brace for block marker: ${marker}`);
++}
++
++export function findRuleBlock(css, selector, { within } = {}) {
++  const source = within ?? css;
++  const rulePattern = /([^{}]+)\{([^{}]*)\}/g;
++  let match;
++
++  while ((match = rulePattern.exec(source)) !== null) {
++    const selectors = match[1]
++      .split(',')
++      .map((value) => value.trim())
++      .filter(Boolean);
++
++    if (selectors.includes(selector)) {
++      return match[2];
++    }
++  }
++
++  return null;
++}
++
++export function getDeclarationValue(block, property) {
++  if (!block) {
++    return null;
++  }
++
++  const pattern = new RegExp(`${escapeRegExp(property)}\\s*:\\s*([^;]+);`);
++  const match = block.match(pattern);
++  return match ? match[1].trim() : null;
++}
++
++export function escapeRegExp(value) {
++  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
++}
++
++export function hexToRgb(hex) {
++  const value = hex.replace('#', '').trim();
++
++  if (value.length === 3) {
++    return {
++      r: Number.parseInt(value[0] + value[0], 16),
++      g: Number.parseInt(value[1] + value[1], 16),
++      b: Number.parseInt(value[2] + value[2], 16),
++      a: 1,
++    };
++  }
++
++  if (value.length === 6) {
++    return {
++      r: Number.parseInt(value.slice(0, 2), 16),
++      g: Number.parseInt(value.slice(2, 4), 16),
++      b: Number.parseInt(value.slice(4, 6), 16),
++      a: 1,
++    };
++  }
++
++  throw new Error(`Unsupported hex color: ${hex}`);
++}
++
++export function parseColor(color) {
++  const value = color.trim();
++
++  if (value.startsWith('#')) {
++    return hexToRgb(value);
++  }
++
++  const rgbaMatch = value.match(
++    /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*(?:,\s*([\d.]+)\s*)?\)$/i,
++  );
++  if (rgbaMatch) {
++    return {
++      r: Number.parseFloat(rgbaMatch[1]),
++      g: Number.parseFloat(rgbaMatch[2]),
++      b: Number.parseFloat(rgbaMatch[3]),
++      a: rgbaMatch[4] ? Number.parseFloat(rgbaMatch[4]) : 1,
++    };
++  }
++
++  throw new Error(`Unsupported color format: ${color}`);
++}
++
++export function compositeColors(foreground, background) {
++  const alpha = foreground.a ?? 1;
++  return {
++    r: foreground.r * alpha + background.r * (1 - alpha),
++    g: foreground.g * alpha + background.g * (1 - alpha),
++    b: foreground.b * alpha + background.b * (1 - alpha),
++    a: 1,
++  };
++}
++
++function channelToLinear(channel) {
++  const normalized = channel / 255;
++  return normalized <= 0.03928
++    ? normalized / 12.92
++    : ((normalized + 0.055) / 1.055) ** 2.4;
++}
++
++export function relativeLuminance(color) {
++  return (
++    0.2126 * channelToLinear(color.r) +
++    0.7152 * channelToLinear(color.g) +
++    0.0722 * channelToLinear(color.b)
++  );
++}
++
++export function contrastRatio(foreground, background) {
++  const lighter = Math.max(relativeLuminance(foreground), relativeLuminance(background));
++  const darker = Math.min(relativeLuminance(foreground), relativeLuminance(background));
++  return (lighter + 0.05) / (darker + 0.05);
++}
++
++export function runNpmScript(rootDir, scriptName) {
++  const result = spawnSync(NPM_COMMAND, ['run', scriptName], {
++    cwd: rootDir,
++    encoding: 'utf8',
++    env: {
++      ...process.env,
++      CI: '1',
++    },
++  });
++
++  return {
++    status: result.status ?? 1,
++    stdout: result.stdout ?? '',
++    stderr: result.stderr ?? '',
++    error: result.error ?? null,
++  };
++}
++
++export function canBindLocalPort(host = '127.0.0.1') {
++  return new Promise((resolve) => {
++    const server = net.createServer();
++
++    server.once('error', (error) => {
++      resolve({ ok: false, error });
++    });
++
++    server.listen(0, host, () => {
++      server.close(() => {
++        resolve({ ok: true, error: null });
++      });
++    });
++  });
++}
++
++export async function startDevServer(rootDir, port = 4321) {
++  const child = spawn(NPM_COMMAND, ['run', 'dev', '--', '--host', '127.0.0.1', '--port', String(port)], {
++    cwd: rootDir,
++    env: {
++      ...process.env,
++      CI: '1',
++    },
++    stdio: ['ignore', 'pipe', 'pipe'],
++  });
++
++  let stdout = '';
++  let stderr = '';
++
++  child.stdout.on('data', (chunk) => {
++    stdout += chunk.toString();
++  });
++
++  child.stderr.on('data', (chunk) => {
++    stderr += chunk.toString();
++  });
++
++  const baseUrl = `http://127.0.0.1:${port}`;
++  const deadline = Date.now() + 60_000;
++  let lastError;
++
++  while (Date.now() < deadline) {
++    if (child.exitCode !== null) {
++      throw new Error(
++        `Dev server exited early with code ${child.exitCode}\n${stdout}\n${stderr}`.trim(),
++      );
++    }
++
++    try {
++      const response = await fetch(baseUrl);
++      if (response.ok) {
++        return {
++          child,
++          baseUrl,
++          getLogs() {
++            return { stdout, stderr };
++          },
++        };
++      }
++    } catch (error) {
++      lastError = error;
++    }
++
++    await new Promise((resolve) => setTimeout(resolve, 500));
++  }
++
++  child.kill('SIGTERM');
++  throw new Error(`Timed out waiting for dev server at ${baseUrl}: ${lastError}`);
++}
++
++export async function stopDevServer(server) {
++  if (!server?.child || server.child.exitCode !== null) {
++    return;
++  }
++
++  server.child.kill('SIGTERM');
++  await new Promise((resolve) => {
++    server.child.once('exit', () => resolve());
++    setTimeout(resolve, 5_000);
++  });
++}
++
++export async function fetchHtml(server, pathname) {
++  const response = await fetch(new URL(pathname, server.baseUrl));
++  const html = await response.text();
++
++  return {
++    status: response.status,
++    html,
++  };
++}
+diff --git a/tests/ui-redesign.test.mjs b/tests/ui-redesign.test.mjs
+new file mode 100644
+index 0000000..e1d781e
+--- /dev/null
++++ b/tests/ui-redesign.test.mjs
+@@ -0,0 +1,339 @@
++import assert from 'node:assert/strict';
++import { after, test } from 'node:test';
++import path from 'node:path';
++import { fileURLToPath } from 'node:url';
++
++import {
++  canBindLocalPort,
++  compositeColors,
++  contrastRatio,
++  countOccurrences,
++  extractBlock,
++  findRuleBlock,
++  getDeclarationValue,
++  parseColor,
++  parseCssVariables,
++  pathExists,
++  readText,
++  runNpmScript,
++  startDevServer,
++  stopDevServer,
++  fetchHtml,
++} from './helpers/site-test-utils.mjs';
++
++const __dirname = path.dirname(fileURLToPath(import.meta.url));
++const ROOT_DIR = path.resolve(__dirname, '..');
++
++const CUSTOM_CSS_PATH = path.join(ROOT_DIR, 'src/styles/custom.css');
++const ROOT_HOME_SOURCE_PATH = path.join(ROOT_DIR, 'src/content/docs/index.mdx');
++const GUIDE_METADATA_PATH = path.join(ROOT_DIR, 'src/components/GuideMetadata.astro');
++const REVIEW_BOX_PATH = path.join(ROOT_DIR, 'src/components/ReviewBox.astro');
++const SECTION_CARD_GRID_PATH = path.join(ROOT_DIR, 'src/components/SectionCardGrid.astro');
++const PROCESS_STEPS_PATH = path.join(ROOT_DIR, 'src/components/ProcessSteps.astro');
++const BOUNDARY_NOTE_PATH = path.join(ROOT_DIR, 'src/components/BoundaryNote.astro');
++
++const BUILT_ZH_HOME_PATH = path.join(ROOT_DIR, 'dist/zh-hk/index.html');
++const BUILT_GUIDE_PATH = path.join(
++  ROOT_DIR,
++  'dist/zh-hk/guides/codex/how-chatgpt-and-codex-built-openclaw/index.html',
++);
++const BUILT_GUIDE_WITH_PROJECTION_PATH = path.join(
++  ROOT_DIR,
++  'dist/zh-hk/guides/openclaw/mac-install/index.html',
++);
++const BUILT_REVIEW_PATH = path.join(ROOT_DIR, 'dist/zh-hk/review/from-zero-to-live-preview/index.html');
++
++const css = await readText(CUSTOM_CSS_PATH);
++const homeSource = await readText(ROOT_HOME_SOURCE_PATH);
++const guideMetadataSource = await readText(GUIDE_METADATA_PATH);
++const reviewBoxSource = await readText(REVIEW_BOX_PATH);
++const sectionCardGridSource = await readText(SECTION_CARD_GRID_PATH);
++const processStepsSource = await readText(PROCESS_STEPS_PATH);
++const boundaryNoteSource = await readText(BOUNDARY_NOTE_PATH);
++
++let setupPromise;
++
++async function ensureSetup() {
++  if (!setupPromise) {
++    setupPromise = (async () => {
++      const build = runNpmScript(ROOT_DIR, 'build');
++      const canBind = await canBindLocalPort();
++
++      const builtHomeExists = await pathExists(BUILT_ZH_HOME_PATH);
++      const builtGuideExists = await pathExists(BUILT_GUIDE_PATH);
++      const builtProjectionGuideExists = await pathExists(BUILT_GUIDE_WITH_PROJECTION_PATH);
++      const builtReviewExists = await pathExists(BUILT_REVIEW_PATH);
++
++      const builtHomeHtml = builtHomeExists ? await readText(BUILT_ZH_HOME_PATH) : '';
++      const builtGuideHtml = builtGuideExists ? await readText(BUILT_GUIDE_PATH) : '';
++      const builtProjectionGuideHtml = builtProjectionGuideExists
++        ? await readText(BUILT_GUIDE_WITH_PROJECTION_PATH)
++        : '';
++      const builtReviewHtml = builtReviewExists ? await readText(BUILT_REVIEW_PATH) : '';
++
++      return {
++        build,
++        canBind,
++        builtHomeExists,
++        builtGuideExists,
++        builtProjectionGuideExists,
++        builtReviewExists,
++        builtHomeHtml,
++        builtGuideHtml,
++        builtProjectionGuideHtml,
++        builtReviewHtml,
++      };
++    })();
++  }
++
++  return setupPromise;
++}
++
++function getMetadataSection(html) {
++  const match = html.match(/<section class="loom-section loom-guide-metadata">[\s\S]*?<\/section>/);
++  return match ? match[0] : '';
++}
++
++after(async () => {
++  if (!setupPromise) {
++    return;
++  }
++
++  await setupPromise;
++});
++
++test('TS-01 build and smoke validation', async () => {
++  const state = await ensureSetup();
++
++  assert.equal(
++    state.build.status,
++    0,
++    `Expected \`npm run build\` to succeed.\n${state.build.stdout}\n${state.build.stderr}`,
++  );
++
++  assert.equal(state.builtHomeExists, true, 'Expected the built zh-HK homepage to exist.');
++  assert.equal(state.builtGuideExists, true, 'Expected the built guide page to exist.');
++  assert.match(state.builtHomeHtml, /Paramita Loom/u);
++  assert.match(state.builtGuideHtml, /ChatGPT/u);
++  assert.doesNotMatch(state.builtHomeHtml, /(AstroError|Unhandled Runtime Error|500: Internal)/i);
++  assert.doesNotMatch(state.builtGuideHtml, /(AstroError|Unhandled Runtime Error|500: Internal)/i);
++});
++
++test('TS-02 token consistency for radii and card surfaces', () => {
++  const rootVariables = parseCssVariables(css, ':root');
++  const radiusTokens = [...rootVariables.keys()].filter((name) => name.startsWith('--loom-radius-'));
++
++  assert.ok(
++    radiusTokens.length >= 2,
++    'Expected shared `--loom-radius-*` tokens in `custom.css` for the redesign.',
++  );
++
++  const tokenizedSurfaceSelectors = [
++    '.loom-section',
++    '.loom-card',
++    '.loom-guide-metadata-card',
++    '.loom-guide-metadata-panel',
++    '.loom-guide-metadata-row',
++    '.loom-review-box',
++  ];
++
++  for (const selector of tokenizedSurfaceSelectors) {
++    const block = findRuleBlock(css, selector);
++    assert.ok(block, `Expected CSS rule for ${selector}.`);
++    assert.match(
++      getDeclarationValue(block, 'border-radius') ?? '',
++      /var\(--loom-radius-/,
++      `Expected ${selector} to use a shared radius token.`,
++    );
++  }
++
++  for (const selector of ['.loom-section', '.loom-card', '.loom-review-box']) {
++    const block = findRuleBlock(css, selector);
++    assert.match(
++      getDeclarationValue(block, 'background') ?? '',
++      /var\(--loom-card\)/,
++      `Expected ${selector} to use var(--loom-card).`,
++    );
++  }
++});
++
++test('TS-03 WCAG AA contrast for --loom-soft and metadata text', () => {
++  const lightVariables = parseCssVariables(css, ':root');
++  const darkVariables = parseCssVariables(css, ":root[data-theme='dark']");
++
++  const lightSoft = parseColor(lightVariables.get('--loom-soft'));
++  const lightCard = compositeColors(
++    parseColor(lightVariables.get('--loom-card')),
++    parseColor(lightVariables.get('--sl-color-bg')),
++  );
++  const darkSoft = parseColor(darkVariables.get('--loom-soft'));
++  const darkCard = compositeColors(
++    parseColor(darkVariables.get('--loom-card')),
++    parseColor(darkVariables.get('--sl-color-bg')),
++  );
++
++  const lightContrast = contrastRatio(lightSoft, lightCard);
++  const darkContrast = contrastRatio(darkSoft, darkCard);
++
++  assert.ok(
++    lightContrast >= 4.5,
++    `Expected light-mode --loom-soft contrast to meet 4.5:1, received ${lightContrast.toFixed(2)}:1.`,
++  );
++  assert.ok(
++    darkContrast >= 4.5,
++    `Expected dark-mode --loom-soft contrast to meet 4.5:1, received ${darkContrast.toFixed(2)}:1.`,
++  );
++
++  const eyebrowBlock = findRuleBlock(css, '.loom-eyebrow');
++  const metaBlock = findRuleBlock(css, '.loom-meta');
++
++  assert.ok(eyebrowBlock, 'Expected `.loom-eyebrow` rule to exist.');
++  assert.ok(metaBlock, 'Expected `.loom-meta` rule to exist.');
++  assert.match(getDeclarationValue(eyebrowBlock, 'color') ?? '', /var\(--sl-color-text-accent\)/);
++  assert.equal(getDeclarationValue(metaBlock, 'color'), 'var(--loom-soft)');
++  assert.match(
++    getDeclarationValue(metaBlock, 'font-size') ?? '',
++    /0\.(8|82|84|85|86|88|9)\d*rem|1rem/,
++    'Expected metadata text to remain at a readable size.',
++  );
++});
++
++test('TS-04 GuideMetadata uses native progressive disclosure', async () => {
++  const state = await ensureSetup();
++  const metadataMarkup = getMetadataSection(state.builtGuideHtml);
++  const projectionMarkup = getMetadataSection(state.builtProjectionGuideHtml);
++
++  assert.match(
++    guideMetadataSource,
++    /<details[\s>]/,
++    'Expected GuideMetadata to render secondary metadata inside native <details> elements.',
++  );
++  assert.match(
++    guideMetadataSource,
++    /<summary[\s>]/,
++    'Expected GuideMetadata to render native <summary> controls.',
++  );
++  assert.match(metadataMarkup, /<details(?![^>]*\sopen\b)[^>]*>/i);
++  assert.match(metadataMarkup, /<summary[^>]*>/i);
++  assert.match(metadataMarkup, /指南對象/u);
++  assert.match(metadataMarkup, /標籤/u);
++  assert.match(projectionMarkup, /公開投影/u);
++  assert.doesNotMatch(metadataMarkup, /(hydration|Hydration|console\.error|Unhandled Runtime Error)/);
++});
++
++test('TS-05 landing page deduplication and link access', async () => {
++  const state = await ensureSetup();
++
++  assert.equal(
++    countOccurrences(homeSource, '<SectionCardGrid'),
++    1,
++    'Expected exactly one SectionCardGrid on `src/content/docs/index.mdx`.',
++  );
++  assert.doesNotMatch(homeSource, /eyebrow="Reading order"/);
++  assert.match(homeSource, /Start with the first approved five pages/);
++
++  const requiredLinks = [
++    '/knowledge/openclaw/private-truth-to-public-projection/',
++    '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
++    '/guides/mac/three-agent-codex-workflow/',
++    '/review/from-zero-to-live-preview/',
++    '/resources/ai-builder-stack/actual-openclaw-stack/',
++  ];
++
++  for (const href of requiredLinks) {
++    assert.match(
++      homeSource,
++      new RegExp(`href:\\s*'${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`),
++      `Expected homepage source to retain the link ${href}.`,
++    );
++  }
++
++  assert.match(state.builtHomeHtml, /loom-grid/u);
++});
++
++test('TS-06 responsive behavior includes the 72rem tablet breakpoint', () => {
++  const mobileBlock = extractBlock(css, '@media (max-width: 50rem)');
++  const tabletBlock = extractBlock(css, '@media (max-width: 72rem)');
++
++  const mobileGridBlock = findRuleBlock(css, '.loom-grid', { within: mobileBlock });
++  const tabletGridBlock = findRuleBlock(css, '.loom-grid', { within: tabletBlock });
++  const wideGridBlock = findRuleBlock(css, '.loom-grid');
++  const tabletPrimaryBlock = findRuleBlock(css, '.loom-guide-metadata-primary', { within: tabletBlock });
++  const tabletSecondaryBlock = findRuleBlock(css, '.loom-guide-metadata-secondary', { within: tabletBlock });
++
++  assert.equal(getDeclarationValue(mobileGridBlock, 'grid-template-columns'), '1fr');
++  assert.ok(tabletGridBlock, 'Expected `.loom-grid` to be adjusted inside the 72rem breakpoint.');
++  assert.match(
++    getDeclarationValue(tabletGridBlock, 'grid-template-columns') ?? '',
++    /repeat\(2,\s*minmax\(0,\s*1fr\)\)|repeat\(2,/,
++    'Expected tablet layout to use two columns.',
++  );
++  assert.match(
++    getDeclarationValue(wideGridBlock, 'grid-template-columns') ?? '',
++    /repeat\(auto-fit,\s*minmax\(/,
++    'Expected wide layout to keep the multi-column auto-fit grid.',
++  );
++  assert.ok(tabletPrimaryBlock, 'Expected primary GuideMetadata grid rules at tablet width.');
++  assert.ok(tabletSecondaryBlock, 'Expected secondary GuideMetadata grid rules at tablet width.');
++});
++
++test('TS-07 ReviewBox uses tokenized surface and accent border', async () => {
++  const state = await ensureSetup();
++  const reviewBoxBlock = findRuleBlock(css, '.loom-review-box');
++
++  assert.match(reviewBoxSource, /class="loom-review-box"/);
++  assert.ok(reviewBoxBlock, 'Expected `.loom-review-box` CSS rule to exist.');
++  assert.match(getDeclarationValue(reviewBoxBlock, 'background') ?? '', /var\(--loom-card\)/);
++
++  const accentBorder =
++    getDeclarationValue(reviewBoxBlock, 'border-inline-start') ??
++    getDeclarationValue(reviewBoxBlock, 'border-left');
++
++  assert.match(
++    accentBorder ?? '',
++    /var\(--sl-color-accent\)/,
++    'Expected ReviewBox to include a left accent border using the accent token.',
++  );
++  assert.doesNotMatch(state.builtReviewHtml, /(AstroError|Unhandled Runtime Error|500: Internal)/i);
++});
++
++test('TS-08 SectionCardGrid, ProcessSteps, and BoundaryNote regressions', async () => {
++  const state = await ensureSetup();
++
++  assert.match(sectionCardGridSource, /class="loom-card"/);
++  assert.match(processStepsSource, /class="loom-step"/);
++  assert.match(boundaryNoteSource, /class="loom-note"/);
++  assert.match(state.builtHomeHtml, /class="loom-card"/);
++  assert.match(state.builtHomeHtml, /class="loom-step"/);
++  assert.match(state.builtHomeHtml, /class="loom-note"/);
++
++  const cardHoverBlock = findRuleBlock(css, '.loom-card:hover');
++  const noteBlock = findRuleBlock(css, '.loom-note');
++  const stepBlock = findRuleBlock(css, '.loom-step');
++
++  assert.ok(cardHoverBlock, 'Expected hover styling for SectionCardGrid cards.');
++  assert.match(getDeclarationValue(cardHoverBlock, 'transform') ?? '', /translateY\(-2px\)/);
++  assert.equal(getDeclarationValue(stepBlock, 'align-items'), 'start');
++  assert.equal(getDeclarationValue(noteBlock, 'display'), 'grid');
++});
++
++test('TS-09 draft homepage remains previewable in development', async (t) => {
++  const state = await ensureSetup();
++
++  assert.match(homeSource, /draft:\s*true/);
++
++  if (!state.canBind.ok) {
++    t.skip(`Local dev preview cannot be validated in this environment: ${state.canBind.error?.message}`);
++    return;
++  }
++
++  const server = await startDevServer(ROOT_DIR, 4321);
++
++  try {
++    const home = await fetchHtml(server, '/');
++    assert.equal(home.status, 200, 'Expected the draft homepage to be reachable in local development.');
++    assert.match(home.html, /From fragments to structure\. From review to sharing\./);
++  } finally {
++    await stopDevServer(server);
++  }
++});
+diff --git a/tools/__init__.py b/tools/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/tools/auth/__init__.py b/tools/auth/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/tools/auth/auth_doctor.py b/tools/auth/auth_doctor.py
+new file mode 100644
+index 0000000..d20edcc
+--- /dev/null
++++ b/tools/auth/auth_doctor.py
+@@ -0,0 +1,46 @@
++#!/usr/bin/env python3
++"""
++auth_doctor.py — Health check for all provider credentials.
++
++Usage:
++  python3 tools/auth/auth_doctor.py
++
++Output: JSON report to stdout.
++Exit 0 if all providers OK, exit 1 if any blocked.
++"""
++
++import json
++import os
++import sys
++
++# Ensure project root on path
++sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
++
++from tools.auth import codex_auth_adapter, google_auth_adapter
++
++
++def main():
++    report = {
++        "providers": {
++            "google": google_auth_adapter.check_health(),
++            "codex": codex_auth_adapter.check_health(),
++        }
++    }
++
++    all_ok = all(v["status"] == "ok" for v in report["providers"].values())
++    blocked = [k for k, v in report["providers"].items() if v["status"] == "blocked"]
++
++    report["overall"] = "ok" if all_ok else "degraded"
++    report["ready_to_run"] = all_ok
++    if blocked:
++        report["action_required"] = [
++            report["providers"][k].get("fix", f"Fix {k} auth")
++            for k in blocked
++        ]
++
++    print(json.dumps(report, indent=2))
++    sys.exit(0 if all_ok else 1)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/auth/bootstrap_codex.py b/tools/auth/bootstrap_codex.py
+new file mode 100644
+index 0000000..592046a
+--- /dev/null
++++ b/tools/auth/bootstrap_codex.py
+@@ -0,0 +1,74 @@
++#!/usr/bin/env python3
++"""
++bootstrap_codex.py — First-time setup guide for OpenAI Codex CLI.
++
++Usage:
++  python3 tools/auth/bootstrap_codex.py
++"""
++
++import os
++import subprocess
++import sys
++
++
++def check(label: str, cmd: list) -> str | None:
++    """Run a command and return stdout, or None on failure."""
++    result = subprocess.run(cmd, capture_output=True, text=True)
++    if result.returncode == 0:
++        return result.stdout.strip()
++    return None
++
++
++def main():
++    print("=== OpenAI Codex CLI Setup ===\n")
++    all_ok = True
++
++    # Node.js
++    node = check("node", ["node", "--version"])
++    if node:
++        print(f"✓ Node.js: {node}")
++    else:
++        print("✗ Node.js not found")
++        print("  Install from: https://nodejs.org")
++        all_ok = False
++
++    # npm
++    npm = check("npm", ["npm", "--version"])
++    if npm:
++        print(f"✓ npm: {npm}")
++    else:
++        print("✗ npm not found (usually bundled with Node.js)")
++        all_ok = False
++
++    # Codex CLI
++    codex = check("codex", ["codex", "--version"])
++    if codex:
++        print(f"✓ Codex CLI: {codex}")
++    else:
++        print("✗ Codex CLI not found")
++        print("  Install: npm install -g @openai/codex")
++        all_ok = False
++
++    # OPENAI_API_KEY
++    api_key = os.environ.get("OPENAI_API_KEY")
++    if api_key:
++        print(f"✓ OPENAI_API_KEY is set ({api_key[:8]}...)")
++    else:
++        print("✗ OPENAI_API_KEY not set")
++        print("  1. Get key from: https://platform.openai.com/api-keys")
++        print("  2. Add to shell: export OPENAI_API_KEY='your-key-here'")
++        print("  3. Reload shell: source ~/.zshrc (or ~/.bashrc)")
++        all_ok = False
++
++    print()
++    if all_ok:
++        print("All checks passed! Codex CLI is ready.")
++        print("Run auth doctor: python3 tools/auth/auth_doctor.py")
++        sys.exit(0)
++    else:
++        print("Fix the issues above, then re-run this script.")
++        sys.exit(1)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/auth/bootstrap_google.py b/tools/auth/bootstrap_google.py
+new file mode 100644
+index 0000000..2d46425
+--- /dev/null
++++ b/tools/auth/bootstrap_google.py
+@@ -0,0 +1,48 @@
++#!/usr/bin/env python3
++"""
++bootstrap_google.py — First-time setup guide for Google / Gemini credentials.
++
++Usage:
++  python3 tools/auth/bootstrap_google.py
++"""
++
++import os
++import sys
++
++
++def main():
++    print("=== Google / Gemini Authentication Setup ===\n")
++
++    print("Option 1: API Key  (Recommended — simplest)")
++    print("  1. Go to: https://makersuite.google.com/app/apikey")
++    print("  2. Create a new API key")
++    print("  3. Add to your shell profile:")
++    print("       export GEMINI_API_KEY='your-key-here'")
++    print("  4. Reload shell: source ~/.zshrc (or ~/.bashrc)\n")
++
++    print("Option 2: Application Default Credentials (ADC)")
++    print("  1. Install gcloud CLI: https://cloud.google.com/sdk/docs/install")
++    print("  2. Run: gcloud auth application-default login")
++    print("  3. Set project: gcloud config set project YOUR_PROJECT_ID\n")
++
++    # Check current state
++    api_key = os.environ.get("GEMINI_API_KEY")
++    if api_key:
++        print(f"✓ GEMINI_API_KEY is set ({api_key[:8]}...)")
++        print("  Run auth doctor to verify: python3 tools/auth/auth_doctor.py")
++        sys.exit(0)
++
++    try:
++        import google.auth
++        credentials, project = google.auth.default()
++        print(f"✓ ADC credentials found (project: {project})")
++        sys.exit(0)
++    except Exception:
++        pass
++
++    print("✗ No credentials found. Follow Option 1 or Option 2 above.")
++    sys.exit(1)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/auth/codex_auth_adapter.py b/tools/auth/codex_auth_adapter.py
+new file mode 100644
+index 0000000..62f0737
+--- /dev/null
++++ b/tools/auth/codex_auth_adapter.py
+@@ -0,0 +1,80 @@
++#!/usr/bin/env python3
++"""
++OpenAI Codex CLI authentication adapter.
++Supports OAuth login (via codex login) and OPENAI_API_KEY.
++Does NOT manage OAuth refresh — uses provider-native auth only.
++"""
++
++import json
++import os
++import subprocess
++from pathlib import Path
++from typing import Optional
++
++
++def _get_oauth_status() -> Optional[dict]:
++    """Read ~/.codex/auth.json to check OAuth login status."""
++    auth_file = Path.home() / ".codex" / "auth.json"
++    if not auth_file.exists():
++        return None
++    try:
++        data = json.loads(auth_file.read_text())
++        auth_mode = data.get("auth_mode", "unknown")
++        # Has tokens = OAuth session active
++        if data.get("tokens"):
++            return {"type": f"oauth/{auth_mode}", "auth_mode": auth_mode}
++        # Has API key stored in auth.json
++        if data.get("OPENAI_API_KEY"):
++            return {"type": "api_key_stored"}
++    except Exception:
++        pass
++    return None
++
++
++def check_health() -> dict:
++    """Check if Codex CLI is installed and authenticated."""
++    # 1. Check codex binary
++    which = subprocess.run(["which", "codex"], capture_output=True, text=True)
++    if which.returncode != 0:
++        return {
++            "status": "blocked",
++            "error": "codex CLI not found",
++            "provider": "codex",
++            "fix": "Run: npm install -g @openai/codex",
++        }
++
++    # 2. Get version
++    version_result = subprocess.run(
++        ["codex", "--version"],
++        capture_output=True,
++        text=True,
++        timeout=10,
++    )
++    version = version_result.stdout.strip() if version_result.returncode == 0 else "unknown"
++
++    # 3. Check OAuth login first (preferred), then fall back to env API key
++    oauth = _get_oauth_status()
++    if oauth:
++        return {
++            "status": "ok",
++            "provider": "codex",
++            "version": version,
++            "auth_type": oauth["type"],
++        }
++
++    api_key = os.environ.get("OPENAI_API_KEY")
++    if api_key:
++        return {
++            "status": "ok",
++            "provider": "codex",
++            "version": version,
++            "auth_type": "env_api_key",
++        }
++
++    return {
++        "status": "blocked",
++        "error": "No auth found. Run `codex login` or set OPENAI_API_KEY.",
++        "provider": "codex",
++        "version": version,
++        "fix": "Run: codex login",
++    }
+diff --git a/tools/auth/google_auth_adapter.py b/tools/auth/google_auth_adapter.py
+new file mode 100644
+index 0000000..20e3b0e
+--- /dev/null
++++ b/tools/auth/google_auth_adapter.py
+@@ -0,0 +1,67 @@
++#!/usr/bin/env python3
++"""
++Google / Gemini authentication adapter.
++Supports Gemini CLI OAuth (primary), GEMINI_API_KEY, and ADC.
++"""
++
++import os
++import subprocess
++from typing import Optional
++
++
++def _check_gemini_cli() -> Optional[dict]:
++    """Check if Gemini CLI is installed and responsive."""
++    which = subprocess.run(["which", "gemini"], capture_output=True, text=True)
++    if which.returncode != 0:
++        return None
++    version_result = subprocess.run(
++        ["gemini", "--version"],
++        capture_output=True,
++        text=True,
++        timeout=10,
++    )
++    if version_result.returncode == 0:
++        return {"type": "gemini_cli_oauth", "version": version_result.stdout.strip()}
++    return None
++
++
++def check_health() -> dict:
++    """Check if Gemini auth is working. Returns health report dict."""
++    # 1. Gemini CLI OAuth (preferred — user's actual setup)
++    cli = _check_gemini_cli()
++    if cli:
++        return {
++            "status": "ok",
++            "provider": "google",
++            "auth_type": cli["type"],
++            "version": cli["version"],
++        }
++
++    # 2. API key fallback
++    api_key = os.environ.get("GEMINI_API_KEY")
++    if api_key:
++        return {
++            "status": "ok",
++            "provider": "google",
++            "auth_type": "api_key",
++        }
++
++    # 3. ADC fallback
++    try:
++        import google.auth
++        _, project = google.auth.default()
++        return {
++            "status": "ok",
++            "provider": "google",
++            "auth_type": "adc",
++            "project": project,
++        }
++    except Exception:
++        pass
++
++    return {
++        "status": "blocked",
++        "error": "No Gemini auth found. gemini CLI not installed, no GEMINI_API_KEY, no ADC.",
++        "provider": "google",
++        "fix": "Install Gemini CLI: npm install -g @google/generative-ai-cli  OR  set GEMINI_API_KEY",
++    }
+diff --git a/tools/codex_worker.py b/tools/codex_worker.py
+new file mode 100644
+index 0000000..7a09670
+--- /dev/null
++++ b/tools/codex_worker.py
+@@ -0,0 +1,507 @@
++#!/usr/bin/env python3
++"""
++codex_worker.py — The ONLY component allowed to write to the repo.
++
++All repo changes must go through this script → Codex CLI.
++Output: JSON only to stdout. Artifacts written to .ai/runs/<run_id>/
++
++Usage:
++  python3 tools/codex_worker.py <action> --run-id <id> --input <file> [options]
++
++Actions:
++  review-plan       Codex reviews the plan (read-only)
++  draft-testspec    Codex drafts a test specification (read-only)
++  write-tests       Codex writes test files (WRITES to repo)
++  implement-step    Codex implements a step (WRITES to repo)
++  review-code       Codex reviews a diff (read-only)
++  repair-step       Codex repairs a failing step (WRITES to repo)
++"""
++
++import argparse
++import json
++import logging
++import os
++import re
++import subprocess
++import sys
++from typing import Optional
++
++ACTIONS = [
++    "review-plan",
++    "draft-testspec",
++    "write-tests",
++    "implement-step",
++    "review-code",
++    "repair-step",
++]
++
++
++LOGGER = logging.getLogger(__name__)
++
++RUN_ID_PATTERN = re.compile(r'^[0-9a-f]{8,32}$')
++
++MODEL = os.environ.get('CODEX_MODEL') or 'gpt-5.4'  # Single model for all tasks — overrides ~/.codex/config.toml
++
++# Per-task config.
++# NOTE: reasoning_effort is kept as *intent documentation* but is NOT passed to the
++# Codex CLI (the installed version does not support --reasoning-effort).
++# When a future CLI version adds this flag, re-enable it in run_codex().
++TASK_CONFIG: dict[str, dict] = {
++    "review-plan":    {"model": "gpt-5.4-mini"},
++    "repair-step":    {"model": "gpt-5.4"},
++    "implement-step": {"model": "gpt-5.4"},
++    "draft-testspec": {"model": "gpt-5.4-mini"},
++    "review-code":    {"model": "gpt-5.4-mini"},
++    "write-tests":    {"model": "gpt-5.4"},
++}
++
++
++def _normalize_model_value(value: Optional[str]) -> Optional[str]:
++    if value is None:
++        return None
++    stripped = value.strip()
++    return stripped or None
++
++
++def validate_run_id(run_id: str) -> str:
++    """Validate run_id is a hex string. Raises ValueError if invalid."""
++    if not run_id or not RUN_ID_PATTERN.match(run_id):
++        raise ValueError(f"Invalid run_id format: {run_id!r}. Must be 8-32 hex chars.")
++    return run_id
++
++
++def resolve_model(task_name: str) -> str:
++    if os.getenv("CODEX_DISABLE_MODEL_TIERING", "").lower() == "true":
++        LOGGER.debug("Resolved Codex model=%s source=%s task=%s", MODEL, "disable_model_tiering", task_name)
++        return MODEL
++
++    task_cfg = TASK_CONFIG.get(task_name, {})
++    task_model = _normalize_model_value(task_cfg.get("model"))
++    if task_model is not None:
++        LOGGER.debug("Resolved Codex model=%s source=%s task=%s", task_model, "task_config", task_name)
++        return task_model
++
++    env_model = _normalize_model_value(os.environ.get("CODEX_MODEL"))
++    if env_model is not None:
++        LOGGER.debug("Resolved Codex model=%s source=%s task=%s", env_model, "env", task_name)
++        return env_model
++
++    default_model = _normalize_model_value(MODEL) or "gpt-5.4"
++    LOGGER.debug("Resolved Codex model=%s source=%s task=%s", default_model, "module_default", task_name)
++    return default_model
++
++
++def call_validate_plan_structure(plan_text: str) -> dict:
++    """Import plan_utils and validate plan structure. Returns validation result dict."""
++    try:
++        from tools.plan_utils import validate_plan_structure
++        return validate_plan_structure(plan_text)
++    except Exception as e:
++        return {"valid": False, "missing_sections": [], "empty_sections": [], "score": 50, "error": str(e)}
++
++
++def calculate_confidence_score(
++    result: dict = None,
++    plan_text: str = "",
++    *,
++    structure_score: int = None,
++    severity_penalty: int = None,
++    rollback_score: int = None,
++    test_plan_score: int = None,
++) -> int:
++    """Public scorer supporting both computed and component-based calls."""
++    if structure_score is not None:
++        total = (
++            max(0, structure_score)
++            + max(0, severity_penalty or 0)
++            + max(0, rollback_score or 0)
++            + max(0, test_plan_score or 0)
++        )
++        return min(100, total)
++    validation = call_validate_plan_structure(plan_text)
++    derived_structure_score = int(validation.get("score", 50) * 0.30)
++    issues = (result or {}).get("issues", [])
++    high_count = sum(1 for i in issues if i.get("severity") == "high")
++    derived_severity_score = max(0, 30 - high_count * 15)
++    derived_rollback_score = 20 if plan_text and "rollback" in plan_text.lower() else 0
++    derived_test_score = 20 if plan_text and "test" in plan_text.lower() else 0
++    return min(100, derived_structure_score + derived_severity_score + derived_rollback_score + derived_test_score)
++
++
++def run_codex_parallel(tasks: list[dict]) -> list[dict]:
++    """
++    Run multiple read-only Codex calls in parallel (subagent pattern).
++    Each task dict: {
++        "prompt": str,
++        "write": bool,   # must be False for all parallel tasks (R4)
++        "key": str,
++        "model": str,    # optional — overrides default MODEL
++    }
++    Returns list of {"key": str, "result": dict} in original order.
++
++    Use for independent read-only operations only (R4: no parallel writes).
++    Example: run review-plan + gemini check-trigger simultaneously.
++    """
++    import concurrent.futures
++
++    def _run_one(task):
++        return {
++            "key": task["key"],
++            "result": run_codex(
++                task["prompt"],
++                write=task.get("write", False),
++                model=task.get("model"),
++            ),
++        }
++
++    with concurrent.futures.ThreadPoolExecutor(max_workers=len(tasks)) as executor:
++        futures = [executor.submit(_run_one, t) for t in tasks]
++        return [f.result() for f in concurrent.futures.as_completed(futures)]
++
++
++DEFAULT_TIMEOUT = 300  # seconds; override via --timeout CLI flag
++
++
++def resolve_timeout(run_id: str, cli_timeout: Optional[int]) -> int:
++    if cli_timeout is not None:
++        return cli_timeout
++
++    try:
++        from tools import state_manager
++
++        state = state_manager.load_state(run_id)
++        configured = (state.get("config") or {}).get("codex_timeout")
++        if configured is None:
++            return DEFAULT_TIMEOUT
++        return int(configured)
++    except Exception:
++        return DEFAULT_TIMEOUT
++
++
++def run_codex(
++    prompt: str,
++    write: bool = False,
++    session_id: str = None,
++    model: str = None,
++    timeout: int = DEFAULT_TIMEOUT,
++) -> dict:
++    """
++    Invoke codex exec and return result dict.
++
++    write=False   → -s read-only   (plan review, testspec, code review)
++    write=True    → --full-auto    (write-tests, implement, repair)
++    session_id    → resumes via `codex exec resume <id>`
++    model         → override default MODEL via -m flag
++    timeout       → seconds before the subprocess is killed (default 300)
++    """
++    import tempfile
++
++    effective_model = model or MODEL
++
++    # Write last message to a temp file so we can parse it reliably
++    with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as tmp:
++        output_file = tmp.name
++
++    if session_id:
++        cmd = ["codex", "exec", "resume", session_id,
++               "-m", effective_model, "-o", output_file]
++        if write:
++            cmd += ["--full-auto"]
++        else:
++            cmd += ["-s", "read-only"]
++        if prompt.strip():
++            cmd.append(prompt.strip())
++        stdin_input = None
++    else:
++        cmd = ["codex", "exec", "-m", effective_model, "-o", output_file]
++        if write:
++            cmd += ["--full-auto"]
++        else:
++            cmd += ["-s", "read-only"]
++        stdin_input = prompt
++
++    proc = None
++    try:
++        proc = subprocess.Popen(
++            cmd,
++            stdin=subprocess.PIPE,
++            stdout=subprocess.PIPE,
++            stderr=subprocess.PIPE,
++            text=True,
++        )
++        stdout, stderr = proc.communicate(input=stdin_input, timeout=timeout)
++        returncode = proc.returncode
++    except FileNotFoundError:
++        return {
++            "status": "fatal_error",
++            "summary": "codex CLI not found. Run: npm install -g @openai/codex",
++            "exit_code": 127,
++        }
++    except subprocess.TimeoutExpired:
++        # Kill the entire process group to avoid orphaned child processes
++        if proc is not None:
++            try:
++                os.killpg(os.getpgid(proc.pid), __import__("signal").SIGTERM)
++            except Exception:
++                proc.kill()
++            proc.wait()
++        return {
++            "status": "retryable_error",
++            "summary": f"Codex execution timed out after {timeout} seconds.",
++            "timeout": timeout,
++        }
++
++    if returncode != 0:
++        # Read output file anyway — may have partial result
++        pass
++
++    # Read the last-message output file
++    last_message = ""
++    try:
++        with open(output_file) as f:
++            last_message = f.read().strip()
++        os.unlink(output_file)
++    except Exception:
++        pass
++
++    if not last_message:
++        return {
++            "status": "retryable_error" if returncode != 0 else "ok",
++            "summary": stderr[:300] or "Codex returned no output.",
++            "exit_code": returncode,
++        }
++
++    # Try to parse as JSON (when we requested JSON output in prompt)
++    try:
++        return json.loads(last_message)
++    except json.JSONDecodeError:
++        return {
++            "status": "ok",
++            "summary": last_message[:300],
++            "details_md": last_message,
++            "raw": True,
++        }
++
++
++def get_run_dir(run_id: str, subdir: str) -> str:
++    validate_run_id(run_id)
++    path = f".ai/runs/{run_id}/{subdir}"
++    os.makedirs(path, exist_ok=True)
++    return path
++
++
++def git_checkpoint(run_id: str, step: str):
++    """Create a git checkpoint commit before writing to the repo."""
++    validate_run_id(run_id)
++    safe_step = re.sub(r'[^a-zA-Z0-9_\-.]', '_', step)
++    msg = f"checkpoint: before implement {safe_step} run {run_id}"
++    subprocess.run(["git", "add", "-A"], capture_output=True, timeout=30)
++    subprocess.run(
++        ["git", "commit", "-m", msg, "--allow-empty"],
++        capture_output=True,
++        timeout=30,
++    )
++
++
++def git_diff_since_checkpoint() -> str:
++    """Get diff since the last checkpoint commit."""
++    result = subprocess.run(
++        ["git", "diff", "HEAD~1"],
++        capture_output=True,
++        text=True,
++        timeout=30,
++    )
++    return result.stdout
++
++
++def output(data: dict):
++    print(json.dumps(data, indent=2))
++
++
++def load_input(path: str) -> str:
++    if not path:
++        return ""
++    if not os.path.exists(path):
++        print(json.dumps({"status": "fatal_error", "summary": f"Input file not found: {path}"}))
++        sys.exit(50)
++    with open(path) as f:
++        return f.read()
++
++
++def ensure_repo_root_on_sys_path():
++    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
++    if repo_root not in sys.path:
++        sys.path.insert(0, repo_root)
++
++
++def main():
++    ensure_repo_root_on_sys_path()
++    from tools import state_manager
++
++    parser = argparse.ArgumentParser(description="codex_worker.py — Codex CLI bridge")
++    parser.add_argument("action", choices=ACTIONS)
++    parser.add_argument("--run-id", required=True, help="Run ID (from state.json)")
++    parser.add_argument("--input", help="Path to input file")
++    parser.add_argument("--step", default="s1", help="Step identifier (e.g. s1, s2)")
++    parser.add_argument("--session-id", help="Codex session ID for --resume")
++    parser.add_argument("--timeout", type=int, default=None,
++                        help=f"Subprocess timeout in seconds (default {DEFAULT_TIMEOUT})")
++    parser.add_argument("--language", default=None,
++                        help="Target language for code standards (python, typescript, generic)")
++    args = parser.parse_args()
++    timeout = resolve_timeout(args.run_id, args.timeout)
++
++    input_content = load_input(args.input)
++    # Load code standards for prompt injection
++    from tools.template_loader import load_standards, detect_language
++    language = args.language or detect_language(input_content)
++    standards_block = load_standards(language=language)
++    standards_prefix = ""
++    if standards_block:
++        standards_prefix = f"## Code Standards (MUST follow)\n{standards_block}\n\n---\n\n"
++
++    # ── review-plan ──────────────────────────────────────────────────────────
++    if args.action == "review-plan":
++        run_dir = get_run_dir(args.run_id, "plan")
++        prompt = (
++            f"{standards_prefix}"
++            "Review this implementation plan. Output JSON with fields:\n"
++            "  status (ok|retryable_error|fatal_error)\n"
++            "  summary (100-300 chars)\n"
++            "  issues[] (each: severity, description, suggestion)\n"
++            "  overall_recommendation (approve|revise|reject)\n\n"
++            f"PLAN:\n{input_content}"
++        )
++        result = run_codex(prompt, write=False,
++                           model=resolve_model(args.action), timeout=timeout)
++        plan_text = ""
++        if args.input and os.path.exists(args.input):
++            with open(args.input) as f:
++                plan_text = f.read()
++
++        validation = call_validate_plan_structure(plan_text)
++        missing = validation.get("missing_sections", [])
++        result["confidence_score"] = calculate_confidence_score(result, plan_text)
++
++        if missing:
++            warning_prefix = "Warning: plan is missing required sections: " + ", ".join(missing) + ". "
++            result["summary"] = warning_prefix + result.get("summary", "")
++            result["details_md"] = warning_prefix + result.get("details_md", "")
++            result["plan_structure_warnings"] = [f"Missing section: {s}" for s in missing]
++        artifact = f"{run_dir}/plan_review.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        output({**result, "artifact": artifact})
++
++    # ── draft-testspec ───────────────────────────────────────────────────────
++    elif args.action == "draft-testspec":
++        run_dir = get_run_dir(args.run_id, "tests")
++        prompt = (
++            f"{standards_prefix}"
++            "Draft a test specification for this plan. Output JSON with fields:\n"
++            "  status, summary\n"
++            "  testspec_md (full markdown test spec)\n"
++            "  test_cases[] (each: id, description, type, acceptance_criteria)\n\n"
++            f"PLAN:\n{input_content}"
++        )
++        result = run_codex(prompt, write=False,
++                           model=resolve_model(args.action), timeout=timeout)
++        testspec_md = result.get("testspec_md", "")
++        if testspec_md:
++            with open(f"{run_dir}/testspec.md", "w") as f:
++                f.write(testspec_md)
++        artifact = f"{run_dir}/testspec_draft.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        output({**result, "artifact": artifact})
++
++    # ── write-tests ──────────────────────────────────────────────────────────
++    elif args.action == "write-tests":
++        run_dir = get_run_dir(args.run_id, "tests")
++        prompt = (
++            f"{standards_prefix}"
++            "Write the actual test files based on this test specification.\n"
++            "Create the files in the workspace. Follow existing project conventions.\n\n"
++            f"TEST SPEC:\n{input_content}"
++        )
++        result = run_codex(prompt, write=True,
++                           model=resolve_model(args.action), timeout=timeout)
++        artifact = f"{run_dir}/tests_result.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        output({**result, "artifact": artifact})
++
++    # ── implement-step ───────────────────────────────────────────────────────
++    elif args.action == "implement-step":
++        run_dir = get_run_dir(args.run_id, "impl")
++        # Create git checkpoint before any writes
++        git_checkpoint(args.run_id, args.step)
++        prompt = (
++            f"{standards_prefix}"
++            "Implement this step. Make minimal changes to satisfy the requirements.\n"
++            "Do not add features beyond what is specified.\n\n"
++            f"STEP:\n{input_content}"
++        )
++        result = run_codex(prompt, write=True, session_id=args.session_id,
++                           model=resolve_model(args.action), timeout=timeout)
++        diff = git_diff_since_checkpoint()
++        diff_file = f"{run_dir}/{args.step}_diff.patch"
++        with open(diff_file, "w") as f:
++            f.write(diff)
++        result["diff_file"] = diff_file
++        if result.get("status") == "ok":
++            result["session_id"] = result.get("session_id") or args.session_id
++            if result.get("session_id"):
++                state_manager.update_session_id(args.run_id, "codex", result["session_id"])
++        artifact = f"{run_dir}/impl_result.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        output({**result, "artifact": artifact})
++
++    # ── review-code ──────────────────────────────────────────────────────────
++    elif args.action == "review-code":
++        run_dir = get_run_dir(args.run_id, "impl")
++        prompt = (
++            f"{standards_prefix}"
++            "Review this code diff. Output JSON with fields:\n"
++            "  status, summary\n"
++            "  issues[] (each: severity, file, line, rule, fix)\n"
++            "  overall_verdict (approve|request_changes)\n\n"
++            f"DIFF:\n{input_content}"
++        )
++        result = run_codex(prompt, write=False,
++                           model=resolve_model(args.action), timeout=timeout)
++        artifact = f"{run_dir}/{args.step}_code_review.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        output({**result, "artifact": artifact})
++
++    # ── repair-step ──────────────────────────────────────────────────────────
++    elif args.action == "repair-step":
++        run_dir = get_run_dir(args.run_id, "repair")
++        git_checkpoint(args.run_id, f"{args.step}_repair")
++        prompt = (
++            f"{standards_prefix}"
++            "Fix the issues identified in this verification report.\n"
++            "Make minimal targeted changes only. Do not refactor unrelated code.\n\n"
++            f"VERIFICATION REPORT:\n{input_content}"
++        )
++        result = run_codex(prompt, write=True, session_id=args.session_id,
++                           model=resolve_model(args.action), timeout=timeout)
++        diff = git_diff_since_checkpoint()
++        diff_file = f"{run_dir}/{args.step}_repair_diff.patch"
++        with open(diff_file, "w") as f:
++            f.write(diff)
++        result["diff_file"] = diff_file
++        if result.get("status") == "ok":
++            result["session_id"] = result.get("session_id") or args.session_id
++            if result.get("session_id"):
++                state_manager.update_session_id(args.run_id, "codex", result["session_id"])
++        artifact = f"{run_dir}/repair_result.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        output({**result, "artifact": artifact})
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/gemini_planner.py b/tools/gemini_planner.py
+new file mode 100644
+index 0000000..a6115ae
+--- /dev/null
++++ b/tools/gemini_planner.py
+@@ -0,0 +1,705 @@
++#!/usr/bin/env python3
++"""
++gemini_planner.py — Gemini architecture advisor wrapper.
++
++Uses Gemini CLI (OAuth) as primary. Falls back to Python SDK + API key.
++READ-ONLY: Never outputs repo patches or code.
++Output: JSON only to stdout. Artifacts written to .ai/runs/<run_id>/review/
++
++Exit codes:
++  0  — success or skipped (below threshold)
++  30 — auth failure
++  50 — fatal crash
++"""
++
++import argparse
++import json
++import logging
++import os
++import re
++import subprocess
++import sys
++from typing import Optional
++
++sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
++
++
++# Per-task-type trigger configuration.
++# Each entry defines keywords and file_threshold that cause Gemini to activate.
++# Mirrors the TASK_CONFIG pattern in codex_worker.py — one source of truth per task context.
++GEMINI_TRIGGER_CONFIG: dict[str, dict] = {
++    # Plan-level review (vibe-feature, parallel step 6) — broadest keyword set
++    "plan-review": {
++        "keywords": ["api", "schema", "auth", "security", "migration", "database", "interface", "oauth"],
++        "file_threshold": 5,
++    },
++    # Per-step pre-implement check (vibe-step, before codex_worker implement-step)
++    # Narrower keywords: only high-risk implementation concerns
++    "implement-step": {
++        "keywords": ["auth", "security", "migration", "database", "schema", "oauth"],
++        "file_threshold": 8,
++    },
++    # Final diff review (vibe-review, after full diff is generated)
++    "final-review": {
++        "keywords": ["api", "schema", "auth", "security", "migration", "database", "interface", "oauth"],
++        "file_threshold": 10,
++    },
++    "project-scan": {
++        "keywords": [],
++        "file_threshold": 0,
++    },
++    "targeted-review": {
++        "keywords": [],
++        "file_threshold": 0,
++    },
++}
++
++# Used when --task-type is not provided (backwards-compatible default)
++_DEFAULT_TASK_TYPE = "plan-review"
++LOGGER = logging.getLogger(__name__)
++_gemini_cli_available = None
++
++
++def should_trigger(
++    plan_content: str,
++    file_estimates: int = 0,
++    force: bool = False,
++    task_type: str = None,
++) -> tuple[bool, str]:
++    """Determine if Gemini review should be triggered. Returns (triggered, reason)."""
++    if force:
++        return True, "forced"
++    cfg = GEMINI_TRIGGER_CONFIG.get(task_type or _DEFAULT_TASK_TYPE,
++                                    GEMINI_TRIGGER_CONFIG[_DEFAULT_TASK_TYPE])
++    if file_estimates > cfg["file_threshold"]:
++        return True, f"file_impact={file_estimates} > threshold({cfg['file_threshold']})"
++    content_lower = plan_content.lower()
++    matched = [kw for kw in cfg["keywords"] if kw in content_lower]
++    if matched:
++        return True, f"keywords_matched={matched}"
++    return False, "below_threshold"
++
++
++GEMINI_MODEL = os.environ.get('GEMINI_MODEL') or 'gemini-2.5-pro'  # Strongest Pro model — used by both CLI and SDK
++
++
++def _normalize_model_value(value: Optional[str]) -> Optional[str]:
++    if value is None:
++        return None
++    stripped = value.strip()
++    return stripped or None
++
++
++def resolve_model(task_name: Optional[str] = None, configured_model: Optional[str] = None) -> str:
++    task_model = _normalize_model_value(configured_model)
++    if task_model is not None:
++        LOGGER.debug("Resolved Gemini model=%s source=%s task=%s", task_model, "task_config", task_name)
++        return task_model
++
++    env_model = _normalize_model_value(os.environ.get("GEMINI_MODEL"))
++    if env_model is not None:
++        LOGGER.debug("Resolved Gemini model=%s source=%s task=%s", env_model, "env", task_name)
++        return env_model
++
++    default_model = _normalize_model_value(GEMINI_MODEL) or "gemini-2.5-pro"
++    LOGGER.debug("Resolved Gemini model=%s source=%s task=%s", default_model, "module_default", task_name)
++    return default_model
++
++
++def is_gemini_cli_available() -> bool:
++    global _gemini_cli_available
++
++    if _gemini_cli_available is not None:
++        return _gemini_cli_available
++
++    try:
++        result = subprocess.run(
++            ["gemini", "--version"],
++            capture_output=True,
++            text=True,
++            timeout=3,
++        )
++    except FileNotFoundError:
++        _gemini_cli_available = False
++        return False
++    except subprocess.TimeoutExpired:
++        return False
++
++    if result.returncode == 0:
++        _gemini_cli_available = True
++        return True
++
++    return False
++
++
++def _reset_gemini_cli_cache() -> None:
++    global _gemini_cli_available
++    _gemini_cli_available = None
++
++
++def run_gemini_cli(prompt: str) -> str:
++    """
++    Invoke Gemini CLI in non-interactive mode.
++    Returns raw text output.
++    """
++    model_name = resolve_model()
++    result = subprocess.run(
++        ["gemini", "-m", model_name, "-p", prompt, "--output-format", "json", "--approval-mode", "plan"],
++        capture_output=True,
++        text=True,
++        timeout=120,
++    )
++    if result.returncode != 0:
++        raise RuntimeError(f"Gemini CLI exited {result.returncode}: {result.stderr[:300]}")
++    return result.stdout.strip()
++
++
++SDK_TIMEOUT = 120  # seconds for SDK calls; CLI already has timeout=120
++
++
++def run_gemini_sdk(prompt: str, timeout: int = SDK_TIMEOUT) -> str:
++    """Fallback: call Gemini via Python SDK + API key."""
++    import concurrent.futures
++    api_key = os.environ.get("GEMINI_API_KEY")
++    if not api_key:
++        raise RuntimeError("GEMINI_API_KEY not set and Gemini CLI unavailable.")
++    try:
++        import google.generativeai as genai
++    except ImportError:
++        raise RuntimeError("pip install google-generativeai  (Gemini CLI also not available)")
++    genai.configure(api_key=api_key)
++    model = genai.GenerativeModel(resolve_model())
++    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
++        future = executor.submit(model.generate_content, prompt)
++        try:
++            response = future.result(timeout=timeout)
++        except concurrent.futures.TimeoutError:
++            raise RuntimeError(f"Gemini SDK call timed out after {timeout} seconds.")
++    return response.text.strip()
++
++
++def run_gemini_sdk_search(query: str, timeout: int = SDK_TIMEOUT) -> str:
++    """
++    Call Gemini via Python SDK with Google Search grounding.
++    CLI does NOT support web search — this is SDK-only.
++    Requires GEMINI_API_KEY in environment.
++    """
++    api_key = os.environ.get("GEMINI_API_KEY")
++    if not api_key:
++        raise RuntimeError(
++            "GEMINI_API_KEY not set — web-search requires the Python SDK "
++            "(Gemini CLI does not support Google Search grounding)"
++        )
++    try:
++        import google.generativeai as genai
++        from google.generativeai.types import Tool
++    except ImportError:
++        raise RuntimeError("pip install google-generativeai")
++    import concurrent.futures
++    genai.configure(api_key=api_key)
++    search_tool = Tool(google_search_retrieval={})
++    model = genai.GenerativeModel(resolve_model(), tools=[search_tool])
++    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
++        future = executor.submit(model.generate_content, query)
++        try:
++            response = future.result(timeout=timeout)
++        except concurrent.futures.TimeoutError:
++            raise RuntimeError(f"Gemini SDK search timed out after {timeout} seconds.")
++    return response.text.strip()
++
++
++def run_gemini(prompt: str, timeout: int = SDK_TIMEOUT) -> str:
++    """Try Gemini CLI first, fall back to SDK."""
++    if is_gemini_cli_available():
++        return run_gemini_cli(prompt)
++
++    try:
++        return run_gemini_sdk(prompt, timeout=timeout)
++    except FileNotFoundError:
++        return run_gemini_sdk(prompt, timeout=timeout)
++    except RuntimeError:
++        raise
++
++
++def parse_json_response(text: str) -> dict:
++    """Extract JSON from model response, handling markdown code blocks."""
++    text = text.strip()
++    # Strip markdown fences
++    if text.startswith("```"):
++        lines = text.split("\n")
++        text = "\n".join(lines[1:])
++        if text.endswith("```"):
++            text = text[:-3].strip()
++    try:
++        return json.loads(text)
++    except json.JSONDecodeError:
++        return {"status": "ok", "summary": text[:300], "raw": True}
++
++
++SECRET_PATTERNS = [
++    re.compile(r'(?i)(api[_-]?key|apikey)\s*[=:]\s*["\']?([A-Za-z0-9_\-]{16,})["\']?'),
++    re.compile(r'(?i)(password|passwd|pwd)\s*[=:]\s*["\']?(\S{8,})["\']?'),
++    re.compile(r'(?i)(secret[_-]?key|secret)\s*[=:]\s*["\']?([A-Za-z0-9_\-]{16,})["\']?'),
++    re.compile(r'(?i)(token|access[_-]?token)\s*[=:]\s*["\']?([A-Za-z0-9_\.\-]{16,})["\']?'),
++    re.compile(r'sk-[A-Za-z0-9]{32,}'),
++    re.compile(r'ghp_[A-Za-z0-9]{36,}'),
++    re.compile(r'AIza[A-Za-z0-9_\-]{35}'),
++    re.compile(r'AKIA[0-9A-Z]{16}'),
++    re.compile(r'(?i)aws[_-]?secret[_-]?access[_-]?key\s*[=:]\s*["\']?([A-Za-z0-9/+=]{40})["\']?'),
++    re.compile(r'sk_(live|test)_[A-Za-z0-9]{24,}'),
++    re.compile(r'-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----'),
++    re.compile(r'gho_[A-Za-z0-9]{36,}'),
++    re.compile(r'ghs_[A-Za-z0-9]{36,}'),
++    re.compile(r'xox[bpoas]-[A-Za-z0-9\-]{10,}'),
++]
++
++INCLUDE_EXTENSIONS = {".py", ".md", ".json", ".toml", ".yaml", ".yml", ".ts", ".js"}
++EXCLUDE_DIRS = {"node_modules", ".git", "__pycache__", "dist", "build", ".ai"}
++EXCLUDE_SUFFIXES = {".lock", ".min.js", ".pyc", ".egg-info"}
++
++
++def redact_secrets(content: str) -> tuple[str, int]:
++    """Redact secret-like strings. Returns (redacted_content, redaction_count)."""
++    count = 0
++    for pattern in SECRET_PATTERNS:
++        n_before = len(pattern.findall(content))
++        if n_before:
++            content = pattern.sub("[REDACTED]", content)
++            count += n_before
++    return content, count
++
++
++def collect_repo_files(repo_root: str, max_kb: int) -> tuple[list[str], int, int]:
++    """
++    Walk repo_root, collect files matching INCLUDE_EXTENSIONS,
++    excluding EXCLUDE_DIRS and EXCLUDE_SUFFIXES.
++    Truncates at max_kb total size.
++    Returns (relative_file_paths, total_bytes, truncated_count).
++    """
++    import pathlib
++
++    root = pathlib.Path(repo_root).resolve()
++    collected = []
++    total_bytes = 0
++    max_bytes = max_kb * 1024
++    truncated = 0
++
++    for path in sorted(root.rglob("*")):
++        if not path.is_file():
++            continue
++        try:
++            resolved = path.resolve()
++            resolved.relative_to(root)
++        except (OSError, RuntimeError, ValueError):
++            continue
++        parts = set(path.relative_to(root).parts[:-1])
++        if parts & EXCLUDE_DIRS:
++            continue
++        name = path.name
++        if any(name.endswith(s) for s in EXCLUDE_SUFFIXES):
++            continue
++        if path.suffix not in INCLUDE_EXTENSIONS:
++            continue
++        size = path.stat().st_size
++        if total_bytes + size > max_bytes:
++            truncated += 1
++            break
++        collected.append(str(path.relative_to(root)))
++        total_bytes += size
++
++    return collected, total_bytes, truncated
++
++
++def calculate_confidence_score(
++    result: dict = None,
++    plan_text: str = "",
++    *,
++    structure_score: int = None,
++    severity_penalty: int = None,
++    rollback_score: int = None,
++    test_plan_score: int = None,
++) -> int:
++    """Public scorer supporting both computed and component-based calls."""
++    if structure_score is not None:
++        total = (
++            max(0, structure_score)
++            + max(0, severity_penalty or 0)
++            + max(0, rollback_score or 0)
++            + max(0, test_plan_score or 0)
++        )
++        return min(100, total)
++    from tools.plan_utils import validate_plan_structure
++
++    derived_structure_score = 0
++    if plan_text:
++        validation = validate_plan_structure(plan_text)
++        derived_structure_score = int(validation["score"] * 0.30)
++
++    concerns = (result or {}).get("arch_concerns", [])
++    high_count = sum(1 for concern in concerns if concern.get("severity") == "high")
++    derived_severity_score = max(0, 30 - high_count * 15)
++    derived_rollback_score = 20 if plan_text and "rollback" in plan_text.lower() and len(plan_text) > 100 else 0
++    derived_test_score = 20 if plan_text and "test" in plan_text.lower() and len(plan_text) > 100 else 0
++
++    return min(
++        100,
++        derived_structure_score + derived_severity_score + derived_rollback_score + derived_test_score,
++    )
++
++
++def main():
++    parser = argparse.ArgumentParser(description="gemini_planner.py — Gemini advisor")
++    parser.add_argument("action", choices=["arch-review", "api-contract", "check-trigger", "web-search", "project-scan", "targeted-review"])
++    parser.add_argument("--run-id", required=True)
++    parser.add_argument("--input", help="Input file path")
++    parser.add_argument("--concerns-file", help="JSON file with list of high-severity concerns for targeted-review")
++    parser.add_argument("--file-estimates", type=int, default=0)
++    parser.add_argument("--force", action="store_true", help="Force trigger regardless of threshold")
++    parser.add_argument(
++        "--mode",
++        choices=["preflight", "scan"],
++        default="scan",
++        help="project-scan mode: preflight (estimate only) or scan (full Gemini call)",
++    )
++    parser.add_argument("--repo-root", default=".", help="Root directory to scan (default: current directory)")
++    parser.add_argument("--max-kb", type=int, default=300, help="Max total KB to include in scan (default: 300)")
++    parser.add_argument(
++        "--task-type",
++        choices=list(GEMINI_TRIGGER_CONFIG.keys()),
++        default=None,
++        help=f"Task context for trigger rules. Choices: {list(GEMINI_TRIGGER_CONFIG.keys())}. "
++             f"Default: {_DEFAULT_TASK_TYPE}",
++    )
++    parser.add_argument("--plan-file", help="Original plan file for targeted-review context")
++    parser.add_argument(
++        "--timeout", type=int, default=SDK_TIMEOUT,
++        help=f"Timeout in seconds for SDK calls (default {SDK_TIMEOUT}). CLI path uses its own 120s limit.",
++    )
++    args = parser.parse_args()
++
++    run_dir = f".ai/runs/{args.run_id}/review"
++    os.makedirs(run_dir, exist_ok=True)
++
++    # Load input
++    input_content = ""
++    if args.input:
++        if not os.path.exists(args.input):
++            print(json.dumps({"status": "fatal_error", "summary": f"Input not found: {args.input}"}))
++            sys.exit(50)
++        with open(args.input) as f:
++            input_content = f.read()
++
++    # ── check-trigger ────────────────────────────────────────────────────────
++    if args.action == "check-trigger":
++        # LLM calls are forbidden here; this action only evaluates local trigger rules.
++        triggered, reason = should_trigger(
++            input_content, args.file_estimates, args.force, args.task_type
++        )
++        print(json.dumps({
++            "status": "ok",
++            "triggered": triggered,
++            "reason": reason,
++            "task_type": args.task_type or _DEFAULT_TASK_TYPE,
++        }))
++        return
++
++    # Check trigger threshold for review actions only (not web-search, which runs unconditionally)
++    # arch-review is always-on at plan stage per CLAUDE.md — no trigger gate.
++    # Only api-contract and other conditional actions use the trigger threshold.
++    if args.action in ("api-contract",):
++        triggered, reason = should_trigger(
++            input_content, args.file_estimates, args.force, args.task_type
++        )
++        if not triggered:
++            print(json.dumps({
++                "status": "skipped",
++                "summary": f"Gemini review not triggered — {reason}",
++            }))
++            return
++
++    # ── arch-review ──────────────────────────────────────────────────────────
++    if args.action == "arch-review":
++        prompt = f"""You are a senior software architect reviewing an implementation plan.
++
++RULES:
++- Do NOT suggest code implementations or patches
++- Focus on: architecture structure, scalability, risks, missing considerations, security concerns
++- Be concise and specific
++
++Output ONLY valid JSON (no markdown fences) with these exact fields:
++  status: "ok"
++  summary: string (100-300 chars, key finding)
++  arch_concerns: array of objects (each: concern, severity (low/medium/high), suggestion)
++  risk_level: "low" | "medium" | "high"
++  recommendation: "approve" | "revise" | "reject"
++  details_md: string (full markdown analysis)
++
++PLAN TO REVIEW:
++{input_content}"""
++
++        try:
++            raw = run_gemini(prompt, timeout=args.timeout)
++            result = parse_json_response(raw)
++            input_content_for_score = input_content  # already loaded
++            result["confidence_score"] = calculate_confidence_score(result, input_content_for_score)
++        except RuntimeError as e:
++            print(json.dumps({"status": "auth_blocked", "summary": str(e)}))
++            sys.exit(30)
++        except Exception as e:
++            result = {"status": "retryable_error", "summary": str(e)[:200]}
++
++        artifact = f"{run_dir}/arch_review.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        print(json.dumps({**result, "artifact": artifact}))
++
++    # ── api-contract ─────────────────────────────────────────────────────────
++    elif args.action == "api-contract":
++        prompt = f"""You are a senior software architect formalizing an API contract.
++
++RULES:
++- Do NOT suggest code implementations
++- Extract and formalize all interfaces, inputs, outputs, and constraints
++
++Output ONLY valid JSON (no markdown fences) with these exact fields:
++  status: "ok"
++  summary: string (100-300 chars)
++  interfaces: array of objects (each: name, inputs, outputs, constraints, notes)
++  contract_md: string (full markdown API contract document)
++
++PLAN:
++{input_content}"""
++
++        try:
++            raw = run_gemini(prompt, timeout=args.timeout)
++            result = parse_json_response(raw)
++        except RuntimeError as e:
++            print(json.dumps({"status": "auth_blocked", "summary": str(e)}))
++            sys.exit(30)
++        except Exception as e:
++            result = {"status": "retryable_error", "summary": str(e)[:200]}
++
++        contract_md = result.get("contract_md", "")
++        if contract_md:
++            with open(f"{run_dir}/contract.md", "w") as f:
++                f.write(contract_md)
++
++        artifact = f"{run_dir}/contract.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        print(json.dumps({**result, "artifact": artifact}))
++
++    # ── web-search ────────────────────────────────────────────────────────────
++    elif args.action == "web-search":
++        # CLI does not support Google Search grounding — SDK-only path.
++        if not input_content:
++            print(json.dumps({"status": "fatal_error",
++                               "summary": "web-search requires --input with the search query"}))
++            sys.exit(50)
++        try:
++            raw = run_gemini_sdk_search(input_content, timeout=args.timeout)
++            result = parse_json_response(raw)
++        except RuntimeError as e:
++            print(json.dumps({"status": "auth_blocked", "summary": str(e)}))
++            sys.exit(30)
++        except Exception as e:
++            result = {"status": "retryable_error", "summary": str(e)[:200]}
++
++        artifact = f"{run_dir}/web_search.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        print(json.dumps({**result, "artifact": artifact}))
++
++    # ── project-scan ──────────────────────────────────────────────────────────
++    elif args.action == "project-scan":
++        import pathlib
++
++        repo_root = args.repo_root if hasattr(args, "repo_root") else "."
++        max_kb = args.max_kb if hasattr(args, "max_kb") else 300
++        preflight_mode = getattr(args, "mode", "scan") == "preflight"
++        root_path = pathlib.Path(repo_root).resolve()
++
++        file_list, total_bytes, truncated = collect_repo_files(repo_root, max_kb)
++
++        total_redacted = 0
++        for fp in file_list:
++            try:
++                abs_fp = (root_path / fp).resolve()
++                try:
++                    abs_fp.relative_to(root_path)
++                except ValueError:
++                    continue
++                with open(abs_fp, encoding="utf-8", errors="ignore") as f:
++                    content = f.read()
++                _, n = redact_secrets(content)
++                total_redacted += n
++            except OSError:
++                pass
++
++        total_kb = round(total_bytes / 1024, 1)
++        estimated_tokens = int(total_bytes / 4)
++        warnings = []
++        if truncated > 0:
++            warnings.append(f"{truncated} files excluded due to --max-kb={max_kb} budget cap")
++        if total_redacted > 0:
++            warnings.append(f"{total_redacted} potential secret(s) detected and will be redacted in scan mode")
++
++        if getattr(args, "mode", "scan") == "preflight":
++            artifact = f"{run_dir}/scan_preflight.json"
++            result = {
++                "status": "ok",
++                "total_kb": total_kb,
++                "file_count": len(file_list),
++                "estimated_tokens": estimated_tokens,
++                "redacted_count": total_redacted,
++                "file_list": [str(fp) for fp in file_list],
++                "warnings": warnings,
++                "artifact": artifact,
++            }
++            with open(artifact, "w") as f:
++                json.dump(result, f, indent=2)
++            print(json.dumps(result))
++            return
++
++        preflight_artifact = f"{run_dir}/scan_preflight.json"
++        if not os.path.exists(preflight_artifact):
++            print(json.dumps({
++                "status": "error",
++                "summary": "project-scan requires preflight to run first. Run with --mode preflight first.",
++            }))
++            sys.exit(1)
++
++        file_contents = []
++        for fp in file_list:
++            try:
++                abs_fp = (root_path / fp).resolve()
++                try:
++                    abs_fp.relative_to(root_path)
++                except ValueError:
++                    continue
++                with open(abs_fp, encoding="utf-8", errors="ignore") as f:
++                    raw = f.read()
++                redacted, _ = redact_secrets(raw)
++                file_contents.append(f"=== FILE: {fp} ===\n{redacted}\n")
++            except OSError:
++                pass
++
++        combined = "\n".join(file_contents)
++        prompt = f"""You are a senior software architect. Analyze the following codebase files and produce a comprehensive project documentation report.
++
++Output ONLY valid JSON (no markdown fences) with these exact fields:
++  status: "ok"
++  summary: string (150-400 chars overview)
++  architecture_md: string (full markdown architecture overview)
++  agent_roles: array of objects (each: name, role, tools, forbidden)
++  data_flows: array of objects (each: from, to, description, artifact)
++  state_machine_md: string (markdown state machine documentation)
++  risks: array of objects (each: area, severity (low/medium/high), description)
++
++CODEBASE FILES ({len(file_list)} files, {total_kb}KB):
++{combined}"""
++
++        try:
++            raw = run_gemini(prompt, timeout=args.timeout)
++            result = parse_json_response(raw)
++        except RuntimeError as e:
++            print(json.dumps({"status": "auth_blocked", "summary": str(e)}))
++            sys.exit(30)
++        except Exception as e:
++            result = {"status": "retryable_error", "summary": str(e)[:200]}
++
++        arch_md = result.get("architecture_md", "")
++        if arch_md:
++            with open(f"{run_dir}/project_scan_report.md", "w") as f:
++                f.write(arch_md)
++
++        artifact = f"{run_dir}/project_scan_report.json"
++        result["artifact"] = artifact
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        print(json.dumps(result))
++
++    elif args.action == "targeted-review":
++        concerns_list = []
++        if args.concerns_file and os.path.exists(args.concerns_file):
++            with open(args.concerns_file) as f:
++                concerns_payload = json.load(f)
++            if isinstance(concerns_payload, dict):
++                concerns_list = concerns_payload.get("arch_concerns", [])
++            else:
++                concerns_list = concerns_payload
++
++        plan_text = ""
++        if args.plan_file and os.path.exists(args.plan_file):
++            with open(args.plan_file) as f:
++                plan_text = f.read()
++
++        def _extract_targeted_context(text: str) -> str:
++            sections = [
++                "Goal", "Motivation", "Affected Files", "Risk Areas",
++                "Rollback Strategy", "Open Questions", "Out of Scope", "Test Coverage Plan",
++            ]
++            chunks = []
++            for section in sections:
++                match = re.search(
++                    rf"(^##\s+{re.escape(section)}\s*$.*?)(?=^##\s+|\Z)",
++                    text,
++                    re.MULTILINE | re.DOTALL | re.IGNORECASE,
++                )
++                if match:
++                    chunks.append(match.group(1).strip())
++            return "\n\n".join(chunks)[:3000]
++
++        rollback_match = re.search(r'##\s+Rollback[^\n]*\n(.*?)(?=\n##|\Z)', plan_text, re.DOTALL | re.IGNORECASE)
++        rollback_section = rollback_match.group(1).strip() if rollback_match else "(not specified)"
++        focused_plan_text = _extract_targeted_context(plan_text)
++
++        def _format_concern(c):
++            if isinstance(c, dict):
++                severity = c.get("severity", "?").upper()
++                concern = c.get("concern", str(c))
++                suggestion = c.get("suggestion", "")
++                return f"- [{severity}] {concern}: {suggestion}"
++            return f"- {c}"
++
++        concerns_text = "\n".join(_format_concern(c) for c in concerns_list)
++
++        prompt = f"""You are a senior software architect doing a TARGETED review.
++Focus ONLY on these flagged high-severity concerns — do not re-review the whole plan.
++
++FLAGGED CONCERNS TO RESOLVE:
++{concerns_text}
++
++ROLLBACK STRATEGY:
++{rollback_section}
++
++RELEVANT PLAN CONTEXT:
++{focused_plan_text}
++
++Output ONLY valid JSON with these exact fields:
++  status: "ok"
++  confidence_score: integer 0-100 (how confident you are the concerns are resolved)
++  resolved_concerns: array of strings (concern descriptions now resolved)
++  remaining_concerns: array of objects (each: concern, severity, suggestion)
++  recommendation: "approve" | "revise"
++  summary: string (100-200 chars)"""
++
++        try:
++            raw = run_gemini(prompt, timeout=args.timeout)
++            result = parse_json_response(raw)
++            if "confidence_score" not in result:
++                result["confidence_score"] = calculate_confidence_score(result, focused_plan_text)
++        except RuntimeError as e:
++            print(json.dumps({"status": "auth_blocked", "summary": str(e)}))
++            sys.exit(30)
++        except Exception as e:
++            result = {"status": "retryable_error", "summary": str(e)[:200]}
++
++        artifact = f"{run_dir}/targeted_review.json"
++        with open(artifact, "w") as f:
++            json.dump(result, f, indent=2)
++        print(json.dumps({**result, "artifact": artifact}))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/hooks/post_tool_validator.py b/tools/hooks/post_tool_validator.py
+new file mode 100644
+index 0000000..9ddec64
+--- /dev/null
++++ b/tools/hooks/post_tool_validator.py
+@@ -0,0 +1,80 @@
++#!/usr/bin/env python3
++"""
++PostToolUse hook — Validates wrapper script outputs.
++
++Warns if codex_worker.py or gemini_planner.py returned
++a critical status (auth_blocked, fatal_error).
++
++Claude Code hook protocol:
++  - Receives tool result as JSON on stdin
++  - Output JSON with optional "message" field for warnings
++  - Exit 0 always (post-use hooks are advisory)
++"""
++
++import json
++import os
++import sys
++from datetime import datetime, timezone
++
++WRAPPER_SCRIPTS = ("codex_worker.py", "gemini_planner.py", "auth_doctor.py")
++CRITICAL_STATUSES = ("fatal_error", "auth_blocked", "system_error")
++
++
++def log(entry: str):
++    log_dir = ".ai/logs"
++    os.makedirs(log_dir, exist_ok=True)
++    ts = datetime.now(timezone.utc).isoformat()
++    with open(f"{log_dir}/audit.log", "a") as f:
++        f.write(f"{ts} {entry}\n")
++
++
++def main():
++    try:
++        data = json.load(sys.stdin)
++    except Exception:
++        sys.exit(0)
++
++    tool_name = data.get("tool_name", "")
++    if tool_name != "Bash":
++        sys.exit(0)
++
++    tool_input = data.get("tool_input", {})
++    tool_response = data.get("tool_response", {})
++    command = tool_input.get("command", "")
++
++    # Only validate wrapper script invocations
++    if not any(script in command for script in WRAPPER_SCRIPTS):
++        sys.exit(0)
++
++    stdout = tool_response.get("stdout", "")
++    if not stdout.strip():
++        sys.exit(0)
++
++    try:
++        result = json.loads(stdout)
++    except json.JSONDecodeError:
++        log(f"WARN: Wrapper output not valid JSON. Command: {command[:100]}")
++        sys.exit(0)
++
++    status = result.get("status", "unknown")
++
++    if status in CRITICAL_STATUSES:
++        summary = result.get("summary", "no summary")
++        log(f"CRITICAL: wrapper={command[:80]} status={status} summary={summary}")
++        print(json.dumps({
++            "message": (
++                f"[GOVERNANCE] Wrapper returned critical status: {status}\n"
++                f"Summary: {summary}\n"
++                "Update state.json and check .ai/logs/audit.log"
++            )
++        }))
++
++    elif status == "retryable_error":
++        summary = result.get("summary", "")
++        log(f"WARN: wrapper={command[:80]} status=retryable_error summary={summary}")
++
++    sys.exit(0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/hooks/pre_tool_gate.py b/tools/hooks/pre_tool_gate.py
+new file mode 100644
+index 0000000..8de7873
+--- /dev/null
++++ b/tools/hooks/pre_tool_gate.py
+@@ -0,0 +1,56 @@
++#!/usr/bin/env python3
++"""
++Global PreToolUse hook — Write/Edit governance gate.
++
++Blocks Write/Edit tools (R1/R2). Logs Bash commands for audit.
++Run-existence enforcement removed — framework activation is now via /vibe-init skill.
++"""
++
++import json
++import os
++import sys
++from datetime import datetime, timezone
++from pathlib import Path
++
++
++def log(entry):
++    log_dir = Path(".ai") / "logs"
++    log_dir.mkdir(parents=True, exist_ok=True)
++    ts = datetime.now(timezone.utc).isoformat()
++    with open(log_dir / "audit.log", "a") as f:
++        f.write(f"{ts} {entry}\n")
++
++
++def main():
++    try:
++        data = json.load(sys.stdin)
++    except Exception:
++        print(json.dumps({"decision": "allow"}))
++        sys.exit(0)
++
++    tool_name = data.get("tool_name", "")
++    tool_input = data.get("tool_input", {})
++
++    # Block Write/Edit always (R1/R2)
++    if tool_name in ("Write", "Edit"):
++        log(f"BLOCKED {tool_name}: {str(tool_input)[:150]}")
++        print(json.dumps({
++            "decision": "block",
++            "reason": (
++                f"[GOVERNANCE R1/R2] {tool_name} is forbidden. "
++                "All file changes must go through the approved workflow.\n"
++                "Use /vibe-init to start a managed run, then /vibe-step to implement."
++            ),
++        }))
++        sys.exit(0)
++
++    # Audit log for Bash
++    if tool_name == "Bash":
++        log(f"BASH: {tool_input.get('command', '')[:300]}")
++
++    print(json.dumps({"decision": "allow"}))
++    sys.exit(0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/hooks/session_start.py b/tools/hooks/session_start.py
+new file mode 100644
+index 0000000..3930508
+--- /dev/null
++++ b/tools/hooks/session_start.py
+@@ -0,0 +1,26 @@
++#!/usr/bin/env python3
++"""Global SessionStart hook — guides user to /vibe-init."""
++import json, sys
++from pathlib import Path
++
++def main():
++    banner = 'Vibe Commander available. Run /vibe-init "<your request>" to start a managed run.'
++
++    # Check for active run
++    current = Path(".ai") / "current"
++    if current.exists():
++        try:
++            sf = current.resolve() / "state.json"
++            if sf.exists():
++                s = json.loads(sf.read_text())
++                st = s.get("status", "?")
++                if st not in ("DONE", "STUCK"):
++                    banner += f" | Active run: {s.get('run_id','?')} ({st})"
++        except Exception:
++            pass
++
++    print(json.dumps({"systemMessage": banner}))
++    sys.exit(0)
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/hooks/user_prompt_submit.py b/tools/hooks/user_prompt_submit.py
+new file mode 100644
+index 0000000..f7c9ef1
+--- /dev/null
++++ b/tools/hooks/user_prompt_submit.py
+@@ -0,0 +1,54 @@
++#!/usr/bin/env python3
++"""
++UserPromptSubmit hook — Injects Vibe Commander enforcement into model context.
++
++Unlike SessionStart/systemMessage (UI-only), this hook outputs additionalContext
++which is appended directly to the user message Claude reads — guaranteeing the
++state machine reminder is in the active context before any tool call fires.
++"""
++
++import json
++import sys
++from pathlib import Path
++
++
++def main():
++    repo_root = Path(__file__).parent.parent.parent
++
++    # Check for active run
++    active_run_note = ""
++    current_link = repo_root / ".ai" / "current"
++    if current_link.exists():
++        try:
++            state_file = current_link.resolve() / "state.json"
++            if state_file.exists():
++                state = json.loads(state_file.read_text())
++                status = state.get("status", "unknown")
++                run_id = state.get("run_id", "?")
++                step = state.get("current_step", 0)
++                total = state.get("total_steps", "?")
++                if status not in ("DONE", "STUCK"):
++                    active_run_note = (
++                        "\n[ACTIVE RUN: " + run_id + " | " + status
++                        + " | step " + str(step) + "/" + str(total) + "]"
++                        "\nResume: python3 tools/state_manager.py status"
++                    )
++        except Exception:
++            pass
++
++    context = (
++        "[VIBE COMMANDER ENFORCEMENT]\n"
++        "MANDATORY FIRST ACTION — before Agent, before Read, before ANY other tool:\n"
++        "  Bash: python3 tools/new_run.py \"<one-line description>\"\n"
++        "  -> get run_id -> follow state machine (INTAKE -> PLAN -> REVIEWS -> WAIT_APPROVAL -> IMPLEMENT)\n"
++        "FORBIDDEN: Write tool, Edit tool, --yolo, skipping WAIT_APPROVAL\n"
++        "Analysis request? -> Gemini project-scan flow (preflight first)"
++        + active_run_note
++    )
++
++    print(json.dumps({"additionalContext": context}))
++    sys.exit(0)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/new_run.py b/tools/new_run.py
+new file mode 100644
+index 0000000..e2cd978
+--- /dev/null
++++ b/tools/new_run.py
+@@ -0,0 +1,204 @@
++#!/usr/bin/env python3
++"""Initialize a new Vibe Commander run."""
++
++import argparse
++import json
++import logging
++import secrets
++from datetime import datetime, timedelta, timezone
++from pathlib import Path
++
++
++SCHEMA_VERSION = "1.1.0"
++RUNS_DIR = Path(".ai") / "runs"
++SCHEMA_PATH = Path("schema") / "state_schema.json"
++SUBDIRS = (
++    "plan",
++    "plan/steps",
++    "review",
++    "tests",
++    "impl",
++    "verify",
++    "repair",
++    "logs",
++)
++
++
++def generate_run_id() -> str:
++    return secrets.token_hex(8)
++
++
++def now_iso8601_utc() -> str:
++    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
++
++
++def build_initial_state(run_id: str, request: str) -> dict:
++    timestamp = now_iso8601_utc()
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "run_id": run_id,
++        "status": "INTAKE",
++        "created_at": timestamp,
++        "updated_at": timestamp,
++        "request": request,
++        "approval_stage": None,
++        "current_step": 0,
++        "total_steps": 0,
++        "revision_count": 0,
++        "repair_attempts": {},
++        "auth": {"gemini": "unknown", "codex": "unknown"},
++        "budget": {
++            "claude": {"used": "unknown", "max": None},
++            "gemini": {"used": "unknown", "max": None},
++            "codex": {"used": "unknown", "max": None},
++        },
++        "active_session_ids": {"codex": None},
++        "artifacts": {
++            "plan_draft": None,
++            "arch_review": None,
++            "contract": None,
++            "plan_review": None,
++            "testspec": None,
++            "approved_plan": None,
++        },
++        "steps": [],
++        "git_checkpoints": [],
++    }
++
++
++def cleanup_orphan_runs(runs_dir: Path = RUNS_DIR, logger=None) -> None:
++    logger = logger or logging.getLogger(__name__)
++
++    try:
++        import sys as _sys
++        _sys.path.insert(0, str(Path(__file__).parent.parent))
++        import tools.state_manager as state_manager
++    except Exception:
++        return
++    finally:
++        try:
++            _sys.path.pop(0)
++        except Exception:
++            pass
++
++    try:
++        repo_root = runs_dir.parent.parent
++        old_runs_dir = state_manager.RUNS_DIR
++        old_schema_path = state_manager.SCHEMA_PATH
++        state_manager.RUNS_DIR = runs_dir
++        state_manager.SCHEMA_PATH = repo_root / "schema" / "state_schema.json"
++
++        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
++        for run_dir in runs_dir.iterdir() if runs_dir.exists() else ():
++            if not run_dir.is_dir():
++                continue
++
++            state_path = run_dir / "state.json"
++            run_id = run_dir.name
++            try:
++                state = json.loads(state_path.read_text())
++                run_id = state.get("run_id", run_id)
++                status = state.get("status")
++                if status == "STUCK":
++                    continue
++                if status != "INTAKE":
++                    continue
++
++                created_at_raw = state["created_at"]
++                created_at = datetime.fromisoformat(created_at_raw.replace("Z", "+00:00"))
++                if created_at >= cutoff:
++                    continue
++
++                state_manager.update_state(run_id, status="STUCK")
++                state_manager.log_event(
++                    run_id,
++                    "ORPHAN_CLEANUP",
++                    {
++                        "run_id": run_id,
++                        "from": "INTAKE",
++                        "to": "STUCK",
++                        "reason": "intake_run_older_than_24h",
++                    },
++                )
++            except Exception as exc:
++                try:
++                    logger.warning("Failed orphan cleanup for run %s at %s: %s", run_id, state_path, exc)
++                except Exception:
++                    pass
++    except Exception:
++        pass
++    finally:
++        try:
++            state_manager.RUNS_DIR = old_runs_dir
++            state_manager.SCHEMA_PATH = old_schema_path
++        except Exception:
++            pass
++
++
++def validate_state(state: dict) -> None:
++    import jsonschema
++
++    schema = json.loads(SCHEMA_PATH.read_text())
++    jsonschema.validate(instance=state, schema=schema)
++
++
++def create_run_directory() -> tuple[str, Path]:
++    RUNS_DIR.mkdir(parents=True, exist_ok=True)
++    while True:
++        run_id = generate_run_id()
++        run_dir = RUNS_DIR / run_id
++        try:
++            run_dir.mkdir()
++            return run_id, run_dir
++        except FileExistsError:
++            continue
++
++
++def initialize_run(request: str, set_current: bool = True) -> str:
++    import sys as _sys, os as _os
++    _sys.path.insert(0, str(Path(__file__).parent.parent))
++    from tools.state_manager import set_current as sm_set_current, log_event
++
++    run_id, run_dir = create_run_directory()
++
++    for subdir in SUBDIRS:
++        (run_dir / subdir).mkdir(parents=True, exist_ok=True)
++
++    state = build_initial_state(run_id, request)
++    validate_state(state)
++
++    (run_dir / "state.json").write_text(json.dumps(state, indent=2) + "\n")
++    (run_dir / "plan" / "request.md").write_text(request)
++
++    # Write first event to events.jsonl
++    log_event(run_id, "RUN_CREATED", {"request": request[:200]})
++
++    # Set .ai/current symlink so tools default to this run
++    if set_current:
++        try:
++            sm_set_current(run_id)
++        except Exception:
++            pass  # Non-fatal — run still created successfully
++
++    return run_id
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description="Initialize a new Vibe Commander run")
++    parser.add_argument("request", help="Request text for the run")
++    parser.add_argument("--no-set-current", action="store_true",
++                        help="Do not update .ai/current symlink")
++    args = parser.parse_args()
++
++    try:
++        cleanup_orphan_runs()
++    except Exception:
++        pass
++
++    run_id = initialize_run(args.request, set_current=not args.no_set_current)
++    print(run_id)
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/tools/plan_utils.py b/tools/plan_utils.py
+new file mode 100644
+index 0000000..45e9cf4
+--- /dev/null
++++ b/tools/plan_utils.py
+@@ -0,0 +1,56 @@
++#!/usr/bin/env python3
++
++import re
++
++
++REQUIRED_SECTIONS = [
++    "Goal", "Motivation", "Affected Files", "Risk Areas",
++    "Rollback Strategy", "Open Questions", "Out of Scope", "Test Coverage Plan"
++]
++
++PLAN_TEMPLATE = {
++    "Goal": "<what this change achieves>",
++    "Motivation": "<why now>",
++    "Affected Files": "<list files and scope>",
++    "Risk Areas": "<security / data loss / breaking change / performance>",
++    "Rollback Strategy": "<concrete rollback steps>",
++    "Open Questions": "<unknowns / assumptions>",
++    "Out of Scope": "<explicitly excluded>",
++    "Test Coverage Plan": "<specific test points>",
++}
++
++PLAN_TEMPLATE_MD = "\n\n".join(f"## {k}\n{v}" for k, v in PLAN_TEMPLATE.items())
++
++
++def validate_plan_structure(plan_text: str) -> dict:
++    """
++    Check plan has all required sections with substantive content.
++    Returns: {valid: bool, missing_sections: list, empty_sections: list, score: int (0-100)}
++    """
++    missing = []
++    empty = []
++    for section in REQUIRED_SECTIONS:
++        # Find section header (## Section or # Section)
++        pattern = re.compile(
++            rf"^#{{1,3}}\s+{re.escape(section)}\s*$",
++            re.MULTILINE | re.IGNORECASE,
++        )
++        match = pattern.search(plan_text)
++        if not match:
++            missing.append(section)
++            continue
++        # Extract content after header until next header
++        start = match.end()
++        next_header = re.search(r"^#{1,3}\s+\w", plan_text[start:], re.MULTILINE)
++        content = plan_text[start:start + next_header.start()] if next_header else plan_text[start:]
++        content = content.strip()
++        if len(content) < 20:
++            empty.append(section)
++
++    total = len(REQUIRED_SECTIONS)
++    present = total - len(missing)
++    non_empty = present - len(empty)
++    score = int((non_empty / total) * 100)
++    valid = len(missing) == 0 and len(empty) == 0
++
++    return {"valid": valid, "missing_sections": missing, "empty_sections": empty, "score": score}
+diff --git a/tools/qa_validator.py b/tools/qa_validator.py
+new file mode 100644
+index 0000000..ffb2208
+--- /dev/null
++++ b/tools/qa_validator.py
+@@ -0,0 +1,133 @@
++import os, re, json
++from datetime import datetime, timezone
++from pathlib import Path
++from typing import Optional
++
++LESSONS_FILE = Path(".ai/lessons_learned.md")
++MAX_ENTRIES = 50
++COMPACT_TO = 25
++
++SANITIZE_PATTERNS = [
++    (re.compile(r"\b[\w./\\-]+\.(py|json|md|toml|yaml|yml|ts|js)\b"), "<file>"),
++    (re.compile(r"\[REDACTED\]"), "<redacted>"),
++    (re.compile(r"(?i)(api[_-]?key|password|token|secret)\s*[=:]\s*\S+"), r"\1=<secret>"),
++]
++
++
++def _sanitize(text: str) -> str:
++    for pattern, replacement in SANITIZE_PATTERNS:
++        text = pattern.sub(replacement, text)
++    return text
++
++
++def _count_entries(content: str) -> int:
++    return content.count("\n## Run ")
++
++
++def _compact(content: str) -> str:
++    """Keep only the most recent COMPACT_TO entries."""
++    parts = re.split(r"(?=\n## Run )", content)
++    header = parts[0] if not parts[0].startswith("\n## Run") else ""
++    entries = [p for p in parts if p.strip().startswith("## Run")]
++    kept = entries[-COMPACT_TO:]
++    compacted_count = len(entries) - len(kept)
++    summary = f"\n## [Compacted: {compacted_count} older entries removed on {datetime.now(timezone.utc).date()}]\n"
++    return header + summary + "".join(kept)
++
++
++def append_lessons(
++    run_id: str = "",
++    summary: str = "",
++    root_cause: str = "",
++    prevention: str = "",
++    tags: Optional[list] = None,
++    lesson: Optional[str] = None,
++    lessons_path: Optional[Path] = None,
++) -> None:
++    target = lessons_path or LESSONS_FILE
++    if lesson is not None and not summary:
++        summary = lesson
++    tags = tags or []
++    target.parent.mkdir(parents=True, exist_ok=True)
++    existing = target.read_text() if target.exists() else "# Vibe Commander — Lessons Learned\n"
++    if _count_entries(existing) >= MAX_ENTRIES:
++        existing = _compact(existing)
++    tag_str = " ".join(f"[{t}]" for t in tags)
++    entry = (
++        f"\n## Run {run_id or 'manual'} — {datetime.now(timezone.utc).date()}\n"
++        f"**Tags**: {tag_str}\n"
++        f"**What went wrong**: {_sanitize(summary)}\n"
++        f"**Root cause**: {_sanitize(root_cause)}\n"
++        f"**Prevention**: {_sanitize(prevention)}\n"
++    )
++    target.write_text(existing + entry)
++
++
++def read_relevant_lessons(tags: list, max_entries: int = 10, lessons_path: Optional[Path] = None) -> str:
++    target = lessons_path or LESSONS_FILE
++    if not target.exists():
++        return ""
++    content = target.read_text()
++    blocks = re.split(r"(?=\n## Run )", content)
++    matched = []
++    all_entries = []
++    for block in blocks:
++        if not block.strip().startswith("## Run"):
++            continue
++        all_entries.append(block.strip())
++        if any(f"[{t}]" in block for t in tags):
++            matched.append(block.strip())
++    selected = matched if matched else all_entries
++    return "\n\n".join(reversed(selected[-max_entries:]))
++
++
++def compress_verify_reports(run_id: str) -> dict:
++    """
++    Compress verify report context for runs with many reports.
++    Keeps the three most recent reports intact and summarizes older ones while
++    preserving each report's status and errors fields.
++    """
++    verify_dir = Path(".ai") / "runs" / run_id / "verify"
++    report_paths = sorted(verify_dir.glob("*_verify_report.json"))
++    if len(report_paths) <= 3:
++        return {
++            "compressed": False,
++            "report_count": len(report_paths),
++            "reports": [str(path) for path in report_paths],
++        }
++
++    older_reports = []
++    for path in report_paths[:-3]:
++        try:
++            payload = json.loads(path.read_text())
++        except json.JSONDecodeError:
++            payload = {"status": "invalid_json", "errors": [f"Could not parse {path.name}"]}
++
++        older_reports.append({
++            "report": path.name,
++            "status": payload.get("status"),
++            "errors": payload.get("errors", []),
++            "summary": payload.get("summary", ""),
++        })
++
++    recent_reports = []
++    for path in report_paths[-3:]:
++        try:
++            recent_reports.append(json.loads(path.read_text()))
++        except json.JSONDecodeError:
++            recent_reports.append({
++                "status": "invalid_json",
++                "errors": [f"Could not parse {path.name}"],
++                "summary": "",
++            })
++
++    compressed_payload = {
++        "compressed": True,
++        "report_count": len(report_paths),
++        "compressed_reports": older_reports,
++        "recent_reports": recent_reports,
++    }
++    output_path = verify_dir / "compressed_verify_reports.json"
++    output_path.write_text(json.dumps(compressed_payload, indent=2) + "\n")
++    compressed_payload["artifact"] = str(output_path)
++    return compressed_payload
+diff --git a/tools/run_list.py b/tools/run_list.py
+new file mode 100644
+index 0000000..c85e1b9
+--- /dev/null
++++ b/tools/run_list.py
+@@ -0,0 +1,102 @@
++#!/usr/bin/env python3
++"""
++run_list.py — List all Vibe Commander runs with their status.
++
++Usage:
++  python3 tools/run_list.py [--json]
++
++Output (default): aligned table sorted by updated_at descending.
++Output (--json):  JSON array, one object per run.
++
++Exit codes:
++  0 — always (missing/malformed state.json entries shown as (error))
++"""
++
++import argparse
++import glob
++import json
++import os
++import sys
++
++RUNS_DIR = os.path.join(".ai", "runs")
++RUN_ID_WIDTH = 12
++STATUS_WIDTH = 28
++STEP_WIDTH = 6
++
++
++def load_runs() -> list[dict]:
++    """Scan .ai/runs/*/state.json and return a list of run summaries."""
++    pattern = os.path.join(RUNS_DIR, "*", "state.json")
++    rows = []
++    for path in sorted(glob.glob(pattern)):
++        run_id = os.path.basename(os.path.dirname(path))
++        try:
++            with open(path) as f:
++                state = json.load(f)
++            rows.append({
++                "run_id": run_id,
++                "status": state.get("status", "unknown"),
++                "current_step": state.get("current_step", 0),
++                "total_steps": state.get("total_steps", 0),
++                "updated_at": state.get("updated_at", ""),
++            })
++        except Exception:
++            rows.append({
++                "run_id": run_id,
++                "status": "(error)",
++                "current_step": None,
++                "total_steps": None,
++                "updated_at": "",
++            })
++    # Sort: newest first (updated_at descending); error rows go to bottom
++    rows.sort(key=lambda r: r["updated_at"] or "", reverse=True)
++    return rows
++
++
++def print_table(rows: list[dict]) -> None:
++    header = (
++        f"{'RUN_ID':<{RUN_ID_WIDTH}}  "
++        f"{'STATUS':<{STATUS_WIDTH}}  "
++        f"{'STEP':<{STEP_WIDTH}}  "
++        f"UPDATED_AT"
++    )
++    separator = "-" * len(header)
++    print(header)
++    print(separator)
++    for r in rows:
++        step_str = (
++            f"{r['current_step']}/{r['total_steps']}"
++            if r["current_step"] is not None
++            else "-"
++        )
++        run_id_display = r["run_id"][:RUN_ID_WIDTH]
++        print(
++            f"{run_id_display:<{RUN_ID_WIDTH}}  "
++            f"{r['status']:<{STATUS_WIDTH}}  "
++            f"{step_str:<{STEP_WIDTH}}  "
++            f"{r['updated_at']}"
++        )
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser(description="run_list.py — list all Vibe Commander runs")
++    parser.add_argument("--json", action="store_true", help="Output as JSON array")
++    args = parser.parse_args()
++
++    if not os.path.isdir(RUNS_DIR):
++        if args.json:
++            print("[]")
++        else:
++            print_table([])
++        return
++
++    rows = load_runs()
++
++    if args.json:
++        print(json.dumps(rows, indent=2))
++    else:
++        print_table(rows)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/run_status.py b/tools/run_status.py
+new file mode 100644
+index 0000000..b3833c0
+--- /dev/null
++++ b/tools/run_status.py
+@@ -0,0 +1,205 @@
++#!/usr/bin/env python3
++"""
++run_status.py — Human-readable Vibe Commander run progress viewer.
++
++Usage:
++  python3 tools/run_status.py              # use .ai/current
++  python3 tools/run_status.py <run_id>     # specific run
++  python3 tools/run_status.py --json       # machine-readable
++  python3 tools/run_status.py --list       # list all runs
++"""
++
++import argparse
++import json
++import sys
++from pathlib import Path
++from datetime import datetime, timezone
++
++sys.path.insert(0, str(Path(__file__).parent.parent))
++from tools.state_manager import (
++    load_state, load_events, get_current_run_id,
++    RUNS_DIR, STOP_STATES,
++)
++
++STATUS_ICON = {
++    "INTAKE":                    "📥",
++    "CLAUDE_PLAN_DRAFT":         "📝",
++    "GEMINI_ARCH_REVIEW":        "🔍",
++    "CODEX_PLAN_REVIEW":         "🔎",
++    "CODEX_TESTSPEC_DRAFT":      "🧪",
++    "WAIT_APPROVAL":             "⏸ ",
++    "REVISE_PLAN":               "🔄",
++    "CODEX_WRITE_TESTS":         "✍️ ",
++    "CODEX_IMPLEMENT":           "⚙️ ",
++    "CLAUDE_VERIFY":             "✅",
++    "CODEX_REPAIR":              "🔧",
++    "FINAL_REVIEW":              "🏁",
++    "DONE":                      "🎉",
++    "STUCK":                     "🚨",
++    "HUMAN_INTERVENTION_NEEDED": "🆘",
++    "AUTH_BLOCKED":              "🔐",
++    "STOPPED_BY_BUDGET":         "💰",
++    "SYSTEM_ERROR":              "💥",
++}
++
++STEP_ICON = {"pending": "○", "in_progress": "●", "done": "✓", "failed": "✗"}
++
++
++def fmt_time(iso: str) -> str:
++    try:
++        dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
++        now = datetime.now(timezone.utc)
++        diff = now - dt
++        secs = int(diff.total_seconds())
++        if secs < 60:
++            return f"{secs}s ago"
++        elif secs < 3600:
++            return f"{secs // 60}m ago"
++        elif secs < 86400:
++            return f"{secs // 3600}h ago"
++        else:
++            return f"{secs // 86400}d ago"
++    except Exception:
++        return iso
++
++
++def print_run(run_id: str, output_json: bool = False):
++    try:
++        state = load_state(run_id)
++        events = load_events(run_id)
++    except FileNotFoundError:
++        print(f"Run not found: {run_id}", file=sys.stderr)
++        sys.exit(1)
++
++    if output_json:
++        print(json.dumps({
++            "run_id": run_id,
++            "status": state.get("status"),
++            "current_step": state.get("current_step"),
++            "total_steps": state.get("total_steps"),
++            "revision_count": state.get("revision_count"),
++            "request": state.get("request"),
++            "updated_at": state.get("updated_at"),
++            "events": events,
++            "artifacts": state.get("artifacts"),
++            "steps": state.get("steps"),
++        }, indent=2))
++        return
++
++    status = state.get("status", "?")
++    icon = STATUS_ICON.get(status, "❓")
++    is_stopped = status in STOP_STATES
++
++    print()
++    print(f"  Run ID  : {run_id}")
++    print(f"  Request : {state.get('request', '?')[:72]}")
++    print(f"  Status  : {icon} {status}")
++    print(f"  Updated : {fmt_time(state.get('updated_at', ''))}")
++
++    if state.get("total_steps", 0) > 0:
++        print(f"  Progress: step {state.get('current_step', 0)} / {state.get('total_steps', 0)}")
++
++    if state.get("revision_count", 0) > 0:
++        print(f"  Revisions: {state['revision_count']} (max 3)")
++
++    repair = state.get("repair_attempts", {})
++    if repair:
++        print(f"  Repairs : {repair}")
++
++    # Steps
++    steps = state.get("steps", [])
++    if steps:
++        print()
++        print("  Steps:")
++        for s in steps:
++            icon_s = STEP_ICON.get(s.get("status", ""), "?")
++            print(f"    {icon_s} [{s.get('id','?')}] {s.get('title','?')} — {s.get('status','?')}")
++
++    # Key artifacts
++    artifacts = {k: v for k, v in (state.get("artifacts") or {}).items() if v}
++    if artifacts:
++        print()
++        print("  Artifacts:")
++        for k, v in artifacts.items():
++            print(f"    · {k}: {v}")
++
++    # Recent events
++    if events:
++        print()
++        print(f"  Events ({len(events)} total, last 3):")
++        for ev in events[-3:]:
++            ts = fmt_time(ev.get("ts", ""))
++            evt = ev.get("event", "?")
++            data = ev.get("data", {})
++            detail = ""
++            if "from" in data and "to" in data:
++                detail = f" {data['from']} → {data['to']}"
++            elif data:
++                detail = f" {str(data)[:50]}"
++            print(f"    [{ts}] {evt}{detail}")
++
++    if is_stopped:
++        print()
++        print(f"  ⚠️  Run is in a STOP state: {status}")
++        if status == "STUCK":
++            print("     Revision count exceeded. Manual intervention required.")
++        elif status == "HUMAN_INTERVENTION_NEEDED":
++            print("     Repair attempts exceeded. Manual intervention required.")
++        elif status == "AUTH_BLOCKED":
++            print("     Run: python3 tools/auth/auth_doctor.py")
++
++    print()
++
++
++def list_runs():
++    if not RUNS_DIR.exists():
++        print("No runs found (.ai/runs/ does not exist)")
++        return
++
++    current = get_current_run_id()
++    runs = sorted(RUNS_DIR.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)
++    runs = [r for r in runs if r.is_dir() and (r / "state.json").exists()]
++
++    if not runs:
++        print("No runs found.")
++        return
++
++    print(f"\n  {'RUN ID':<12} {'STATUS':<32} {'UPDATED':<12} {'REQUEST'}")
++    print(f"  {'-'*12} {'-'*32} {'-'*12} {'-'*40}")
++    for r in runs:
++        try:
++            state = json.loads((r / "state.json").read_text())
++            status = state.get("status", "?")
++            updated = fmt_time(state.get("updated_at", ""))
++            request = state.get("request", "")[:40]
++            marker = " ◄ current" if r.name == current else ""
++            icon = STATUS_ICON.get(status, "")
++            print(f"  {r.name:<12} {icon} {status:<30} {updated:<12} {request}{marker}")
++        except Exception:
++            print(f"  {r.name:<12} (unreadable)")
++    print()
++
++
++def main():
++    parser = argparse.ArgumentParser(description="run_status.py — view Vibe Commander run progress")
++    parser.add_argument("run_id", nargs="?", help="Run ID (default: .ai/current)")
++    parser.add_argument("--json", action="store_true", help="Output as JSON")
++    parser.add_argument("--list", action="store_true", help="List all runs")
++    args = parser.parse_args()
++
++    if args.list:
++        list_runs()
++        return
++
++    run_id = args.run_id or get_current_run_id()
++    if not run_id:
++        print("No run_id specified and .ai/current is not set.", file=sys.stderr)
++        print("Usage: python3 tools/run_status.py <run_id>", file=sys.stderr)
++        print("       python3 tools/run_status.py --list", file=sys.stderr)
++        sys.exit(1)
++
++    print_run(run_id, output_json=args.json)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/state_manager.py b/tools/state_manager.py
+new file mode 100644
+index 0000000..0a4f92f
+--- /dev/null
++++ b/tools/state_manager.py
+@@ -0,0 +1,515 @@
++#!/usr/bin/env python3
++"""
++state_manager.py — Single source of truth for Vibe Commander run state.
++
++Responsibilities:
++  - Safe atomic read/write of state.json (with schema validation)
++  - Structured events log (events.jsonl) for every state transition
++  - .ai/current symlink management (tracks the active run)
++
++CLI usage:
++  python3 tools/state_manager.py status [run_id]
++  python3 tools/state_manager.py update --run-id <id> --status <STATUS> [--step <n>]
++  python3 tools/state_manager.py set-current --run-id <id>
++  python3 tools/state_manager.py get-current
++  python3 tools/state_manager.py log-event --run-id <id> --event <type> [--data '{...}']
++"""
++
++import argparse
++import json
++import os
++import re
++import sys
++import tempfile
++from datetime import datetime, timezone
++from pathlib import Path
++from typing import Optional
++
++RUNS_DIR = Path(".ai") / "runs"
++CURRENT_LINK = Path(".ai") / "current"
++SCHEMA_PATH = Path("schema") / "state_schema.json"
++SCHEMA_VERSION = "1.1.0"
++
++VALID_STATUSES = {
++    "INTAKE", "GEMINI_PROJECT_SCAN_PREFLIGHT", "WAIT_SCAN_APPROVAL",
++    "GEMINI_PROJECT_SCAN", "CLAUDE_DOC_DRAFT", "CLAUDE_PLAN_DRAFT",
++    "GEMINI_ARCH_REVIEW", "CODEX_PLAN_REVIEW", "TARGETED_REVIEW",
++    "REFINED_SYNTHESIS", "COMMANDER_SYNTHESIS", "CODEX_TESTSPEC_DRAFT",
++    "WAIT_APPROVAL", "REVISE_PLAN", "CODEX_WRITE_TESTS",
++    "CODEX_IMPLEMENT", "CLAUDE_VERIFY", "CODEX_REPAIR",
++    "FINAL_REVIEW", "DONE", "STUCK", "HUMAN_INTERVENTION_NEEDED",
++    "AUTH_BLOCKED", "STOPPED_BY_BUDGET", "SYSTEM_ERROR",
++}
++
++STOP_STATES = {
++    "DONE", "STUCK", "HUMAN_INTERVENTION_NEEDED",
++    "AUTH_BLOCKED", "STOPPED_BY_BUDGET", "SYSTEM_ERROR",
++}
++
++# Valid state transitions — key: current state → value: set of allowed next states
++VALID_TRANSITIONS = {
++    "INTAKE": {"GEMINI_PROJECT_SCAN_PREFLIGHT", "CLAUDE_PLAN_DRAFT", "STUCK", "SYSTEM_ERROR"},
++    "GEMINI_PROJECT_SCAN_PREFLIGHT": {"WAIT_SCAN_APPROVAL", "SYSTEM_ERROR"},
++    "WAIT_SCAN_APPROVAL": {"GEMINI_PROJECT_SCAN", "DONE", "SYSTEM_ERROR"},
++    "GEMINI_PROJECT_SCAN": {"CLAUDE_DOC_DRAFT", "CLAUDE_PLAN_DRAFT", "SYSTEM_ERROR"},
++    "CLAUDE_DOC_DRAFT": {"GEMINI_ARCH_REVIEW", "CODEX_PLAN_REVIEW", "COMMANDER_SYNTHESIS", "WAIT_APPROVAL", "SYSTEM_ERROR"},
++    "CLAUDE_PLAN_DRAFT": {"CODEX_PLAN_REVIEW", "GEMINI_ARCH_REVIEW", "COMMANDER_SYNTHESIS", "CODEX_TESTSPEC_DRAFT", "WAIT_APPROVAL", "REVISE_PLAN", "STUCK", "SYSTEM_ERROR"},
++    "CODEX_PLAN_REVIEW": {"CLAUDE_PLAN_DRAFT", "GEMINI_ARCH_REVIEW", "CODEX_TESTSPEC_DRAFT", "WAIT_APPROVAL", "STUCK", "SYSTEM_ERROR"},
++    "GEMINI_ARCH_REVIEW": {"CLAUDE_PLAN_DRAFT", "CODEX_PLAN_REVIEW", "CODEX_TESTSPEC_DRAFT", "WAIT_APPROVAL", "STUCK", "SYSTEM_ERROR"},
++    "CODEX_TESTSPEC_DRAFT": {"CLAUDE_PLAN_DRAFT", "CODEX_PLAN_REVIEW", "GEMINI_ARCH_REVIEW", "WAIT_APPROVAL", "STUCK", "SYSTEM_ERROR"},
++    "TARGETED_REVIEW": {"REFINED_SYNTHESIS", "WAIT_APPROVAL", "SYSTEM_ERROR"},
++    "REFINED_SYNTHESIS": {"WAIT_APPROVAL", "SYSTEM_ERROR"},
++    "COMMANDER_SYNTHESIS": {"WAIT_APPROVAL", "TARGETED_REVIEW", "REVISE_PLAN", "SYSTEM_ERROR"},
++    "WAIT_APPROVAL": {"CODEX_WRITE_TESTS", "REVISE_PLAN", "CODEX_IMPLEMENT", "STUCK", "SYSTEM_ERROR"},
++    "REVISE_PLAN": {"CLAUDE_PLAN_DRAFT", "STUCK", "SYSTEM_ERROR"},
++    "CODEX_WRITE_TESTS": {"CODEX_IMPLEMENT", "STUCK", "SYSTEM_ERROR", "AUTH_BLOCKED"},
++    "CODEX_IMPLEMENT": {"CLAUDE_VERIFY", "CODEX_REPAIR", "FINAL_REVIEW", "HUMAN_INTERVENTION_NEEDED", "STUCK", "SYSTEM_ERROR", "AUTH_BLOCKED"},
++    "CLAUDE_VERIFY": {"CODEX_IMPLEMENT", "CODEX_REPAIR", "FINAL_REVIEW", "HUMAN_INTERVENTION_NEEDED", "STUCK", "SYSTEM_ERROR"},
++    "CODEX_REPAIR": {"CLAUDE_VERIFY", "HUMAN_INTERVENTION_NEEDED", "STUCK", "SYSTEM_ERROR", "AUTH_BLOCKED"},
++    "FINAL_REVIEW": {"DONE", "CODEX_REPAIR", "HUMAN_INTERVENTION_NEEDED", "STUCK", "SYSTEM_ERROR"},
++    "DONE": set(),
++    "STUCK": set(),
++    "HUMAN_INTERVENTION_NEEDED": set(),
++    "AUTH_BLOCKED": set(),
++    "STOPPED_BY_BUDGET": set(),
++    "SYSTEM_ERROR": set(),
++}
++
++RUN_ID_PATTERN = re.compile(r'^[0-9a-f]{8,32}$')
++
++
++# ── Helpers ──────────────────────────────────────────────────────────────────
++
++def now_utc() -> str:
++    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
++
++
++def validate_run_id(run_id: str) -> str:
++    """Validate run_id is a hex string. Raises ValueError if invalid."""
++    if not run_id or not RUN_ID_PATTERN.match(run_id):
++        raise ValueError(f"Invalid run_id format: {run_id!r}. Must be 8-32 hex chars.")
++    return run_id
++
++
++def run_dir(run_id: str) -> Path:
++    validate_run_id(run_id)
++    return RUNS_DIR / run_id
++
++
++def state_path(run_id: str) -> Path:
++    return run_dir(run_id) / "state.json"
++
++
++def events_path(run_id: str) -> Path:
++    return run_dir(run_id) / "events.jsonl"
++
++
++# ── Schema validation ─────────────────────────────────────────────────────────
++
++def validate_state(state: dict) -> None:
++    """Validate state dict against schema/state_schema.json."""
++    if not SCHEMA_PATH.exists():
++        return  # Schema missing — skip silently (don't block operations)
++    try:
++        import jsonschema
++        schema = json.loads(SCHEMA_PATH.read_text())
++        instance = dict(state)
++        instance.pop("config", None)
++        jsonschema.validate(instance=instance, schema=schema)
++    except ImportError:
++        pass  # jsonschema not installed — skip
++
++
++# ── Core state operations ────────────────────────────────────────────────────
++
++def load_state(run_id: str) -> dict:
++    """
++    Load and return state.json for a run. Raises FileNotFoundError if missing.
++    Backward-compatible: if schema_version is absent, injects "1.0.0" before
++    returning so validation passes without requiring a migration step.
++    """
++    validate_run_id(run_id)
++    path = state_path(run_id)
++    if not path.exists():
++        raise FileNotFoundError(f"state.json not found for run {run_id}: {path}")
++    state = json.loads(path.read_text())
++    if "schema_version" not in state:
++        state["schema_version"] = SCHEMA_VERSION  # legacy file — treat as 1.0.0
++    return state
++
++
++def save_state(run_id: str, state: dict, validate: bool = True) -> None:
++    """
++    Atomically write state.json.
++    Uses a temp file + rename to avoid partial writes.
++    """
++    if validate:
++        validate_state(state)
++
++    path = state_path(run_id)
++    bak_path = path.with_name(f"{path.name}.bak")
++
++    if path.exists():
++        try:
++            import shutil
++            shutil.copy2(path, bak_path)
++        except Exception as backup_err:
++            log_dir = Path(".ai") / "logs"
++            log_dir.mkdir(parents=True, exist_ok=True)
++            ts = datetime.now(timezone.utc).isoformat()
++            with open(log_dir / "audit.log", "a") as f:
++                f.write(f"{ts} WARN: state backup failed for {run_id}: {backup_err}\n")
++
++    # Atomic write: write to temp in same directory, then rename
++    dir_ = path.parent
++    with tempfile.NamedTemporaryFile(
++        mode="w", dir=dir_, suffix=".tmp", delete=False
++    ) as tmp:
++        json.dump(state, tmp, indent=2)
++        tmp.write("\n")
++        tmp_path = tmp.name
++
++    os.replace(tmp_path, path)
++
++
++def update_state(run_id: str, **fields) -> dict:
++    """
++    Load state, apply field updates, set updated_at, save, return new state.
++
++    Common fields: status, current_step, total_steps, revision_count,
++                   approval_stage, active_session_ids, artifacts, steps,
++                   git_checkpoints, auth, budget
++    """
++    validate_run_id(run_id)
++    state = load_state(run_id)
++    old_status = state.get("status")
++
++    for key, value in fields.items():
++        if key == "artifacts" and isinstance(value, dict):
++            # Merge artifacts dict rather than replace
++            state["artifacts"] = {**state.get("artifacts", {}), **value}
++        elif key == "repair_attempts" and isinstance(value, dict):
++            state["repair_attempts"] = {**state.get("repair_attempts", {}), **value}
++        else:
++            state[key] = value
++
++    state["updated_at"] = now_utc()
++
++    # Validate status value
++    new_status = state.get("status")
++    if new_status and new_status not in VALID_STATUSES:
++        raise ValueError(f"Invalid status: {new_status!r}. Must be one of {VALID_STATUSES}")
++
++    # Validate state transition
++    if "status" in fields and new_status != old_status:
++        allowed = VALID_TRANSITIONS.get(old_status)
++        if allowed is not None and new_status not in allowed:
++            raise ValueError(
++                f"Invalid state transition: {old_status!r} → {new_status!r}. "
++                f"Allowed targets: {sorted(allowed)}"
++            )
++
++    save_state(run_id, state)
++
++    # Log state transition event if status changed
++    if "status" in fields and new_status != old_status:
++        log_event(run_id, "STATUS_TRANSITION", {
++            "from": old_status,
++            "to": new_status,
++        })
++
++    return state
++
++
++def update_session_id(run_id: str, provider: str, session_id: Optional[str]) -> dict:
++    """
++    Update a provider session id under state.active_session_ids.
++    Creates the active_session_ids object when absent.
++    """
++    state = load_state(run_id)
++    active_session_ids = dict(state.get("active_session_ids") or {})
++    active_session_ids[provider] = session_id
++    return update_state(run_id, active_session_ids=active_session_ids)
++
++
++# ── .ai/current symlink ──────────────────────────────────────────────────────
++
++def set_current(run_id: str) -> None:
++    """Set .ai/current symlink to point to this run's directory."""
++    target = run_dir(run_id).resolve()
++    if not target.exists():
++        raise FileNotFoundError(f"Run directory not found: {target}")
++
++    CURRENT_LINK.parent.mkdir(parents=True, exist_ok=True)
++
++    # Atomic symlink replacement
++    tmp_link = CURRENT_LINK.parent / f".current.tmp.{os.getpid()}"
++    try:
++        tmp_link.symlink_to(target)
++        tmp_link.replace(CURRENT_LINK)
++    except Exception:
++        if tmp_link.exists():
++            tmp_link.unlink()
++        raise
++
++
++def get_current_run_id() -> Optional[str]:
++    """Read .ai/current symlink and return the run_id, or None if not set."""
++    if not CURRENT_LINK.exists():
++        return None
++    try:
++        target = CURRENT_LINK.resolve()
++        return target.name  # Directory name = run_id
++    except Exception:
++        return None
++
++
++# ── Events log ───────────────────────────────────────────────────────────────
++
++def log_event(run_id: str, event_type: str, data: Optional[dict] = None) -> None:
++    """
++    Append a structured event to .ai/runs/<run_id>/events.jsonl.
++    Each line is a self-contained JSON object.
++    """
++    validate_run_id(run_id)
++    event = {
++        "ts": now_utc(),
++        "run_id": run_id,
++        "event": event_type,
++        "data": data or {},
++    }
++    path = events_path(run_id)
++    with open(path, "a") as f:
++        f.write(json.dumps(event) + "\n")
++
++
++def record_checkpoint(run_id: str, step_id: str, commit_sha: str) -> None:
++    """
++    Persist checkpoint metadata into state.json for reliable interrupt recovery.
++    Stores the git commit SHA taken before implement-step so vibe-resume can verify
++    the repo is still at the expected state before offering to resume.
++    """
++    update_state(run_id, checkpoint_meta={
++        "step_id": step_id,
++        "commit_sha": commit_sha,
++        "recorded_at": now_utc(),
++    })
++
++
++def find_stale_runs(stale_minutes: int = 30) -> list[dict]:
++    """
++    Return runs stuck in CODEX_IMPLEMENT with no events in the last `stale_minutes`.
++    Used by the startup check in vibe-resume to surface interrupted runs.
++    """
++    from datetime import datetime, timezone, timedelta
++    stale_cutoff = datetime.now(timezone.utc) - timedelta(minutes=stale_minutes)
++    stale = []
++    if not RUNS_DIR.exists():
++        return stale
++    for run_dir_path in RUNS_DIR.iterdir():
++        if not run_dir_path.is_dir():
++            continue
++        sp = run_dir_path / "state.json"
++        if not sp.exists():
++            continue
++        try:
++            state = json.loads(sp.read_text())
++        except Exception:
++            continue
++        if state.get("status") != "CODEX_IMPLEMENT":
++            continue
++        events = load_events(state.get("run_id", run_dir_path.name))
++        if events:
++            last_ts_str = events[-1].get("ts", "")
++            try:
++                last_ts = datetime.fromisoformat(last_ts_str.replace("Z", "+00:00"))
++                if last_ts > stale_cutoff:
++                    continue  # recently active, not stale
++            except ValueError:
++                pass
++        stale.append({
++            "run_id": state.get("run_id", run_dir_path.name),
++            "status": state.get("status"),
++            "current_step": state.get("current_step"),
++            "checkpoint_meta": state.get("checkpoint_meta"),
++            "updated_at": state.get("updated_at"),
++        })
++    return stale
++
++
++def load_events(run_id: str) -> list:
++    """Load all events for a run. Returns empty list if file missing."""
++    path = events_path(run_id)
++    if not path.exists():
++        return []
++    events = []
++    for line in path.read_text().splitlines():
++        line = line.strip()
++        if line:
++            try:
++                events.append(json.loads(line))
++            except json.JSONDecodeError:
++                import logging
++                logging.getLogger("state_manager").warning(
++                    "Malformed JSON line in events.jsonl for run %s: %s", run_id, line[:100]
++                )
++    return events
++
++
++# ── CLI ──────────────────────────────────────────────────────────────────────
++
++def cmd_status(args):
++    run_id = args.run_id or get_current_run_id()
++    if not run_id:
++        print(json.dumps({"status": "error", "summary": "No run_id specified and .ai/current not set"}))
++        sys.exit(1)
++    try:
++        state = load_state(run_id)
++        events = load_events(run_id)
++        print(json.dumps({
++            "status": "ok",
++            "run_id": run_id,
++            "run_status": state.get("status"),
++            "current_step": state.get("current_step"),
++            "total_steps": state.get("total_steps"),
++            "revision_count": state.get("revision_count"),
++            "is_stopped": state.get("status") in STOP_STATES,
++            "event_count": len(events),
++            "last_event": events[-1] if events else None,
++            "updated_at": state.get("updated_at"),
++        }, indent=2))
++    except FileNotFoundError as e:
++        print(json.dumps({"status": "error", "summary": str(e)}))
++        sys.exit(1)
++
++
++def cmd_update(args):
++    run_id = args.run_id or get_current_run_id()
++    if not run_id:
++        print(json.dumps({"status": "error", "summary": "No run_id"}))
++        sys.exit(1)
++
++    fields = {}
++    if args.status:
++        fields["status"] = args.status
++    if args.step is not None:
++        fields["current_step"] = args.step
++    if args.approval_stage:
++        fields["approval_stage"] = args.approval_stage
++    if args.data:
++        try:
++            extra = json.loads(args.data)
++            fields.update(extra)
++        except json.JSONDecodeError:
++            print(json.dumps({"status": "error", "summary": "Invalid JSON in --data"}))
++            sys.exit(1)
++
++    if not fields:
++        print(json.dumps({"status": "error", "summary": "No fields to update"}))
++        sys.exit(1)
++
++    state = update_state(run_id, **fields)
++    print(json.dumps({"status": "ok", "run_id": run_id, "new_status": state.get("status")}))
++
++
++def cmd_set_current(args):
++    try:
++        set_current(args.run_id)
++        print(json.dumps({"status": "ok", "current": args.run_id}))
++    except Exception as e:
++        print(json.dumps({"status": "error", "summary": str(e)}))
++        sys.exit(1)
++
++
++def cmd_get_current(args):
++    run_id = get_current_run_id()
++    if run_id:
++        print(json.dumps({"status": "ok", "current": run_id}))
++    else:
++        print(json.dumps({"status": "ok", "current": None, "note": ".ai/current not set"}))
++
++
++def cmd_log_event(args):
++    run_id = args.run_id or get_current_run_id()
++    if not run_id:
++        print(json.dumps({"status": "error", "summary": "No run_id"}))
++        sys.exit(1)
++    data = {}
++    if args.data:
++        try:
++            data = json.loads(args.data)
++        except json.JSONDecodeError:
++            pass
++    log_event(run_id, args.event, data)
++    print(json.dumps({"status": "ok", "event": args.event, "run_id": run_id}))
++
++
++def cmd_stale_check(args):
++    stale = find_stale_runs(stale_minutes=args.minutes)
++    print(json.dumps({"status": "ok", "stale_runs": stale, "count": len(stale)}))
++
++
++def cmd_record_checkpoint(args):
++    run_id = args.run_id or get_current_run_id()
++    if not run_id:
++        print(json.dumps({"status": "error", "summary": "No run_id"}))
++        sys.exit(1)
++    record_checkpoint(run_id, step_id=args.step, commit_sha=args.sha)
++    print(json.dumps({"status": "ok", "run_id": run_id, "step": args.step, "sha": args.sha}))
++
++
++def main():
++    parser = argparse.ArgumentParser(description="state_manager.py — Vibe Commander state operations")
++    sub = parser.add_subparsers(dest="command", required=True)
++
++    # status
++    p_status = sub.add_parser("status", help="Show run status")
++    p_status.add_argument("run_id", nargs="?", help="Run ID (default: .ai/current)")
++    p_status.set_defaults(func=cmd_status)
++
++    # update
++    p_update = sub.add_parser("update", help="Update state fields")
++    p_update.add_argument("--run-id", help="Run ID (default: .ai/current)")
++    p_update.add_argument("--status", help="New status")
++    p_update.add_argument("--step", type=int, help="current_step value")
++    p_update.add_argument("--approval-stage", help="approval_stage value")
++    p_update.add_argument("--data", help="Extra fields as JSON string")
++    p_update.set_defaults(func=cmd_update)
++
++    # set-current
++    p_sc = sub.add_parser("set-current", help="Set .ai/current symlink")
++    p_sc.add_argument("--run-id", required=True)
++    p_sc.set_defaults(func=cmd_set_current)
++
++    # get-current
++    p_gc = sub.add_parser("get-current", help="Print active run_id")
++    p_gc.set_defaults(func=cmd_get_current)
++
++    # log-event
++    p_le = sub.add_parser("log-event", help="Append an event to events.jsonl")
++    p_le.add_argument("--run-id", help="Run ID (default: .ai/current)")
++    p_le.add_argument("--event", required=True, help="Event type string")
++    p_le.add_argument("--data", help="Event data as JSON string")
++    p_le.set_defaults(func=cmd_log_event)
++
++    # stale-check
++    p_sc2 = sub.add_parser("stale-check",
++                            help="List runs stuck in CODEX_IMPLEMENT with no recent events")
++    p_sc2.add_argument("--minutes", type=int, default=30,
++                       help="Inactivity threshold in minutes (default 30)")
++    p_sc2.set_defaults(func=cmd_stale_check)
++
++    # record-checkpoint
++    p_rcp = sub.add_parser("record-checkpoint",
++                            help="Save checkpoint SHA + step_id to state.json for recovery")
++    p_rcp.add_argument("--run-id", help="Run ID (default: .ai/current)")
++    p_rcp.add_argument("--step", required=True, help="Step identifier (e.g. s1)")
++    p_rcp.add_argument("--sha", required=True, help="Git commit SHA of the checkpoint")
++    p_rcp.set_defaults(func=cmd_record_checkpoint)
++
++    args = parser.parse_args()
++    args.func(args)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tools/template_loader.py b/tools/template_loader.py
+new file mode 100644
+index 0000000..9059f29
+--- /dev/null
++++ b/tools/template_loader.py
+@@ -0,0 +1,130 @@
++"""Template loader for AI code generation standards.
++
++Loads code standards templates with a priority cascade:
++  1. Project override: .ai/code_standards.md
++  2. Language-specific: templates/{language}_standards.md
++  3. Global: templates/code_standards.md
++  4. Fallback: empty string (no standards)
++
++Templates are cached after first load to avoid repeated I/O.
++"""
++
++import os
++import re
++from functools import lru_cache
++from pathlib import Path
++
++__all__ = ["load_standards", "detect_language", "clear_cache"]
++
++# Maximum characters for injected standards (roughly ~1000 tokens)
++MAX_STANDARDS_CHARS = int(os.environ.get("VIBE_MAX_STANDARDS_CHARS", "4000"))
++
++TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
++PROJECT_OVERRIDE = Path(".ai") / "code_standards.md"
++
++
++def detect_language(content: str) -> str:
++    """Detect programming language from step/plan content.
++
++    Uses simple heuristics as a fallback. Prefer passing --language explicitly.
++
++    Args:
++        content: Text content from a plan step or file listing.
++
++    Returns:
++        One of: "python", "typescript", "generic".
++    """
++    if not content:
++        return "generic"
++
++    text = content.lower()
++
++    # Python signals
++    py_signals = [".py", "import ", "def ", "class ", "pytest", "python", "__init__"]
++    py_score = sum(1 for s in py_signals if s in text)
++
++    # TypeScript/JavaScript signals
++    ts_signals = [".ts", ".tsx", ".js", ".jsx", "export ", "interface ", "const ", "typescript", "npm", "react"]
++    ts_score = sum(1 for s in ts_signals if s in text)
++
++    if py_score > ts_score and py_score >= 2:
++        return "python"
++    if ts_score > py_score and ts_score >= 2:
++        return "typescript"
++    return "generic"
++
++
++@lru_cache(maxsize=8)
++def _load_file(path: str) -> str:
++    """Read a file and return its content. Cached by absolute path string."""
++    p = Path(path)
++    if p.exists() and p.is_file():
++        return p.read_text(encoding="utf-8")
++    return ""
++
++
++def load_standards(language: str = "python", project_override: str = None) -> str:
++    """Load code standards template with priority cascade.
++
++    Priority:
++        1. project_override path (if provided and exists)
++        2. .ai/code_standards.md (project-level override)
++        3. templates/{language}_standards.md (language-specific)
++        4. templates/code_standards.md (global)
++        5. "" (empty — no standards)
++
++    If language-specific exists, it is APPENDED to global (not replacing).
++
++    Args:
++        language: Target language ("python", "typescript", "generic").
++        project_override: Optional explicit path to override file.
++
++    Returns:
++        Standards text, truncated to MAX_STANDARDS_CHARS if needed.
++    """
++    # 1. Explicit override path
++    if project_override:
++        override = _load_file(str(Path(project_override).resolve()))
++        if override:
++            return _truncate(override)
++
++    # 2. Project-level override (.ai/code_standards.md)
++    proj = _load_file(str(PROJECT_OVERRIDE.resolve()))
++    if proj:
++        return _truncate(proj)
++
++    # 3. Global + language-specific (combined)
++    global_path = TEMPLATES_DIR / "code_standards.md"
++    lang_path = TEMPLATES_DIR / f"{language}_standards.md"
++
++    global_standards = _load_file(str(global_path.resolve()))
++    lang_standards = _load_file(str(lang_path.resolve()))
++
++    if global_standards and lang_standards:
++        combined = global_standards.rstrip() + "\n\n---\n\n" + lang_standards
++        return _truncate(combined)
++    if global_standards:
++        return _truncate(global_standards)
++    if lang_standards:
++        return _truncate(lang_standards)
++
++    # 4. Nothing found
++    return ""
++
++
++def _truncate(text: str) -> str:
++    """Truncate text to MAX_STANDARDS_CHARS, cutting at last section boundary."""
++    if len(text) <= MAX_STANDARDS_CHARS:
++        return text
++
++    # Try to cut at a section boundary (## heading)
++    truncated = text[:MAX_STANDARDS_CHARS]
++    last_section = truncated.rfind("\n## ")
++    if last_section > len(truncated) // 2:
++        return truncated[:last_section].rstrip() + "\n\n[... truncated for context limit]"
++    return truncated.rstrip() + "\n\n[... truncated for context limit]"
++
++
++def clear_cache() -> None:
++    """Clear the template file cache. Useful for testing."""
++    _load_file.cache_clear()

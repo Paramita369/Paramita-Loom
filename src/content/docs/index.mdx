@@ -48,7 +48,7 @@ import SectionCardGrid from '../../components/SectionCardGrid.astro';
 <SectionCardGrid
   eyebrow="Approved batch"
   title="Start with the first approved five pages"
-  intro="These are the only public pages wired into this batch, each consumed from the approved manifest and reviewed body."
+  intro="These are the only public pages wired into this batch, each consumed from the approved manifest and reviewed body. These are the only public pages in this batch. Suggested reading order: start with the system boundary, then the builder workflow, then the verification loop."
   items={[
     {
       title: 'OpenClaw 是什麼：從 private truth 到 public projection',
@@ -84,35 +84,6 @@ import SectionCardGrid from '../../components/SectionCardGrid.astro';
       eyebrow: 'Resource',
       summary: '整理我在 OpenClaw 實作中實際使用的 builder stack，包括 ChatGPT、Codex、Python 3.12、SQLite、Slack Socket Mode 與 LaunchAgents。',
       cta: 'Open',
-    },
-  ]}
-/>
-
-<SectionCardGrid
-  eyebrow="Reading order"
-  title="A simple path through the approved batch"
-  intro="Read the system boundary first, then the builder workflow, then the verification loop."
-  items={[
-    {
-      title: 'System boundary',
-      href: '/knowledge/openclaw/private-truth-to-public-projection/',
-      eyebrow: 'Knowledge',
-      summary: '解釋 OpenClaw 如何把 SQLite control DB 保持為 live truth，並把 public site 收斂為 projection layer。',
-      cta: 'Start',
-    },
-    {
-      title: 'Builder workflow',
-      href: '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
-      eyebrow: 'Guide',
-      summary: '整理我如何用 ChatGPT 做高層規劃、用 Codex 在 repo 內落地，並以 build log 維持 phase-by-phase discipline。',
-      cta: 'Next',
-    },
-    {
-      title: 'Preview proof',
-      href: '/review/from-zero-to-live-preview/',
-      eyebrow: 'Review',
-      summary: '回顧 Phase 15 如何把 frozen contract、private publish hooks 與 preview verification 串成一條可驗證的 private-to-public 閉環。',
-      cta: 'Finish',
     },
   ]}
 />

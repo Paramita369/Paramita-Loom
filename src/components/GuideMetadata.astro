@@ -310,12 +310,11 @@ const hasMetadata =
     {metadataSections.length > 0 && (
       <div class="loom-guide-metadata-secondary">
         {metadataSections.map((section) => (
-          <section class="loom-guide-metadata-panel">
-            <div class="loom-guide-metadata-panel-head">
-              <h3>{section.title}</h3>
-              <p>{section.intro}</p>
-            </div>
-
+          <details class="loom-guide-metadata-disclosure">
+            <summary>
+              <strong>{section.title}</strong>
+              <span>{section.intro}</span>
+            </summary>
             <dl class="loom-guide-metadata-grid">
               {section.rows.map((row) => (
                 <div class="loom-guide-metadata-row">
@@ -329,12 +328,12 @@ const hasMetadata =
                       </ul>
                     ) : (
                       row.value
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </section>
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+          </details>
         ))}
       </div>
     )}
