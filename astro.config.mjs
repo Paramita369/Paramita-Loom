@@ -6,55 +6,28 @@ import starlight from '@astrojs/starlight';
 const sidebar = [
   {
     label: 'Knowledge',
-    translations: {
-      'zh-HK': '知識',
-    },
-    items: [
-      {
-        label: '系統真相與對外內容',
-        link: '/knowledge/openclaw/private-truth-to-public-projection/',
-      },
-    ],
+    translations: { 'zh-HK': '知識' },
+    autogenerate: { directory: 'zh-hk/knowledge' },
   },
   {
     label: 'Guides',
-    translations: {
-      'zh-HK': '指南',
-    },
-    items: [
-      {
-        label: '用 ChatGPT 與 Codex 建立 OpenClaw',
-        link: '/guides/codex/how-chatgpt-and-codex-built-openclaw/',
-      },
-      {
-        label: 'Codex 三人協作流程',
-        link: '/guides/mac/three-agent-codex-workflow/',
-      },
-    ],
+    translations: { 'zh-HK': '指南' },
+    autogenerate: { directory: 'zh-hk/guides' },
   },
   {
     label: 'Reviews',
-    translations: {
-      'zh-HK': '評測',
-    },
-    items: [
-      {
-        label: '從空殼到公開預覽',
-        link: '/review/from-zero-to-live-preview/',
-      },
-    ],
+    translations: { 'zh-HK': '評測' },
+    autogenerate: { directory: 'zh-hk/review' },
   },
   {
     label: 'Resources',
-    translations: {
-      'zh-HK': '資源',
-    },
-    items: [
-      {
-        label: 'AI 開發工具組合',
-        link: '/resources/ai-builder-stack/actual-openclaw-stack/',
-      },
-    ],
+    translations: { 'zh-HK': '資源' },
+    autogenerate: { directory: 'zh-hk/resources' },
+  },
+  {
+    label: 'Notes',
+    translations: { 'zh-HK': '筆記' },
+    autogenerate: { directory: 'zh-hk/notes' },
   },
 ];
 
