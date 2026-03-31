@@ -1,0 +1,112 @@
+---
+title: 21 天用 Claude Code 打造個人 AI 分身助理
+description: 一位開發者花了 21 天，從記憶系統設計到工作流落地，分享如何用 Claude Code 建立可持續演化的個人 AI 助理系統
+type: knowledge
+topic: https-raymondhouch
+status: draft
+reviewedAt: '2026-03-31T10:48:45.626300+00:00'
+related: []
+tags:
+- ai-agent
+- claude-code
+- workflow
+- memory-system
+slug: knowledge/ai-agent-21-day-build
+knowledge_id: knowledge_89b1f9afd49c457683bafb5830c518e0
+publication_state: publish_ready
+route_version: route_v2
+access_level: free
+projection_version: g2g3-integ-w1
+site_type_projection: knowledge
+target_site_type: knowledge
+target_chinese_template: knowledge
+required_reader_sections: &id001
+- 這是什麼內容
+- 背景
+- 核心解釋
+- 來源聲稱 vs 可驗證事實
+- 延伸閱讀
+forbidden_leaks: &id002
+- operator-only fields
+- repo-internal shorthand
+- unmarked source claims
+target_template: knowledge
+preview_publish_boundary:
+  private_preview_candidate: &id003
+    previewable: false
+    go_live: false
+    nav_search_visible: false
+    approval_required: false
+  public_candidate: &id004
+    previewable: true
+    go_live: false
+    nav_search_visible: true
+    approval_required: false
+  preview_deployment_candidate: &id005
+    previewable: true
+    go_live: false
+    nav_search_visible: true
+    approval_required: false
+  publish_ready_content: &id006
+    previewable: true
+    go_live: true
+    nav_search_visible: true
+    approval_required: false
+  boundary_public_candidate_clean: true
+  withheld_reason: null
+  can_auto_live: false
+nav_hidden: false
+search_hidden: false
+boundary_public_candidate_clean: true
+public_site_projection:
+  projection_version: g2g3-integ-w1
+  publication_state: publish_ready
+  site_type_projection: knowledge
+  target_site_type: knowledge
+  target_chinese_template: knowledge
+  required_reader_sections: *id001
+  forbidden_leaks: *id002
+  preview_publish_boundary:
+    private_preview_candidate: *id003
+    public_candidate: *id004
+    preview_deployment_candidate: *id005
+    publish_ready_content: *id006
+    boundary_public_candidate_clean: true
+    withheld_reason: null
+    can_auto_live: false
+pagefind: true
+sidebar:
+  hidden: false
+  label: 21 天用 Claude Code 打造個人 AI 分身助理
+---
+
+## 這是什麼內容
+
+這篇文章由侯智薰（雷蒙）撰寫，記錄他用 21 天以 Claude Code 由零建立個人 AI 助理系統的過程。內容唔係單純展示成果，而係以第一身拆解設計思路、踩坑經驗，同埋點樣令 AI 真正融入日常工作與生活。
+
+## 背景
+
+愈來愈多人想用 AI 處理工作流，但大部分工具都停留喺「開一段對話、做一次任務」的層次，最大問題係無法長期記住使用者背景。呢篇文章重要之處，在於作者唔追求即插即用，而係反過來先處理記憶、檢索同跨裝置延續，回應咗個人 AI 助理最常見但最易被忽略的基礎問題。
+
+## 核心解釋
+
+### 先建記憶，再談能力
+
+作者將系統核心放喺三層記憶：`MEMORY.md` 負責短期摘要、`memory.json` 保存實體關係、`daily log` 記錄時序決策。重點唔係要 AI 背熟所有內容，而係令佢知道要去邊度搵，咁先可以跨 session、跨裝置延續上下文。
+
+### 由被動工具變成主動助手
+
+當記憶穩定之後，作者再接入 Discord Bot、Gmail、內容產出、家庭管理同財務整理等流程。文章特別強調，高風險動作仍然保留規則或人工把關，AI 主要負責整理、草擬、提醒同協作，呢種做法比全自動更實際。
+
+### 後期優化其實係整理上下文
+
+去到第三週，作者發現瓶頸唔係模型唔夠聰明，而係指令太肥、知識擺位太亂。於是他把核心規則、動態記憶、一次性決策拆開，再用按需載入的 Skills 減少上下文負擔。文章最有價值的地方，正正係示範點樣由一套「好像可用」的 AI 工作流，整理成可持續演化的系統。
+
+## 來源聲稱 vs 可驗證事實
+
+可驗證的部分包括：文章公開列出作者使用的工具、三層記憶設計、Discord Bot 主動推送、Gmail 與其他工作流整合方式，亦有發佈與更新日期可查。至於「21 天令 AI 由工具變成夥伴」、「AI 已大幅降低從需求到成果的門檻」等判斷，屬於作者基於自身工作習慣與投入程度的觀察，對其他人未必會有完全相同結果。
+
+## 延伸閱讀
+
+- 原文：[https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/](https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/)
+- 可進一步關注文章中提到的記憶分層、Skills 模組化、Bot 主動推送與人手覆核工作流設計，作為評估個人 AI 助理架構的切入點。
