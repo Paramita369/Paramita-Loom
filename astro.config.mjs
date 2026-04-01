@@ -7,27 +7,27 @@ const sidebar = [
   {
     label: 'Knowledge',
     translations: { 'zh-HK': '知識' },
-    autogenerate: { directory: 'zh-hk/knowledge' },
+    autogenerate: { directory: 'knowledge' },
   },
   {
     label: 'Guides',
     translations: { 'zh-HK': '指南' },
-    autogenerate: { directory: 'zh-hk/guides' },
+    autogenerate: { directory: 'guides' },
   },
   {
     label: 'Reviews',
     translations: { 'zh-HK': '評測' },
-    autogenerate: { directory: 'zh-hk/review' },
+    autogenerate: { directory: 'review' },
   },
   {
     label: 'Resources',
     translations: { 'zh-HK': '資源' },
-    autogenerate: { directory: 'zh-hk/resources' },
+    autogenerate: { directory: 'resources' },
   },
   {
     label: 'Notes',
     translations: { 'zh-HK': '筆記' },
-    autogenerate: { directory: 'zh-hk/notes' },
+    autogenerate: { directory: 'notes' },
   },
 ];
 
@@ -59,6 +59,7 @@ export default defineConfig({
       components: {
         Head: './src/components/starlight/Head.astro',
         LanguageSelect: './src/components/starlight/LanguageSelect.astro',
+        FallbackContentNotice: './src/components/starlight/FallbackContentNotice.astro',
       },
       sidebar,
     }),

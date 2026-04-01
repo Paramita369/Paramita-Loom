@@ -1,6 +1,7 @@
 ---
-title: 21 天用 Claude Code 打造個人 AI 分身助理
-description: 一位開發者花了 21 天，從記憶系統設計到工作流落地，分享如何用 Claude Code 建立可持續演化的個人 AI 助理系統
+title: 21 天，我用 Claude Code 打造了一整套 AI 分身助理記錄
+description: 文章以 21 天實作記錄為主線，描述作者沒有直接採用現成 AI agent 框架，而是先從「可長期延續的記憶系統」著手，解決跨 session、跨裝置失憶問題，逐步打造更貼身的個人
+  AI 分身。
 type: knowledge
 topic: https-raymondhouch
 status: draft
@@ -77,36 +78,42 @@ public_site_projection:
 pagefind: true
 sidebar:
   hidden: false
-  label: 21 天用 Claude Code 打造個人 AI 分身助理
+  label: '21 天，我用 Claude Code 打造了一整套 AI '
 ---
+
+# 21 天，我用 Claude Code 打造了一整套 AI 分身助理記錄
 
 ## 這是什麼內容
 
-這篇文章由侯智薰（雷蒙）撰寫，記錄他用 21 天以 Claude Code 由零建立個人 AI 助理系統的過程。內容唔係單純展示成果，而係以第一身拆解設計思路、踩坑經驗，同埋點樣令 AI 真正融入日常工作與生活。
+- 文章以 21 天實作記錄為主線，描述作者沒有直接採用現成 AI agent 框架，而是先從「可長期延續的記憶系統」著手，解決跨 session、跨裝置失憶問題，逐步打造更貼身的個人 AI 分身。
+- 前半段重點在架構設計：用 iCloud、多層記憶、知識圖譜與每日日誌，讓 AI 不必硬記所有內容，而是能穩定找到脈絡、偏好與專案背景。
+- 中後段轉向工作流落地與優化，將 Gmail、家庭與財務等流程接入，同時以規則和人工把關高風險動作，並透過週回顧、精簡核心指令、模組化 Skills 與 QA 流程，把 AI 從被動工具推向較主動的協作夥伴。
+- 最後作者把重點拉回人本身：AI 真正的價值不在工具新奇，而在使用者是否清楚需求、能判斷品質，並願意承受前期效率下降來換取長期可持續的系統能力。
 
 ## 背景
 
-愈來愈多人想用 AI 處理工作流，但大部分工具都停留喺「開一段對話、做一次任務」的層次，最大問題係無法長期記住使用者背景。呢篇文章重要之處，在於作者唔追求即插即用，而係反過來先處理記憶、檢索同跨裝置延續，回應咗個人 AI 助理最常見但最易被忽略的基礎問題。
+本文來源：[https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/](https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/)
 
 ## 核心解釋
 
-### 先建記憶，再談能力
-
-作者將系統核心放喺三層記憶：`MEMORY.md` 負責短期摘要、`memory.json` 保存實體關係、`daily log` 記錄時序決策。重點唔係要 AI 背熟所有內容，而係令佢知道要去邊度搵，咁先可以跨 session、跨裝置延續上下文。
-
-### 由被動工具變成主動助手
-
-當記憶穩定之後，作者再接入 Discord Bot、Gmail、內容產出、家庭管理同財務整理等流程。文章特別強調，高風險動作仍然保留規則或人工把關，AI 主要負責整理、草擬、提醒同協作，呢種做法比全自動更實際。
-
-### 後期優化其實係整理上下文
-
-去到第三週，作者發現瓶頸唔係模型唔夠聰明，而係指令太肥、知識擺位太亂。於是他把核心規則、動態記憶、一次性決策拆開，再用按需載入的 Skills 減少上下文負擔。文章最有價值的地方，正正係示範點樣由一套「好像可用」的 AI 工作流，整理成可持續演化的系統。
+- 長期型 AI 助理宜先設計記憶分層、檢索路徑與上下文延續，再談功能擴張。
+- 高風險自動化更適合採「AI 生成建議 + 規則或人工決策」模式，而不是端到端全自動。
+- 導入 AI 工作流初期出現效率倒退並不罕見；若目標是可持續系統，磨合成本本身就是必要投資。
 
 ## 來源聲稱 vs 可驗證事實
 
-可驗證的部分包括：文章公開列出作者使用的工具、三層記憶設計、Discord Bot 主動推送、Gmail 與其他工作流整合方式，亦有發佈與更新日期可查。至於「21 天令 AI 由工具變成夥伴」、「AI 已大幅降低從需求到成果的門檻」等判斷，屬於作者基於自身工作習慣與投入程度的觀察，對其他人未必會有完全相同結果。
+> 以上內容由 AI 自動摘要，未經人工逐句核實。建議對照原文確認關鍵事實。
 
 ## 延伸閱讀
 
-- 原文：[https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/](https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/)
-- 可進一步關注文章中提到的記憶分層、Skills 模組化、Bot 主動推送與人手覆核工作流設計，作為評估個人 AI 助理架構的切入點。
+- 原文連結：[https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/](https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/)
+
+<details>
+<summary>來源追蹤 (Source Trace)</summary>
+
+- source_type: public_url
+- source_value: https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/
+- content_type: knowledge
+- topic: https-raymondhouch
+
+</details>

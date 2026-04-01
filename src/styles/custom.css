@@ -270,6 +270,10 @@ h3,
   .loom-guide-metadata-primary {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .loom-guide-metadata-secondary {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 50rem) {
