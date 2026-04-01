@@ -88,7 +88,7 @@ interface MetadataSection {
   rows: MetadataRow[];
 }
 
-const routeData = (Astro.locals.starlightRoute?.entry?.data ?? {}) as GuideFrontmatter;
+const routeData = {} as GuideFrontmatter;
 const frontmatter = Astro.props.frontmatter ?? routeData;
 const verificationLevelLabels: Record<string, string> = {
   doc_checked: '文件已核對',

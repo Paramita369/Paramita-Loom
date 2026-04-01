@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import CategoryListing from '../../../components/CategoryListing.astro';
+---
+
+<BaseLayout title="關於 / 近況" locale="zh-hk">
+  <Nav locale="zh-hk" />
+  <main>
+    <CategoryListing
+      locale="zh-hk"
+      category="about-now"
+      title="關於 / 近況"
+      description="關於 Paramita Loom 同最新近況。"
+    />
+  </main>
+  <Footer locale="zh-hk" />
+</BaseLayout>

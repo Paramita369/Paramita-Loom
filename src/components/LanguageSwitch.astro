@@ -1,0 +1,44 @@
+---
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'zh-hk' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Compute the alternate locale path
+let altPath: string;
+if (locale === 'zh-hk') {
+  altPath = currentPath.replace(/^\/zh-hk/, '/en');
+} else {
+  altPath = currentPath.replace(/^\/en/, '/zh-hk');
+}
+
+const altLabel = locale === 'zh-hk' ? 'EN' : '中文';
+---
+
+<a href={altPath} class="loom-lang-switch" aria-label={`Switch to ${altLabel}`}>
+  {altLabel}
+</a>
+
+<style>
+  .loom-lang-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--loom-border);
+    border-radius: 0.375rem;
+    text-decoration: none;
+    color: var(--loom-copy);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: background 150ms ease;
+  }
+
+  .loom-lang-switch:hover {
+    background: var(--loom-accent-light);
+    color: var(--loom-accent);
+  }
+</style>

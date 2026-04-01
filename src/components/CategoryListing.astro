@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+import { deriveRoute, getCategory } from '../utils/routing';
+
+interface Props {
+  locale: string;
+  category: string;
+  title: string;
+  description?: string;
+}
+
+const { locale, category, title, description } = Astro.props;
+
+const allDocs = await getCollection('docs');
+
+const articles = allDocs
+  .filter((entry) => {
+    const route = deriveRoute(entry.id);
+    if (route.locale !== locale) return false;
+    const cat = getCategory(route.slug);
+    if (cat !== category) return false;
+    // Skip section indexes
+    const parts = route.slug.split('/');
+    if (parts.length === 1) return false;
+    return true;
+  })
+  .map((entry) => {
+    const route = deriveRoute(entry.id);
+    return { entry, route };
+  });
+---
+
+<section class="loom-listing">
+  <header class="loom-listing-header">
+    <h1>{title}</h1>
+    {description && <p>{description}</p>}
+    <span class="loom-listing-count">{articles.length} 篇文章</span>
+  </header>
+
+  {articles.length > 0 ? (
+    <div class="loom-listing-grid">
+      {articles.map(({ entry, route }) => (
+        <a href={route.url} class="loom-card">
+          <div class="loom-card-head">
+            <h3>{entry.data.title}</h3>
+            <span class="loom-arrow">→</span>
+          </div>
+          {entry.data.description && <p>{entry.data.description}</p>}
+          {entry.data.tags && entry.data.tags.length > 0 && (
+            <div class="loom-card-tags">
+              {entry.data.tags.slice(0, 3).map((tag: string) => (
+                <span class="loom-tag-sm">{tag}</span>
+              ))}
+            </div>
+          )}
+        </a>
+      ))}
+    </div>
+  ) : (
+    <p class="loom-listing-empty">暫時冇內容。</p>
+  )}
+</section>
+
+<style>
+  .loom-listing {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .loom-listing-header {
+    padding: 3rem 0 2rem;
+  }
+
+  .loom-listing-header h1 {
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    color: var(--loom-ink);
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    letter-spacing: -0.02em;
+  }
+
+  .loom-listing-header p {
+    color: var(--loom-copy);
+    margin: 0 0 0.5rem;
+    max-width: 42rem;
+    line-height: 1.6;
+  }
+
+  .loom-listing-count {
+    color: var(--loom-soft);
+    font-size: 0.88rem;
+  }
+
+  .loom-listing-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+
+  .loom-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .loom-tag-sm {
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: var(--loom-accent-light);
+    color: var(--loom-accent);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .loom-listing-empty {
+    color: var(--loom-soft);
+    font-style: italic;
+  }
+
+  @media (max-width: 50rem) {
+    .loom-listing-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

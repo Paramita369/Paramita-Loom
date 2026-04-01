@@ -1,0 +1,117 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import GuideMetadata from '../../components/GuideMetadata.astro';
+import { deriveRoute, getCategory } from '../../utils/routing';
+
+export async function getStaticPaths() {
+  const allDocs = await getCollection('docs');
+
+  return allDocs
+    .filter((entry) => {
+      if (!entry.id.startsWith('zh-hk/')) return false;
+      const route = deriveRoute(entry.id);
+      return route.slug !== '';
+    })
+    .map((entry) => {
+      const route = deriveRoute(entry.id);
+      return {
+        params: { slug: route.slug },
+        props: { entry },
+      };
+    });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const route = deriveRoute(entry.id);
+const category = getCategory(route.slug);
+const isGuide = category === 'guides';
+const categoryLabels: Record<string, string> = {
+  knowledge: '知識',
+  guides: '指南',
+  review: '評測',
+  resources: '資源',
+  notes: '筆記',
+  'start-here': '開始',
+  support: '支援',
+  'about-now': '關於',
+};
+const categoryLabel = categoryLabels[category] || category;
+const backUrl = category ? `/zh-hk/${category}/` : '/zh-hk/';
+const backLabel = category ? `← ${categoryLabel}` : '← 返回首頁';
+---
+
+<ArticleLayout title={entry.data.title} description={entry.data.description} locale="zh-hk">
+  <header class="loom-article-header">
+    <a href={backUrl} class="loom-back-link">{backLabel}</a>
+    <h1>{entry.data.title}</h1>
+    {entry.data.description && <p class="loom-article-desc">{entry.data.description}</p>}
+    {entry.data.tags && entry.data.tags.length > 0 && (
+      <div class="loom-article-tags">
+        {entry.data.tags.map((tag: string) => (
+          <span class="loom-tag">{tag}</span>
+        ))}
+      </div>
+    )}
+  </header>
+
+  {isGuide && <GuideMetadata frontmatter={entry.data} />}
+
+  <div class="loom-article-content">
+    <Content />
+  </div>
+</ArticleLayout>
+
+<style>
+  .loom-article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--loom-border);
+  }
+
+  .loom-back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--loom-accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .loom-back-link:hover {
+    text-decoration: underline;
+  }
+
+  .loom-article-header h1 {
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    color: var(--loom-ink);
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .loom-article-desc {
+    color: var(--loom-soft);
+    font-size: 1.05rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .loom-article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .loom-tag {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: var(--loom-accent-light);
+    color: var(--loom-accent);
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+</style>

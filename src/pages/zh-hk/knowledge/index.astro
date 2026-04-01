@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import CategoryListing from '../../../components/CategoryListing.astro';
+---
+
+<BaseLayout title="知識" locale="zh-hk">
+  <Nav locale="zh-hk" />
+  <main>
+    <CategoryListing
+      locale="zh-hk"
+      category="knowledge"
+      title="知識"
+      description="整理過嘅知識筆記，將碎片化嘅資訊變成有結構嘅理解。"
+    />
+  </main>
+  <Footer locale="zh-hk" />
+</BaseLayout>

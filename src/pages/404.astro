@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="找不到頁面 — 404" locale="zh-hk">
+  <Nav locale="zh-hk" />
+  <main class="loom-main loom-404">
+    <h1>404</h1>
+    <p>找不到你要嘅頁面。</p>
+    <p>Page not found.</p>
+    <a href="/zh-hk/">← 返回首頁</a>
+  </main>
+  <Footer locale="zh-hk" />
+</BaseLayout>
+
+<style>
+  .loom-404 {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 6rem 1.5rem;
+    text-align: center;
+  }
+
+  .loom-404 h1 {
+    font-size: 4rem;
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    color: var(--loom-accent);
+    margin: 0 0 1rem;
+  }
+
+  .loom-404 p {
+    color: var(--loom-copy);
+    font-size: 1.1rem;
+    margin: 0.25rem 0;
+  }
+
+  .loom-404 a {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--loom-accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .loom-404 a:hover {
+    text-decoration: underline;
+  }
+</style>

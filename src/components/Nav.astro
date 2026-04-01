@@ -1,0 +1,95 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { navCategories, categoryLabels } from '../utils/routing';
+
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'zh-hk' } = Astro.props;
+const labels = categoryLabels[locale] || categoryLabels['zh-hk'];
+---
+
+<header class="loom-nav">
+  <div class="loom-nav-inner">
+    <a href={`/${locale}/`} class="loom-nav-brand">
+      <img src="/favicon.svg" alt="Paramita Loom" width="28" height="28" />
+      <span>Paramita Loom</span>
+    </a>
+    <nav class="loom-nav-links" aria-label="Main navigation">
+      {navCategories.map((cat) => (
+        <a href={`/${locale}/${cat}/`}>{labels[cat]}</a>
+      ))}
+    </nav>
+    <div class="loom-nav-actions">
+      <LanguageSwitch locale={locale} />
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .loom-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--loom-bg-nav, rgba(250, 249, 246, 0.92));
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--loom-border);
+  }
+
+  .loom-nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .loom-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--loom-ink);
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    font-weight: 600;
+    font-size: 1.1rem;
+    white-space: nowrap;
+  }
+
+  .loom-nav-links {
+    display: flex;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .loom-nav-links a {
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    color: var(--loom-copy);
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: background 150ms ease, color 150ms ease;
+  }
+
+  .loom-nav-links a:hover {
+    background: var(--loom-accent-light);
+    color: var(--loom-accent);
+  }
+
+  .loom-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 50rem) {
+    .loom-nav-links {
+      display: none;
+    }
+  }
+</style>

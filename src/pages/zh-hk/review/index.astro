@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import CategoryListing from '../../../components/CategoryListing.astro';
+---
+
+<BaseLayout title="評測" locale="zh-hk">
+  <Nav locale="zh-hk" />
+  <main>
+    <CategoryListing
+      locale="zh-hk"
+      category="review"
+      title="評測"
+      description="工具同服務嘅評測，幫你揀啱嘅方案。"
+    />
+  </main>
+  <Footer locale="zh-hk" />
+</BaseLayout>

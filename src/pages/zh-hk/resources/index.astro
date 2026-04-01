@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import CategoryListing from '../../../components/CategoryListing.astro';
+---
+
+<BaseLayout title="資源" locale="zh-hk">
+  <Nav locale="zh-hk" />
+  <main>
+    <CategoryListing
+      locale="zh-hk"
+      category="resources"
+      title="資源"
+      description="有用嘅連結、工具同參考資料。"
+    />
+  </main>
+  <Footer locale="zh-hk" />
+</BaseLayout>

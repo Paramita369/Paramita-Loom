@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { deriveRoute, getCategory } from '../../utils/routing';
+
+const allDocs = await getCollection('docs');
+const zhDocs = allDocs.filter((doc) => doc.id.startsWith('zh-hk/'));
+
+// Get latest articles (up to 6)
+const latestArticles = zhDocs
+  .filter((doc) => {
+    const route = deriveRoute(doc.id);
+    if (!route.slug) return false;
+    // Skip section indexes and special pages
+    const slug = route.slug;
+    if (slug.endsWith('index') || slug === '404' || slug === 'start-here' || slug === 'about-now' || slug === 'support') return false;
+    // Must be a content page (has at least one path separator, i.e. category/slug)
+    return slug.includes('/');
+  })
+  .slice(0, 6);
+
+const categories = [
+  { key: 'knowledge', label: '知識', desc: '整理過嘅知識筆記' },
+  { key: 'guides', label: '指南', desc: '一步步帶你做' },
+  { key: 'review', label: '評測', desc: '工具同服務嘅評測' },
+  { key: 'resources', label: '資源', desc: '有用嘅連結同工具' },
+  { key: 'notes', label: '筆記', desc: '學習同思考記錄' },
+  { key: 'support', label: '支援', desc: '常見問題同幫助' },
+];
+---
+
+<BaseLayout title="Paramita Loom · 知識經緯" locale="zh-hk">
+  <Nav locale="zh-hk" />
+  <main class="loom-home">
+    <section class="loom-hero">
+      <h1>Paramita Loom</h1>
+      <p class="loom-hero-tagline">
+        將碎片化嘅知識，編織成有結構嘅分享。
+      </p>
+      <div class="loom-hero-actions">
+        <a href="/zh-hk/guides/" class="loom-btn loom-btn-primary">瀏覽指南</a>
+        <a href="/zh-hk/knowledge/" class="loom-btn loom-btn-secondary">探索知識</a>
+      </div>
+    </section>
+
+    <section class="loom-categories">
+      <div class="loom-grid">
+        {categories.map((cat) => (
+          <a href={`/zh-hk/${cat.key}/`} class="loom-card">
+            <div class="loom-card-head">
+              <h3>{cat.label}</h3>
+              <span class="loom-arrow">→</span>
+            </div>
+            <p>{cat.desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {latestArticles.length > 0 && (
+      <section class="loom-latest">
+        <h2>最新內容</h2>
+        <ul class="loom-latest-list">
+          {latestArticles.map((doc) => {
+            const route = deriveRoute(doc.id);
+            return (
+              <li>
+                <a href={route.url}>
+                  <span class="loom-latest-title">{doc.data.title}</span>
+                  {doc.data.description && (
+                    <span class="loom-latest-desc">{doc.data.description}</span>
+                  )}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    )}
+  </main>
+  <Footer locale="zh-hk" />
+</BaseLayout>
+
+<style>
+  .loom-home {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .loom-hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .loom-hero h1 {
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    color: var(--loom-ink);
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .loom-hero-tagline {
+    font-size: 1.15rem;
+    color: var(--loom-copy);
+    max-width: 36rem;
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+  }
+
+  .loom-hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .loom-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background 150ms ease, transform 150ms ease;
+  }
+
+  .loom-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .loom-btn-primary {
+    background: var(--loom-accent);
+    color: #fff;
+  }
+
+  .loom-btn-primary:hover {
+    background: var(--loom-accent-hover, #0F766E);
+  }
+
+  .loom-btn-secondary {
+    background: var(--loom-accent-light);
+    color: var(--loom-accent);
+  }
+
+  .loom-categories {
+    margin: 1rem 0 3rem;
+  }
+
+  .loom-latest {
+    margin-top: 2rem;
+  }
+
+  .loom-latest h2 {
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    color: var(--loom-ink);
+    margin: 0 0 1rem;
+  }
+
+  .loom-latest-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .loom-latest-list li a {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 150ms ease;
+  }
+
+  .loom-latest-list li a:hover {
+    background: var(--loom-accent-light);
+  }
+
+  .loom-latest-title {
+    color: var(--loom-ink);
+    font-weight: 600;
+  }
+
+  .loom-latest-desc {
+    color: var(--loom-soft);
+    font-size: 0.9rem;
+  }
+</style>

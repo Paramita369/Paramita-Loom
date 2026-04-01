@@ -1,0 +1,36 @@
+---
+interface Props {
+  locale?: string;
+}
+
+const { locale = 'zh-hk' } = Astro.props;
+const year = new Date().getFullYear();
+const text = locale === 'zh-hk'
+  ? `© ${year} Paramita Loom · 知識經緯`
+  : `© ${year} Paramita Loom`;
+---
+
+<footer class="loom-footer">
+  <div class="loom-footer-inner">
+    <p>{text}</p>
+  </div>
+</footer>
+
+<style>
+  .loom-footer {
+    border-top: 1px solid var(--loom-border);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: var(--loom-soft);
+    font-size: 0.88rem;
+  }
+
+  .loom-footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+
+  .loom-footer p {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  locale?: string;
+}
+
+const { title, description, locale = 'zh-hk' } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} locale={locale}>
+  <Nav locale={locale} />
+  <main class="loom-main">
+    <article class="loom-article">
+      <slot />
+    </article>
+  </main>
+  <Footer locale={locale} />
+</BaseLayout>
+
+<style>
+  .loom-main {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .loom-article {
+    min-height: 60vh;
+  }
+</style>

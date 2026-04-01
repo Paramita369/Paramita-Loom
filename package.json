@@ -16,9 +16,11 @@
   "dependencies": {
     "@astrojs/mdx": "^5.0.1",
     "@astrojs/sitemap": "^3.7.1",
-    "@astrojs/starlight": "^0.38.1",
-    "@fontsource/instrument-sans": "^5.2.8",
-    "@fontsource/newsreader": "^5.2.10",
+    "@fontsource-variable/noto-sans-tc": "^5.2.10",
+    "@fontsource-variable/noto-serif-tc": "^5.2.11",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/outfit": "^5.2.8",
+    "@fontsource/work-sans": "^5.2.8",
     "astro": "^6.0.5"
   },
   "devDependencies": {

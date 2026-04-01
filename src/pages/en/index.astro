@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<BaseLayout title="Paramita Loom" locale="en">
+  <Nav locale="en" />
+  <main class="loom-home">
+    <section class="loom-hero">
+      <h1>Paramita Loom</h1>
+      <p class="loom-hero-tagline">
+        Turning knowledge fragments into structured, shareable insight.
+      </p>
+      <div class="loom-hero-actions">
+        <a href="/en/guides/" class="loom-btn loom-btn-primary">Browse Guides</a>
+        <a href="/en/knowledge/" class="loom-btn loom-btn-secondary">Explore Knowledge</a>
+      </div>
+    </section>
+  </main>
+  <Footer locale="en" />
+</BaseLayout>
+
+<style>
+  .loom-home {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  .loom-hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .loom-hero h1 {
+    font-family: var(--loom-font-display, 'Outfit', 'Noto Serif TC', serif);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    color: var(--loom-ink);
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .loom-hero-tagline {
+    font-size: 1.15rem;
+    color: var(--loom-copy);
+    max-width: 36rem;
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+  }
+
+  .loom-hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .loom-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background 150ms ease, transform 150ms ease;
+  }
+
+  .loom-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .loom-btn-primary {
+    background: var(--loom-accent);
+    color: #fff;
+  }
+
+  .loom-btn-secondary {
+    background: var(--loom-accent-light);
+    color: var(--loom-accent);
+  }
+</style>
