@@ -1,0 +1,44 @@
+---
+title: Build with Veo 3.1 Lite, our most cost-effective video generation model
+description: Build with Veo 3.1 Lite, our most cost-effective video generation model
+type: knowledge
+topic: build-with-veo-31-lite-our-mos
+slug: zh-hk/knowledge/build-with-veo-31-lite-our-most-cost-effective-video-generation-model/index
+knowledge_id: knowledge_b09bbd787a3d4cde90ef124b9a5746a3
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Build with Veo 3.1 Lite, our most cost-effective video generation model
+
+## 一句話版本
+
+Google 推出 `Veo 3.1 Lite` 畀開發者用，重點唔係「更高質」而係用同樣速度將影片生成成本壓到比 `Veo 3.1 Fast` 低一半以上，令大量產片型產品開始有更合理嘅商業模型。
+
+## 點解重要
+
+- **成本結構變咗，產品形態都會跟住變。** 影片生成以前最易卡住嘅位通常唔係做唔到，而係每次試 prompt、改素材、跑版本都太貴；Lite 把單次生成成本拉低後，真正受惠嘅係需要高頻迭代、A/B 測試、批量出片嘅產品，而唔只係 demo 級應用。
+- **Google 係明確用「分層型號」打法搶開發者。** 佢唔係只發一個平價版，而係將 `Lite / Fast` 放成同一家族裡面嘅不同成本帶，意思係之後開發者可以按工作流分配模型，而唔係全程綁死同一個成本級別。
+- **「同速更平」比「更平但更慢」更有產品意義。** 如果平價版要用更長時間出片，很多即時或互動型場景都未必用得落；而家 Google 強調速度同 Fast 一樣，代表成本下降唔一定要犧牲體驗節奏。
+- **支援 text-to-video 同 image-to-video，表示它定位係實用工作流，不只係創作玩具。** 對產品團隊嚟講，image-to-video 特別重要，因為可以沿住現有設計稿、商品圖、角色圖去放大內容生產，而唔需要每次由零開始。
+- **畫面比例同解析度選項齊，減少落地摩擦。** 同時支援 `16:9 / 9:16`、`720p / 1080p`，即係橫版、直版同基本發佈規格都已經照顧到，對要上短片平台、廣告素材、app 內內容流嘅團隊更實際。
+- **片長可調 `4s / 6s / 8s`，等於將成本直接綁到使用情境。** 呢個唔只係規格細節，係讓團隊可以按任務價值做成本控制，例如預覽版先跑 4 秒，確認方向後先升去較長版本。
+- **Google 不只推出 Lite，仲預告 4 月 7 日下調 Fast 價格。** 呢個訊號比單一新品更值得留意，因為反映競爭焦點已經進入價格與普及率，而唔單係模型能力數字。
+- **可經 Gemini API 同 Google AI Studio 直接使用，縮短試點時間。** 代表技術驗證唔需要等特殊管道或封閉合作，產品團隊可以比較快由概念走到可量化試驗。
+- **「最具成本效益」其實係 Google 對市場需求嘅承認。** 佢講法本身已經說明，現階段最大阻力唔係大家唔想做 AI 影片，而係做得起幾多、可以持續跑幾密。
+- **對大量內容生成型 SaaS 會特別有吸引力。** 例如行銷自動化、商品短片、教育素材、社群內容助手，呢啲場景對單次極致畫質未必最敏感，反而對吞吐量同單位成本最敏感。
+- **這不是終局模型，係擴大採用面嘅基建步。** 文中語氣明顯偏向「讓更多開發者接入」而非「突破影片質素上限」，所以要用產品基建眼光睇，而唔係用研究突破眼光睇。
+
+## 我哋點睇
+
+- 如果我哋有任何「要大量試版本」嘅影片流程，呢類平價模型最值得先用喺草稿、首輪探索、批量變體生成，唔好一開始就用高成本模型跑全流程。
+- 之後評估影片模型時，應該分開睇三件事：`每秒成本`、`迭代速度`、`最終可發佈品質`；唔係只睇 demo 好唔好睇，因為真正食預算嘅係反覆重跑。
+- 對 OpenClaw 呢類控制面系統思路嚟講，如果將來接影片生成工作，任務層最好一開始就記錄 `模型級別 / 片長 / 解析度 / 比例 / 單次成本預估`，咁先可以做 deterministic routing、配額控制同事後 review。
+
+## 來源
+
+- 原文：[https://blog.google/technology/ai/rss/](https://blog.google/technology/ai/rss/)

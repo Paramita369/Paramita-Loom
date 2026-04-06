@@ -1,0 +1,45 @@
+---
+title: I built something....
+description: I built something....
+type: knowledge
+topic: i-built-something
+slug: zh-hk/knowledge/i-built-something/index
+knowledge_id: knowledge_754a634218af4a26babeff1d2750ec0e
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# I built something....
+
+## 一句話版本
+
+作者整咗個叫 Journey 嘅產品，想將「已經跑順咗嘅 agent 工作流程」包成可安裝嘅 kit 去分享同重用，重點價值係令 workflow 唔使每次由零開始重砌。
+
+## 點解重要
+
+- **由 prompt 共享升級做完整 workflow 共享**：作者指出，平時最多只係分享一段 prompt，但真正令 agent 穩定做事嘅，仲包括技能、工具、記憶、測試、失敗案例同外部服務設定；如果呢啲唔一齊交付，接手方通常只係「抄到個樣」，抄唔到可重現結果。
+- **針對「發現唔到人哋點用 agent」呢個痛點**：佢觀察到大家最有興趣唔係 agent 本身，而係實際用例；Journey 想解決嘅唔只係安裝難，而係 workflow 本身難被看見、難被理解、難被複製。
+- **將 workflow 當成 installable unit**：kit 被定義成一個可安裝包，而唔係散落喺文件、repo、prompt 歷史同人口相傳入面；對團隊嚟講，呢個思路會直接影響知識沉澱方式，因為交付物由「說明」變成「可執行資產」。
+- **把依賴講清楚，減少隱性前提**：佢特別列出 API key、Node、CLI、模型、embedding、外部 scraper、browser 等要求，代表一個 workflow 可唔可搬運，關鍵唔止係邏輯，而係運行邊界有冇被明確聲明。
+- **環境適配係核心，不係附加功能**：作者強調 kit 應該可以按使用者所用嘅 agent 環境自動適配，而唔係綁死某一款 agent；即係話，真正可擴散嘅 workflow 需要有抽象層，而唔係寫死某個 runtime。
+- **失敗案例被視為一等資產**：佢唔係只交 happy path，而係連「踩過乜坑、點解會失敗、點樣修正」都打包；對我哋嚟講，呢點尤其重要，因為穩定性往往唔係來自成功流程，而係來自對錯誤邊界嘅整理。
+- **驗證內容被納入 kit，代表作者重視可證明性**：caption 提到 validations、tests、failures overcome，反映出 workflow 唔應該只靠作者口述「我用到」，而係要附帶某種驗證憑據，先有機會喺團隊內安全複用。
+- **知識庫 workflow 係高頻、可複用嘅代表案例**：作者用自己每日都會用嘅 knowledge-base / RAG 工作流做示範，重點唔係技術新奇，而係一個真實、高頻、跨內容來源嘅流程最適合產品化同模板化。
+- **人同 agent 會共用同一套 workflow 資產**：佢唔只諗個人使用，而係講到團隊成員都可以將文章丟入同一個資料庫，再由 agent 後續取用；即係 kit 嘅價值唔只係 agent 自動化，仲包括建立團隊共同操作方式。
+- **內容來源雜、多、碎，先更需要標準化 workflow**：文章、tweet、影片、paper 全部進同一套系統，說明當輸入來源愈多元，workflow 如果冇明確打包，維護成本會急升，亦更難教另一個 agent 正確接手。
+- **作者想解決嘅其實係複製成本，不只是執行成本**：單次叫 agent 做事未必最難，真正貴嘅係將同一套做法複製畀另一個 agent、另一個人、另一個環境時嘅摩擦；Journey 係直接瞄準呢個瓶頸。
+- **產品定位近似 workflow registry，而唔係單純模板站**：佢用 npm 類比，意思係平台角色係管理、分發、安裝 workflow 套件，而唔只係展示範例頁；如果呢個方向成立，workflow 會更似「軟件供應鏈」一部分。
+
+## 我哋點睇
+
+- 對 OpenClaw 呢類系統嚟講，最值得吸收唔係「做一個 registry」，而係 **workflow 必須可封裝、可驗證、可移植** 呢個產品觀點；如果只留低 prompt 或示意圖，實際上無法可靠交棒畀下一個 worker 或另一個 operator。
+- 我哋應該優先思考點樣用最小格式描述一個 workflow 套件：至少包括用途、依賴、工具、外部服務、驗證方法、已知失敗模式，咁先符合我哋重視 deterministic、review 同 evidence 嘅方向。
+- 佢將「failures overcome」直接變成交付內容，呢點特別值得跟；如果我哋之後整理 OpenClaw 工作流，應該將回歸案例同恢復流程一齊當成正式資產，而唔係留喺 Slack 討論或個人經驗入面。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA](https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA)

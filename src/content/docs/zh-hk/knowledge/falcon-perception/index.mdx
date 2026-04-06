@@ -1,0 +1,54 @@
+---
+title: Falcon Perception
+description: Falcon Perception 想證明「開放詞彙感知」唔一定要靠一大串拼裝 pipeline，佢用 0.6B early-fusion
+  Transformer 將圖像同文字一開始就放埋一齊處理，結果喺分割與指代理解上做到更高效，對我哋最有意思係佢展示咗簡化架構都可以換到更好可擴展性。
+type: knowledge
+topic: falcon-perception
+slug: zh-hk/knowledge/falcon-perception/index
+knowledge_id: knowledge_6be35114209e4414a741a6a244f7f665
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Falcon Perception
+
+## 一句話版本
+
+Falcon Perception 想證明「開放詞彙感知」唔一定要靠一大串拼裝 pipeline，佢用 0.6B early-fusion Transformer 將圖像同文字一開始就放埋一齊處理，結果喺分割與指代理解上做到更高效，對我哋最有意思係佢展示咗簡化架構都可以換到更好可擴展性。
+
+## 點解重要
+
+- **架構方向**
+- 佢挑戰咗而家常見「視覺 backbone + 融合模組 + 後處理」嘅做法，因為每多一層模組就多一層故障來源；對我哋嚟講，呢種單一 backbone 思路更接近可維運、可定位問題、可持續迭代嘅系統設計。
+- early fusion 唔只係模型設計選擇，實際上係將「視覺理解」同「文字條件」喺最前面已經對齊，咁做令模型較早決定「睇緊邊個物件」，比起後期先夾硬融合，更有機會減少語義同空間對唔上嘅情況。
+- hybrid attention 係文章最關鍵嘅工程點：圖像 token 用雙向上下文，文字與任務 token 保持因果式生成，等同一個 backbone 同時扮演 encoder 同 decoder 角色。重要之處係佢唔係靠堆更多模組，而係靠 attention 規則解決結構差異。
+- **輸出介面設計**
+- 佢無走去逐 pixel 或逐 polygon autoregressive 生成，反而用 `<coord> -> <size> -> <seg>` 呢條細而明確嘅輸出鏈，先定位置，再定大小，最後先補高解析 mask。呢個次序重要，因為先解決「係邊個物件」可以大幅降低後面 segmentation 嘅歧義。
+- 呢種 structured token interface 顯示一個很實際嘅原則：可變數量實例唔代表一定要用超長序列生成去硬解。對我哋做任務控制或 agent 輸出設計都有啟發，先用低成本結構化欄位鎖定核心對象，之後先做昂貴細化，通常更穩。
+- 文章特別提到 specialized heads 只保留最少額外開銷，意味住效能提升未必要靠大規模加參數；好多時候，係接口設計得啱，先令 backbone 真正發揮到。
+- **訓練與資料策略**
+- 佢強調 multi-teacher distillation 同超大規模資料，不單止係「有更多數據」，而係用蒸餾將多種能力收斂入一個細模型。重要在於：如果目標係部署實用系統，小模型 + 好 supervision 往往比單純追大模型更有經濟價值。
+- 三階段訓練配方加埋只有 700 GT，反映佢有意減少對高品質人工標註嘅依賴。呢點值得留意，因為真實團隊好多時卡住唔係模型 idea，而係標註成本同資料生產速度。
+- 文中提到 hard negatives 數量非常大，呢個訊號好重要：開放詞彙感知唔止要學識「見到就認」，仲要學識「唔應該亂認」。對任何要做 presence / routing / matching 嘅系統，負樣本質量通常直接決定誤報率。
+- **評測方式**
+- 佢唔滿足於只報總分，另外整咗 PBench 專門拆解屬性、OCR 輔助消歧、空間約束、關係理解同擠迫長上下文場景。呢個做法重要，因為總分升咗未必代表真係補到產品最痛嘅失敗模式。
+- 雖然 SA-Co 宏觀分數贏過 SAM 3，但 presence calibration 仍然落後，作者直指剩低嘅主要缺口係「知唔知道應唔應該報有物件」。呢個比單純報 SOTA 更有價值，因為它清楚指出產品化時最可能出事嘅位係校準，而唔係 mask 質素本身。
+- PBench 特登納入 OCR-guided disambiguation，等於承認真實世界理解經常要跨模態線索配合，例如文字提示先幫你鎖定畫面中其中一個目標。對多模態系統設計嚟講，呢個比純視覺 benchmark 更貼近落地場景。
+- **部署與產品化**
+- 文章唔只講研究指標，亦花篇幅講 paged inference、Docker 同 MLX 整合，代表佢哋一開始已經將 serving 成本同部署摩擦當成一級問題。呢點同我哋做本地控制系統嘅思路相近，因為能部署、能穩定跑，先算真能力。
+- Falcon OCR 用 0.3B 就做到高 throughput，訊息好直接：如果目標係實用吞吐量，架構與資料流程優化可能比一味追大模型更有回報。對資源受限或單機部署場景尤其 relevant。
+- 作者最後將呢套經驗拉去「Bitter Lesson for Perception」，核心唔係話 handcrafted pipeline 完全錯，而係如果一個統一模型真係可以吸收更多資料同 supervision，長遠更可能跑贏一堆局部修補方案。對團隊決策嚟講，呢個係偏戰略層面嘅提醒。
+
+## 我哋點睇
+
+- 如果我哋之後有多模態理解或文件感知需求，應該優先問自己可唔可以設計一個簡單、可變長、可驗證嘅統一輸出介面，而唔係第一時間將流程拆成好多服務同後處理規則。
+- 評估新模型時唔好只睇總分，最好跟 Falcon 呢種做法，另外拆出「是否應該觸發」「複雜提示下會唔會亂配對」「擁擠場景會唔會崩」呢類 failure bucket，咁先對實際系統風險有用。
+- 如果要做本地部署，呢篇文最值得吸收嘅唔係某個 benchmark 數字，而係佢將模型設計、訓練配方同 serving 方式一齊考慮；我哋都應該維持呢種由部署約束反推模型與接口嘅方法。
+
+## 來源
+
+- 原文：[https://huggingface.co/blog/feed.xml](https://huggingface.co/blog/feed.xml)

@@ -1,0 +1,56 @@
+---
+title: Google just dropped Gemma 4... (WOAH)
+description: Google just dropped Gemma 4... (WOAH)
+type: knowledge
+topic: google-just-dropped-gemma-4-wo
+slug: zh-hk/knowledge/google-just-dropped-gemma-4-woah/index
+knowledge_id: knowledge_fbea5ac141fa43d0881a09292b1fc349
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Google just dropped Gemma 4... (WOAH)
+
+## 一句話版本
+
+Google 推出 Gemma 4，重點唔係「又多一個模型」，而係佢用細好多嘅開放權重模型，做到接近大型頂級模型嘅推理同 agent 能力，令本地部署 suddenly 變得更實際。
+
+## 點解重要
+
+- **開放權重路線仲有生命力**
+- Google 持續出開放模型，對我哋最重要唔係品牌，而係代表本地可控、可審計、可自主管理嘅選項仲喺度向前推，唔使所有關鍵流程都綁死喺封閉 API。
+- **細模型開始碰到「夠用而且好用」個臨界點**
+- 片中最大賣點係 Gemma 4 唔係超巨型模型，但表現已經逼近好多難以本地運行嘅大模型。對我哋而言，呢個直接影響成本、延遲、部署複雜度，同埋可唔可以喺單機環境穩定跑。
+- **本地推理硬件門檻有機會下降**
+- 如果 31B 呢類級別已經可以喺中高階消費級硬件上運行，意味住唔需要超誇張設備先做到有質素嘅 agent 工作流。呢點同單機 Mac mini 優先嘅方向好一致。
+- **「每個參數更聰明」比「參數更多」更關鍵**
+- 片中反覆強調 Gemma 4 係 intelligence per parameter 做得好。對我哋嚟講，真正價值係同一部機、同一個功耗預算，可以處理更多任務，而唔係追最大模型規格。
+- **推理能力唔再只屬於雲端旗艦模型**
+- 佢將 Gemma 4 定位為 advanced reasoning model，代表多步推理、規劃、邏輯判斷呢啲能力，開始可以落到較細模型。呢個會改變我哋點分配任務畀本地模型同遠端模型。
+- **Agent 能力係原生設計目標，唔係事後補丁**
+- 片中提到 function calling、structured JSON output、system instructions 都係原生能力。呢啲對 agent 系統唔係「加分位」，而係基本接口，因為會直接影響工具調用穩定性、輸出可驗證性同自動化可靠性。
+- **混合式計算架構更有說服力**
+- 影片作者嘅核心觀點係：最難嗰部分先交畀 hosted frontier models，大部分日常任務可以喺手邊設備完成。呢個唔止係成本論，而係架構分工開始有現實基礎。
+- **Mixture-of-Experts 同有效參數設計值得留意**
+- 26B MoE 同所謂 effective parameter 概念，說明模型設計唔再只睇總參數數字。對我哋評估模型時，之後要更重視實際記憶體需求、活躍參數、吞吐量，而唔係睇宣傳數字。
+- **本地模型選型會由「能唔能跑」轉去「值唔值得跑」**
+- 過去好多開源模型卡喺能夠啟動但體驗一般；如果 Gemma 4 真係接近大型模型表現，決策重點就會變成任務匹配、穩定性同工具鏈整合，而唔係單純 benchmark 崇拜。
+- **程式碼生成與離線能力有實際價值**
+- 片尾提到 code generation 與 offline 使用方向，對內部自動化、受限環境執行、資料唔想外送嘅場景特別有用。價值唔只係寫 code，而係可以喺本地完成更多高敏感流程。
+- **商業可用性值得留意，但要分清授權同技術能力**
+- 影片有提到商業用途情境，代表 Gemma 4 唔只係研究玩具。不過對我哋嚟講，真正要睇嘅係授權條款、再分發限制、同埋能否符合我哋控制面同審核流程要求。
+
+## 我哋點睇
+
+- Gemma 4 最值得我哋測唔係因為佢「最新」，而係佢剛好打中我哋要嘅交集：細、開放、可本地跑、又有 agent 需要嘅結構化輸出能力。
+- 如果之後實測 confirm 到 function calling 同 JSON 輸出夠穩，佢好適合作為 OpenClaw 入面較低成本嘅執行層模型，而唔需要一開始就用最重型雲端模型。
+- 評估時唔好只睇排行榜，應該直接做我哋自己嘅任務回放：路由、工具調用、失敗恢復、長步驟規劃、同 receipt/verification 格式穩定性。
+- 我會將佢視為「值得納入候選池」而唔係「即刻取代現有方案」；真正分水嶺會係單機延遲、記憶體壓力、同長任務時嘅輸出一致性。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA](https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA)

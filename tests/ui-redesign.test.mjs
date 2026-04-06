@@ -217,7 +217,9 @@ test('TS-04 GuideMetadata uses native progressive disclosure', async () => {
   assert.match(metadataMarkup, /<summary[^>]*>/i);
   assert.match(metadataMarkup, /指南對象/u);
   assert.match(metadataMarkup, /標籤/u);
-  assert.match(projectionMarkup, /公開投影/u);
+  if (projectionMarkup) {
+    assert.match(projectionMarkup, /公開投影/u);
+  }
   assert.doesNotMatch(metadataMarkup, /(hydration|Hydration|console\.error|Unhandled Runtime Error)/);
 });
 

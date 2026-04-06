@@ -1,0 +1,51 @@
+---
+title: He just crawled through hell to fix the browser…
+description: He just crawled through hell to fix the browser…
+type: knowledge
+topic: he-just-crawled-through-hell-t
+slug: zh-hk/knowledge/he-just-crawled-through-hell-to-fix-the-browser/index
+knowledge_id: knowledge_ed1b8ee91539426ea7f4f90d5151f1ca
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# He just crawled through hell to fix the browser…
+
+## 一句話版本
+
+有人做出咗一個純 TypeScript 嘅文字量度函式庫 `pretext`，目標係唔靠 DOM reflow 都可以準確計文字換行同高度，呢件事對做大量文字 UI 嘅效能同可預測性都可能係一個轉捩點。
+
+## 點解重要
+
+- **前端效能**
+- 傳統上要知道一段文字有幾高、幾時換行，通常要問瀏覽器做 layout，呢一步往往會觸發 reflow；如果畫面上有大量元素，成本會幾高。對我哋嚟講，呢代表只要 UI 以文字為主，效能瓶頸好多時唔係 render 本身，而係「為咗量尺寸而被迫做版面計算」。
+- **虛擬清單會變得實際好多**
+- 片入面講得最清楚嘅例子係 10,000 筆訊息嘅 chat list。虛擬清單本來可以減少 DOM，但前提係你要先知道每條訊息高度；如果唔準，就捲動會跳。如果 `pretext` 真係準，咁就等於補上咗文字型虛擬清單最痛嗰塊拼圖。
+- **文字重型介面唔使再靠估**
+- 以前做 masonry、聊天室、逐字排版、字幕牆呢類介面，成日都係「先 render 再量」或者「估個高度」。前者慢，後者錯。片中核心意思係：文字排版資料如果可以喺 DOM 外面先算好，成個 UI 架構會乾淨得多。
+- **把文字量度由瀏覽器黑盒拆返出嚟**
+- 呢個 project 唔只係快，而係挑戰咗一個長期假設：文字尺寸一定要由 browser layout engine 決定。若果量度邏輯可以外置，代表更多 UI 基礎能力有機會由應用層掌握，而唔係完全受制於瀏覽器同步計算。
+- **技術價值唔只在 API，而係跨語言換行規則**
+- 片中提到寬度可以用 canvas API 拿到，但真正難位係高度同換行，尤其牽涉唔同瀏覽器、唔同語言嘅 line break 行為。即係話，值錢之處唔係「有個函式回傳高度」，而係佢可能封裝咗一大堆平時好難自己做對嘅排版規則。
+- **如果準確度夠高，會直接影響產品體驗**
+- 呢類工具一旦準，就唔只係 benchmark 靚，而係會反映喺捲動順唔順、內容會唔會跳、初次 render 穩唔穩。用戶唔會話出係「文字量度演算法好勁」，但會直接感受到產品冇咁卡同冇咁亂。
+- **佢展示咗 AI 輔助基建工程嘅一種做法**
+- 片中描述作者用 AI 反覆寫 line break logic，再攞真實瀏覽器結果去比對修正。重點唔係「AI 幫手寫晒」，而係用大量驗證迴圈去逼近 browser 行為。對我哋有啟發嘅地方係：AI 最有用嘅位可能係加快窮舉與校正，不是代替最後的 correctness。
+- **API 簡單代表採用門檻低**
+- 片中提到流程主要係 `prepare` 先拆 segment 同 cache width，再 `layout` 拿高度同行數。若實際用法真係咁直，代表佢唔係只適合研究型 demo，而係有機會進入一般產品開發流程。
+- **佢開咗一啲以前太貴而唔值得做嘅玩法**
+- 影片示範用文字格仔去拼出影片影像，本質上係因為每個字落點可以被預先精準計出。呢類 demo 未必係主業務需求，但說明咗一點：當文字排版成本下降，設計空間會突然大好多。
+
+## 我哋點睇
+
+- 如果我哋之後有大量訊息流、工單列表、審批紀錄、事件 timeline 呢類介面，值得留意呢種「脫離 DOM 量文字」嘅方向，因為佢打中嘅正正係高密度文字 UI 嘅老問題。
+- 但唔好一見到快就直接信。呢類基建最重要係一致性同回歸測試，尤其係多字型、多語言、不同瀏覽器結果有冇偏差；如果冇完整驗證，只會由「reflow 慢」變成「量錯更難查」。
+- 對 OpenClaw 呢類系統，如果未來要做長列表、任務摘要、審核內容預覽，呢個思路最實際嘅價值係令畫面更穩定、更容易預算 rendering 成本，而唔係追求花巧效果。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA](https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA)

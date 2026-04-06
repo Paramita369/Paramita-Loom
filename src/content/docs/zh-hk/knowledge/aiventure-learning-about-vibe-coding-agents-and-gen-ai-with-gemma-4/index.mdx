@@ -1,0 +1,54 @@
+---
+title: 'AIventure: Learning about vibe-coding, agents and Gen AI with Gemma 4'
+description: 'AIventure: Learning about vibe-coding, agents and Gen AI with Gemma
+  4'
+type: knowledge
+topic: aiventure-learning-about-vibe-
+slug: zh-hk/knowledge/aiventure-learning-about-vibe-coding-agents-and-gen-ai-with-gemma-4/index
+knowledge_id: knowledge_5999e569abac43cabb270267b7dfdfa2
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# AIventure: Learning about vibe-coding, agents and Gen AI with Gemma 4
+
+## 一句話版本
+
+Google 團隊整咗個叫「AIventure」嘅開源教學遊戲，用復古地城玩法將提示工程、vibe-coding 同 agent 行為包裝成可玩謎題，重點係示範生成式 AI 點樣由「功能」變成「教學互動」。
+
+## 點解重要
+
+- **教學方式變咗**
+- 呢個專案唔係用文件或者投影片教 GenAI，而係用遊戲機制逼玩家親手試 prompt、試錯同修正，代表 AI 教學可以由「講概念」轉做「設計體驗」，學習黏性會高好多。
+- **vibe-coding 被具體化**
+- 片入面最有意思嘅位，係將「寫個 app 出嚟」變成 NPC 謎題，仲會再用模型檢查結果有冇偏離要求。對我哋嚟講，呢個示範咗 vibe-coding 唔應只停留喺生成，而要連埋驗收規則先至有用。
+- **agent 唔係抽象概念**
+- 佢哋用一個機械人 NPC 展示 agent loop：接收目標、執行一步、再問模型下一步。呢點重要在於，agent 能力可以拆成好簡單嘅感知與行動循環，而唔使一開始就諗到好大好複雜。
+- **模型選擇變成架構選擇**
+- AIventure 同時支援本機 Gemma 4、前端直連 Gemini API，同埋經伺服器轉去 Vertex AI。即係話，教學產品唔一定綁死單一路徑，模型部署方式本身已經係產品設計一部分，會影響成本、私隱、離線能力同體驗穩定性。
+- **本機模型終於去到可做實用互動**
+- 佢哋原本用 Gemini 3 Flash 原型化，之後因為覺得 Gemma 4 已經夠穩，先轉成可以支撐 puzzle 同 agent 行為。對團隊判斷好有參考價值：開放權重模型而家唔只係 demo 級，某啲受限場景已經可以真係落地。
+- **離線能力係產品特性，不止係部署細節**
+- 片中特別強調 offline-capable，表示佢哋唔係單純追求「有 AI」，而係追求一個喺教室、活動現場或者網絡不穩環境都可以運作嘅學習工具。呢個思路對教育、展覽、內部培訓都好實際。
+- **前端遊戲引擎同 Web UI 可以清晰分工**
+- 佢哋用 Angular 做 UI、PhaserJS 做遊戲核心，中間用 event bus 溝通。價值在於保留遊戲互動能力之餘，唔犧牲傳統 Web app 嘅維護性，對想做「有內容又有互動」嘅團隊係一個乾淨 pattern。
+- **Prompt 其實係關卡設計**
+- 門可以開、NPC 會做事、謎題會判定成功與否，背後都係 prompt 連埋明確上下文與可用函式。即係話，如果我哋做類似產品，prompt 唔應視為文案，而應視為規則系統嘅一部分。
+- **AI 生成之後仲要有第二層審核**
+- 嗰個待辦清單例子唔係生成完就算，而係再叫模型分析生成結果有冇超出限制。呢個做法重要，因為佢承認模型第一次輸出未必可靠，必須補一層判定先至能夠支撐遊戲或產品邏輯。
+- **開源示範降低咗學習門檻**
+- 呢個專案唔止講概念，仲公開架構、提示設計同埋實作路徑。對團隊嚟講，價值係可以直接研究「點樣串埋成完整體驗」，唔使由零估個系統應該點砌。
+
+## 我哋點睇
+
+- 如果我哋想做 AI 功能，值得借鏡佢呢種「任務 + 驗收 + 回饋」結構，而唔係只做一個聊天視窗，因為前者先容易變成真實可學、可測、可迭代嘅產品。
+- 呢個案例提醒我哋，agent 最適合先落喺邊界清楚、動作有限嘅場景；唔好一開始就追求萬能助手，先由可驗證嘅小循環做起會穩陣得多。
+- 如果我哋之後要做面向教育、培訓或者 onboarding 嘅 AI 互動內容，本機模型加規則化 prompt/validator 呢條路，可能比純雲端聊天式體驗更可控，亦更容易交代用家會見到乜效果。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UC_x5XG1OV2P6uZZ5FSM9Ttw](https://www.youtube.com/feeds/videos.xml?channel_id=UC_x5XG1OV2P6uZZ5FSM9Ttw)

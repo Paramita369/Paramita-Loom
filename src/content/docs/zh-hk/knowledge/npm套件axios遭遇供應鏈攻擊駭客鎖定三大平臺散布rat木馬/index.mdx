@@ -1,0 +1,57 @@
+---
+title: NPM套件Axios遭遇供應鏈攻擊，駭客鎖定三大平臺散布RAT木馬
+description: NPM套件Axios遭遇供應鏈攻擊，駭客鎖定三大平臺散布RAT木馬
+type: knowledge
+topic: npm套件axios遭遇供應鏈攻擊駭客鎖定三大平臺散布rat
+slug: zh-hk/knowledge/npm套件axios遭遇供應鏈攻擊駭客鎖定三大平臺散布rat木馬/index
+knowledge_id: knowledge_06419a8f404a4878ba0c5577e218e6cc
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# NPM套件Axios遭遇供應鏈攻擊，駭客鎖定三大平臺散布RAT木馬
+
+## 一句話版本
+
+Axios 被人用供應鏈手法偷塞跨平臺 RAT，而且連 OpenClaw 的部分安裝路徑都可能中招，重點唔係單一套件出事，而係我哋依賴鏈同安裝流程本身已經變成攻擊面。
+
+## 點解重要
+
+- `事件本質`
+- Axios 呢次唔係普通 bug，而係發佈權限同套件發佈流程被繞過，代表就算原始碼倉庫睇落正常，實際裝到機上嘅 NPM 套件都可能已經被換貨；對我哋嚟講，信任來源唔可以只睇 GitHub repo。
+- `影響面極大`
+- Axios 每週下載量去到 1 億次，屬於 JavaScript 生態入面極高滲透率依賴；只要係廣泛共用基礎庫出事，爆炸半徑就會遠超單一產品，OpenClaw 呢類會拉第三方套件嘅系統自然要當高風險事件處理。
+- `攻擊手法更難察覺`
+- 惡意內容唔係直接塞入 Axios 原始碼，而係透過額外相依套件落毒，再按 Windows、macOS、Linux 分發第二階段 payload；即係話，單靠肉眼 review 主套件版本差異，未必足夠擋到呢種攻擊。
+- `有刻意反鑑識設計`
+- 惡意程式執行後會自毀，仲會把 `package.json` 換返正常版本，目的就係令事後檢查更難還原現場；呢點好重要，因為「而家見唔到異常」唔等於「之前冇被執行過」。
+- `三大開發平臺都中`
+- 攻擊者明顯針對開發者工作站，而唔係只打某個 server OS；對我哋呢種 Mac mini 本地控制系統尤其有警示作用，因為 macOS 開發環境本身就係攻擊目標之一。
+- `受害範圍唔止直接依賴`
+- 報導講到，唔係淨係直接 `install axios` 嘅人先有事，任何經由相依鏈間接拉到受污染版本嘅專案都可能中招；所以我哋唔可以只查頂層 `package.json`，而係要查完整 lockfile 同 transitive dependencies。
+- `標準發布流程失守係核心訊號`
+- 有問題版本冇出現在 GitHub tag，但就上到 NPM，說明「倉庫標籤 = 發佈結果」呢個假設已經唔成立；對團隊流程而言，之後所有第三方升級都應該以可驗證發佈鏈為前提。
+- `OpenClaw 已被點名`
+- 文章引述 SlowMist 指出，OpenClaw 3.28 某些以 `npm install` 安裝嘅情況可能會引入惡意 Axios；即使唔確定每個部署都受影響，單係被點名已經足夠令我哋把呢件事升級成產品相關風險，而唔係純外部新聞。
+- `安裝方式會改變風險輪廓`
+- 文中指出，自原始碼編譯配對嘅 Axios 版本係 1.13.5/1.13.6，唔屬於今次中招版本；即係話，同一個產品，唔同供應方式可以有完全唔同嘅暴露面，部署指引要明確區分。
+- `技能套件生態可能擴大曝險`
+- SlowMist 後續提到大量 skill 套件存在引入 Axios 嘅相依路徑，數量仲未計其他第三方庫；對我哋而言，真正風險未必喺核心 repo，而係擴充生態同安裝習慣。
+- `憑證輪替要當成必要動作`
+- 報導建議一旦安裝過受污染版本，就要即刻更換相關金鑰與憑證；原因好直接，RAT 針對開發環境，最值錢嘅往往就係本機憑證、API keys 同存取權杖，而唔係單次程式執行權限。
+- `版本鎖定唔再係可有可無`
+- OpenClaw 團隊已強制鎖定 Axios 相依版本，反映出喺供應鏈事故入面，嚴格 pin 版可以爭取關鍵時間，至少避免安裝流程自動漂移到未知壞版本。
+
+## 我哋點睇
+
+- 依家最實際嘅結論係：OpenClaw 相關安裝文件要明確寫死「安全安裝路徑」同「禁止直接漂移升級」；如果公開 guide 仲容許模糊嘅 `npm install` 流程，風險會由使用者自己承擔，之後出事亦好難界定。
+- 對我哋個架構而言，應該把「控制平面可信」同「開發機可信」分開睇。就算 SQLite、單機、Slack ingress 設計本身冇問題，只要 build 或 operator workstation 中毒，整個 deterministic control model 都會被旁路破壞。
+- 後續工作唔應只係升版，而係補三樣嘢：相依版本鎖定、受影響安裝方式辨識、同一個可重播嘅供應鏈回歸測試。咁先符合 runbook 入面「唔好無 regression case 就關 incident」嘅要求。
+
+## 來源
+
+- 原文：[https://www.ithome.com.tw/rss](https://www.ithome.com.tw/rss)

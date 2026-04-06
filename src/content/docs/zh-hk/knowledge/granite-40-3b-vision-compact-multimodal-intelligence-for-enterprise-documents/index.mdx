@@ -1,0 +1,47 @@
+---
+title: 'Granite 4.0 3B Vision: Compact Multimodal Intelligence for Enterprise Documents'
+description: 'Granite 4.0 3B Vision: Compact Multimodal Intelligence for Enterprise
+  Documents'
+type: knowledge
+topic: granite-40-3b-vision-compact-m
+slug: zh-hk/knowledge/granite-40-3b-vision-compact-multimodal-intelligence-for-enterprise-documents/index
+knowledge_id: knowledge_b28c5ce546894b959d1359e3ef395429
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Granite 4.0 3B Vision: Compact Multimodal Intelligence for Enterprise Documents
+
+## 一句話版本
+
+IBM 同 Hugging Face 發表咗 `Granite 4.0 3B Vision`，重點唔係「再大一個多模態模型」，而係用細模型做企業文件、表格同圖表理解都夠準，對要落地同控成本嘅團隊特別有參考價值。
+
+## 點解重要
+
+- **企業文件場景終於唔再只靠 OCR 加規則硬砌。** 呢個模型明顯係衝住表格抽取、圖表理解、語意式 key-value 擷取而設，代表文件理解開始由「識讀字」升級做「識理解版面、關係同結構」，對處理表單、報表、內部文件流轉會更實用。
+- **3B 級別做到接近甚至壓過更大模型，成本曲線可能開始變。** 文章強調佢喺 chart summary 拎到最好成績、chart to CSV 都只係輸畀一個大兩倍以上嘅模型，對我哋嚟講重點係：未必每次都要上大模型先有商業可用效果。
+- **佢針對圖表理解落咗真功夫，唔係普通 VLM 順手兼做。** ChartNet 用 code-guided 合成方式做出 170 萬筆樣本，而且每筆都對齊程式碼、圖片、資料表、摘要同 QA，呢種訓練資料設計令模型學到「圖表代表咩資料」，唔只係描述外觀。
+- **「位置」同「內容」一齊學，對文件任務特別關鍵。** DeepStack Injection 將抽象語意同高解析空間特徵分層注入，等模型同時知道文件講緊咩、資訊喺邊度，呢點正正係表格結構、欄位配對、跨區塊擷取最易出錯嘅地方。
+- **LoRA 疊喺基礎語言模型之上，部署彈性高過一體式多模態模型。** 同一套部署可以處理純文字同視覺任務，需要視覺時先開 vision，唔需要時退回 base model，對企業系統整合同資源管理更加實際。
+- **佢係為混合 pipeline 而設，唔係要你全盤重寫。** 文中直接提到可獨立使用，亦可同 Docling 一齊跑，意味住呢類模型比較適合插入現有文件處理鏈，而唔係取代全部前後處理。
+- **表格抽取評測方式偏實戰。** 佢唔止測 crop 過嘅 table，仲測 full-page 文件入面嵌住嘅表格，呢個分別好重要，因為真實世界最難通常唔係「抽表格內容」，而係「先喺複雜頁面搵到正確表格再保留結構」。
+- **圖表理解開始有更像樣嘅基準資料與方法論。** 過往 chart reasoning 好多時 benchmark 零散、任務定義唔一致；而家連資料生成、評測、論文脈絡都開始成型，代表呢個方向會更快標準化。
+- **佢明顯對「可機器讀取輸出」有要求。** 無論係 Chart2CSV、摘要、HTML table extraction，核心都係要輸出結構化結果，呢點比單純 caption 更接近企業自動化場景，因為後面先接得到驗證、入庫、流程編排。
+- **模型模組化設計對可靠性有幫助。** 視覺能力做成 adapter，而唔係將所有能力混埋一舊，通常更容易做版本控管、回退、A/B 測試同風險隔離，呢啲都係企業部署真正在意嘅事。
+- **文章傳遞咗一個訊號：文件 AI 正由通用多模態轉向垂直優化。** 即係唔再只比「通用看圖說話」能力，而係直接優化 enterprise document understanding 呢類高價值任務，市場方向愈來愈清晰。
+- **如果佢聲稱成立，對人工覆核流程會有實際減負。** 表格、圖表、欄位關係一直係最需要人手校對嘅部分；如果細模型已經可以穩定輸出較好結構，人工可以集中處理例外同高風險案例，而唔係逐頁重做。
+
+## 我哋點睇
+
+- 我哋應該將「細模型 + 文件專用資料 + 結構化輸出」視為主線，而唔係預設一開始就堆大模型。對 OpenClaw 呢類要講求可控、可驗證、可落地嘅系統，呢個方向更啱。
+- 如果之後要做文件任務，優先定義可驗證輸出格式，例如 HTML table、CSV、key-value schema，而唔係先追求自然語言描述。咁先容易接 review、regression 同 golden replay。
+- 呢篇最值得借鏡嘅唔止係模型本身，而係資料設計思路：同一份樣本最好同時有原始視覺、結構化真值、摘要同問答。呢種多視角 supervision 對我哋之後做內部 benchmark 或 regression case 好有用。
+- 若要落入實際流程，建議將視覺理解保持做可選模組，文字路徑同視覺路徑分開評估同回退，避免多模態一出問題就拖垮整個任務管線。
+
+## 來源
+
+- 原文：[https://huggingface.co/blog/feed.xml](https://huggingface.co/blog/feed.xml)

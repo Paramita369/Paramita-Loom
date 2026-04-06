@@ -1,0 +1,58 @@
+---
+title: 'Copilot CLI for beginners: Plan, delegate, and review'
+description: 'Copilot CLI for beginners: Plan, delegate, and review'
+type: knowledge
+topic: copilot-cli-for-beginners-plan
+slug: zh-hk/knowledge/copilot-cli-for-beginners-plan-delegate-and-review/index
+knowledge_id: knowledge_0ad59c20f4a64987a48f78be42871c0c
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Copilot CLI for beginners: Plan, delegate, and review
+
+## 一句話版本
+
+呢段內容示範咗點樣用 Copilot CLI 將一個功能需求，串成「先規劃、再遠端實作、最後再審查」嘅完整流程，重點唔係快，而係令 AI 幫手寫 code 都仲有明確要求、可追蹤過程，同埋最後把關。
+
+## 點解重要
+
+- **先問清楚，再寫 code**
+- ` /plan ` 唔係直接生成實作，而係先逼你講清楚需求、狀態點儲存、UI 點呈現、功能可唔可以切換。呢個步驟重要，因為好多 AI 產生嘅錯誤其實唔係模型唔識寫，而係需求本身太含糊。
+- **將需求變成分步計劃**
+- Copilot 會先整理成 step-by-step plan，再決定實作。對團隊嚟講，價值喺於你可以先審個方向，再畀 agent 動手，減少一開始就生成一堆唔啱路嘅修改。
+- **澄清問題本身已經係設計工作**
+- 片中問到資料存邊、icon 用乜、支唔支援 toggle，呢啲都係細節，但其實直接影響資料模型、畫面狀態同測試範圍。即係話，CLI 問答唔只係互動體驗，而係將隱性設計決策顯性化。
+- **`/delegate` 代表可以將實作從本地操作抽離**
+- 佢示範將 plan 交畀遠端 coding agent 做，仲會自動開 draft PR。重點唔只係省時間，而係將 AI 實作自然收斂到 PR 呢個團隊本身已經熟悉嘅審核單位。
+- **遠端代理處理期間，人可以繼續做其他事**
+- 因為工作係 background 跑，使用者可以開新 session 繼續做其他任務。呢個對實際工作節奏有用，因為 AI 由「即時對答工具」變成「可並行處理嘅執行者」。
+- **過程可見，唔係黑盒**
+- 片中提到可以睇 streaming log、View session、必要時再 steer。呢點重要，因為如果 agent 只係默默產出結果，團隊會難以信任；可觀察中間步驟先比較適合進入日常工程流程。
+- **PR 描述同修改內容都由代理整理**
+- 完成後唔止有 code，仲有詳細 PR description。對團隊協作嚟講，呢種自動補齊上下文嘅能力可以減少 reviewer 要反推作者意圖嘅成本。
+- **`/resume` 令遠端工作唔會停留喺雲端**
+- 完成後可以接返個 branch，選擇繼續遠端做，或者拉返本地驗證。即係 AI 生成唔係終點，人手仍然可以無縫接力，保留正常開發控制權。
+- **`/review` 令審查成為另一個獨立 agent 任務**
+- 片中強調 review 可以審未 commit 嘅改動，亦可以審 PR，而且係交畀專門做 code review 嘅 sub-agent。呢點反映一個實用觀念：生成同審核最好分開，不應由同一輪輸出直接當成完成品。
+- **用唔同模型做 review，係一種降低盲點嘅手段**
+- 佢特別提到 review 最好用同寫 code 唔同嘅 model。對我哋嚟講，重點係避免同一種偏差一路複製落去，等第二個審查者用另一套判斷方式去搵 bug 或漏洞。
+- **Review 唔只找問題，仲可以提出或套用修正**
+- 內容提到如發現問題，Copilot 會修補並再徵求使用者意見。即係話審查唔一定停喺「指出問題」，而係可以變成有回合感嘅修正循環。
+- **整體示範嘅其實係一個 terminal-first 工作模式**
+- 由規劃、實作、PR、review 到回到本地驗證，全部喺 terminal 主導。對偏工程化團隊嚟講，價值在於減少工具切換，令 AI 協作更貼近現有開發習慣。
+
+## 我哋點睇
+
+- 呢套流程最值得借鏡嘅唔係某個指令，而係「先定義、再委派、後審查」嘅節奏。對我哋做 OpenClaw 呢類有明確架構約束嘅系統，呢種節奏比直接叫 AI 生 code 安全得多。
+- 如果要套用到我哋日常做法，`/plan` 階段應該主動塞入架構邊界，例如邊個元件可以改狀態、邊個只負責 ingress、邊啲資料一定以 SQLite 為準。咁樣 agent 後面就冇咁易踩線。
+- ` /delegate ` 呢種 remote agent 模式，適合做細而清晰、驗收條件明確嘅工作；唔適合一開始就交畀佢處理高風險架構決策。否則 draft PR 只會幫你更快製造偏離設計嘅改動。
+- ` /review ` 呢部分最實用，因為佢提醒我哋：AI 幫手寫完之後，仍然要有獨立審查同驗證。對我哋而言，呢一步應該再加埋回歸測試、golden replay 同狀態流轉檢查，先算真係可合併。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UC7c3Kb6jYCRj4JOHHZTxKsQ](https://www.youtube.com/feeds/videos.xml?channel_id=UC7c3Kb6jYCRj4JOHHZTxKsQ)

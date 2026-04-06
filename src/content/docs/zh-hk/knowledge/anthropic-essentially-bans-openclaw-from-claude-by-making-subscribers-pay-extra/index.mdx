@@ -1,0 +1,50 @@
+---
+title: Anthropic essentially bans OpenClaw from Claude by making subscribers pay extra
+description: Anthropic essentially bans OpenClaw from Claude by making subscribers
+  pay extra
+type: knowledge
+topic: anthropic-essentially-bans-ope
+slug: zh-hk/knowledge/anthropic-essentially-bans-openclaw-from-claude-by-making-subscribers-pay-extra/index
+knowledge_id: knowledge_94834a7070174f28a62020166ba6f61f
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Anthropic essentially bans OpenClaw from Claude by making subscribers pay extra
+
+## 一句話版本
+
+Anthropic 由 2026 年 4 月 4 日起唔再畀用戶用 Claude 訂閱額度經 OpenClaw 呢類第三方工具，等於將原本「包月可用」改成「另行按量收費」，直接打擊我哋依賴第三方入口去食模型配額嘅做法。
+
+## 點解重要
+
+- **成本模型變咗**
+- 原本訂閱制可以吸收一部分試錯成本，依家改做額外 usage bundles 或 API key 收費，代表只要工作流經第三方 harness 跑，邊際成本會即時浮現，對高頻、自動化使用特別傷。
+- **供應商可以隨時重劃「可接受用法」**
+- Anthropic 明講訂閱方案本身唔係為第三方工具嘅使用模式而設，反映模型商會按容量壓力重新定義產品邊界；對我哋嚟講，任何建基於「現有訂閱規則應該會延續」嘅設計都唔穩陣。
+- **平台優先保自己入口**
+- 文中提到 Anthropic 更傾向優先服務自家產品同 API，用戶即使仍可登入 Claude 帳號，都要接受第三方接入被降級；呢個方向意味住平台方未必樂見 agent 產品攔截最有價值嘅互動層。
+- **熱門 agent 成功，反而會加快被限制**
+- OpenClaw 早前因處理 inbox、calendar、flight check-in 呢類實用任務而爆紅，但正正因為用量型態重，自動化產品一旦做出需求，亦更容易成為供應商限流、改價、改政策嘅目標。
+- **登入型整合比 API 型整合脆弱**
+- 事件唔係全面封殺 Claude，而係把「用 Claude 訂閱經第三方使用」抽走，留下 API key 同額外購買渠道；即係話，建立喺終端用戶訂閱身份上嘅整合，比正式 API 合約更容易失去經濟性。
+- **退款／補償只係過渡，不係長期保障**
+- 一次性 credit 等於月費，只能短暫減低反彈，唔會改變之後每次使用都可能額外計費嘅現實；對產品規劃而言，呢類補償唔應被視為穩定承諾。
+- **政策變更節奏可以非常急**
+- 報道顯示通知到生效之間時間極短，甚至只係延後咗一星期；如果我哋無預先設計 fallback，同類變動會直接打斷已上線流程，而唔係只影響新功能。
+- **供應商風險唔只係技術能力，仲包括商業策略**
+- 呢次唔係模型質素退步，而係商業條款改變就足以令某條產品線變得難做，提醒我哋做供應商評估時要將「政策可變性」當成一級風險，而唔係附帶考慮。
+
+## 我哋點睇
+
+- 如果 OpenClaw 要維持可營運，核心路線唔應假設任何模型訂閱可以長期畀第三方 agent 借用；應該預設以正式 API 計費、配額、限流去設計。
+- 我哋要把模型供應商抽象成可替換層，避免產品價值綁死喺單一登入型整合；否則下一次條款一改，就唔係 margin 問題，而係整條工作流失效。
+- 對外溝通亦要提早改口徑：賣點唔好放喺「食用戶現有訂閱」，而係放喺控制、可靠性、可審計，同埋任務完成效果，咁先唔會被供應商一刀切改規則時連產品敘事都一齊抽空。
+
+## 來源
+
+- 原文：[https://www.theverge.com/rss/ai-artificial-intelligence/index.xml](https://www.theverge.com/rss/ai-artificial-intelligence/index.xml)

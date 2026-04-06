@@ -1,0 +1,45 @@
+---
+title: Anthropic took down thousands of GitHub repos trying to yank its leaked source
+  code — a move the company says was an accident
+description: Anthropic took down thousands of GitHub repos trying to yank its leaked
+  source code — a move the company says was an accident
+type: knowledge
+topic: anthropic-took-down-thousands-
+slug: zh-hk/knowledge/anthropic-took-down-thousands-of-github-repos-trying-to-yank-its-leaked-source-c/index
+knowledge_id: knowledge_6de13aaf7ce2415a992bb7a9d1cfa25e
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Anthropic took down thousands of GitHub repos trying to yank its leaked source code — a move the company says was an accident
+
+## 一句話版本
+
+Anthropic 因為想清走意外外洩嘅 Claude Code 原始碼，結果連帶搞到約 8,100 個 GitHub repo 被下架，之後先承認係誤傷並撤回大部分通知，呢件事值得我哋留意，因為佢直接反映到「應變流程失手」可以點樣快速放大成信任同營運風險。
+
+## 點解重要
+
+- **版權執行一出錯，影響面可以遠超預期。** 呢次唔係只係刪錯一兩個 repo，而係因為 fork network 關係，一個 takedown 動作就波及大量合法分支，對我哋嚟講重點係：任何自動化或半自動化執法流程，如果冇先估清楚關聯範圍，就好容易傷及無辜資產。
+- **「公開 repo + fork 網絡」本身就有放大器效應。** Anthropic 說明咗被點名嘅 repo 同自家公開 Claude Code repo 係同一個 fork network，代表平台嘅關聯模型會直接影響實際後果；如果我哋日後處理公開程式碼、樣板 repo 或開源鏡像，都要預先理解平台點判定相連資產。
+- **原始碼外洩後，社群擴散速度極快。** 文中提到 AI 愛好者即刻研究並分享外洩內容，意思係一旦發生洩漏，窗口期通常非常短，企業未必有足夠時間慢慢判斷；我哋要接受現實：洩漏事件嘅第一階段，重點係控制擴散同界定影響，而唔係幻想可以完全「收返晒」。
+- **補救行動做得急，未必比原事故細。** 原本問題係 release 包含咗不應公開嘅程式碼，但之後嘅清理行動又製造第二層事故；對我哋有價值嘅教訓係，事故後續處理本身都要當成高風險變更，唔可以因為「係救火」就跳過檢查。
+- **公司對外講法會被放大檢視。** Anthropic 由負責人公開稱係 accidental，再由發言人補充只保留 1 個 repo 同 96 個 forks，說明危機處理唔止要修正技術問題，仲要快速提供可核對嘅邊界；如果講法模糊，外界只會覺得你失控。
+- **平台紀錄會成為事後追責依據。** 文章引用 GitHub records 指向約 8,100 個 repo 受影響，意味住事件規模唔係單靠公司口述，而係有平台層面可追溯資料；對我哋嚟講，所有敏感操作都要留有可核對紀錄，否則事後連自己都講唔清。
+- **合法使用者被誤傷，會即刻變成聲譽問題。** 受影響嘅包括 Anthropic 自己公開 repo 嘅合法 forks，呢點好傷，因為外界會覺得公司連自己生態都處理唔好；如果我哋有任何面向外部貢獻者或整合方嘅資產，誤封會直接打擊合作信心。
+- **IPO 或高監管時期，操作失誤會被重新定義成治理問題。** 文章最後提到 Anthropic 據報正準備 IPO，呢種時候，單一工程事故唔再只係工程事故，而會被看成 execution 同 compliance 能力不足；對任何想要擴大商業合作或進入更正式審查環境嘅團隊，都係警號。
+- **外洩內容若涉及核心產品，外界解讀會更敏感。** 呢次洩漏係 Claude Code 呢個代表性產品嘅 source code，所以大家唔只關心有冇洩漏，而係會追住睇入面有乜做法、架構同模型整合線索；換句話講，產品愈核心，事故愈容易升級成策略層面風險。
+- **恢復動作要夠精準，否則止血都會拖慢。** 最後收窄到 1 個 repo 同 96 個 forks，反映真正需要處理嘅範圍其實遠細過最初執行結果；呢個落差提醒我哋，事前篩選愈粗，事後修復成本就愈高。
+
+## 我哋點睇
+
+- 呢件事最實際嘅提醒係：**任何「內容移除／封鎖／批量處置」流程都要先做小範圍驗證**，尤其涉及 GitHub repo、fork network、Slack channel、任務狀態批次更新呢類有關聯擴散效應嘅對象。
+- 對 OpenClaw 呢種控制平面導向系統，**事故補救亦要走正式控制流程**，唔應容許 worker 或臨時腳本直接大規模改公開狀態；否則第一次錯係資料外洩，第二次錯就會係誤操作放大。
+- 我哋應該把呢類事件當成一個回歸測試場景：**「一個目標物件誤連成大批關聯物件」**，驗證系統有冇 guardrail 阻止批量誤傷，因為真實世界最常出事嘅，往往唔係主邏輯，而係關聯範圍估錯。
+
+## 來源
+
+- 原文：[https://techcrunch.com/category/artificial-intelligence/feed/](https://techcrunch.com/category/artificial-intelligence/feed/)

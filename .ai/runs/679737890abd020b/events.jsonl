@@ -5,3 +5,6 @@
 {"ts": "2026-03-30T15:55:08Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CODEX_WRITE_TESTS", "to": "CODEX_IMPLEMENT"}}
 {"ts": "2026-03-30T15:58:06Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CODEX_IMPLEMENT", "to": "CLAUDE_VERIFY"}}
 {"ts": "2026-03-30T15:58:59Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CLAUDE_VERIFY", "to": "CODEX_REPAIR"}}
+{"ts": "2026-03-30T16:00:55Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CODEX_REPAIR", "to": "CLAUDE_VERIFY"}}
+{"ts": "2026-03-30T16:00:59Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "CLAUDE_VERIFY", "to": "FINAL_REVIEW"}}
+{"ts": "2026-03-30T16:01:13Z", "run_id": "679737890abd020b", "event": "STATUS_TRANSITION", "data": {"from": "FINAL_REVIEW", "to": "DONE"}}

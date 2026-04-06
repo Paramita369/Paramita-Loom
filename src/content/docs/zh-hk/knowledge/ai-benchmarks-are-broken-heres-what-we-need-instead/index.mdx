@@ -1,0 +1,46 @@
+---
+title: AI benchmarks are broken. Here’s what we need instead.
+description: AI benchmarks are broken. Here’s what we need instead.
+type: knowledge
+topic: ai-benchmarks-are-broken-heres
+slug: zh-hk/knowledge/ai-benchmarks-are-broken-heres-what-we-need-instead/index
+knowledge_id: knowledge_b228cbc653fb4b50a61c148950635722
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# AI benchmarks are broken. Here’s what we need instead.
+
+## 一句話版本
+
+篇文重點係：而家好多 AI benchmark 只量到模型喺抽離情境下做單一任務有幾叻，但真實部署成敗其實取決於佢點樣同人、流程同制度一齊運作，所以我哋唔應再用高分當成可落地嘅代名詞。
+
+## 點解重要
+
+- `評測對象搞錯咗`：現有 benchmark 多數問「AI 贏唔贏到一個人」，但實際工作場景通常係多人協作、跨角色交接、要跟流程同規範行。即係話，測試本身已經偏離咗真實使用方式，分數自然好難直接指向落地效果。
+- `高分唔等於高價值`：文章提到模型喺技術指標上可以好靚，但一入到真實環境，反而因為要配合本地標準、法規、文件格式同團隊習慣，令整體流程變慢。對我哋嚟講，真正要問嘅唔係「答得準唔準」，而係「有冇令整個系統更順」。
+- `時間跨度被忽略`：一次性測試通常只睇即時輸出，但真實表現係喺幾日、幾星期，甚至更長時間先浮現。若果唔睇長期使用，根本捕捉唔到累積摩擦、返工修正成本，同埋信任流失。
+- `團隊互動先係關鍵變數`：喺醫療等場景，決策唔係一個人睇完即拍板，而係多個專業角色討論、權衡、修正。AI 喺呢種環境入面係唔係幫到手，要睇佢點融入集體判斷，而唔係單看孤立答題成績。
+- `錯誤成本唔只係模型錯答`：就算模型本身輸出「唔算差」，如果迫到團隊花更多時間核對、翻譯、重組內容，實際成本一樣高。呢類 hidden cost 喺傳統 benchmark 幾乎睇唔到，但對部署成敗影響好大。
+- `會製造監管盲點`：政府同機構往往會將 benchmark 視為比 vendor 說法更客觀嘅依據；如果 benchmark 本身唔貼地，就等於用錯儀表板去做高風險決策。結果係監管看似有數據，實際上仍然無法反映真實風險。
+- `會令機構變成試錯承擔者`：當評測無法預示落地表現，最後就變成由採購同部署嗰方自己喺敏感場景內試錯，承擔時間、金錢同信任損失。即係 benchmark 冇幫到減風險，反而可能將風險包裝到似乎可控。
+- `“AI graveyard” 係組織問題唔只係產品問題`：文章講到好多高分 AI 最後會被棄用，唔一定因為模型完全無用，而係因為部署後無法持續產生集體價值。呢點提醒我哋，失敗未必係「模型太弱」，好多時係評估方法太表面。
+- `應該由 task benchmark 轉去 context benchmark`：作者提出 HAIC，即 Human-AI, Context-Specific Evaluation，核心唔係再加難題，而係將評測搬返去實際工作條件入面。呢個方向重要，因為佢將焦點由模型能力轉去系統效果。
+- `“AI 可唔可以成為團隊一員” 比 “AI 可唔可以做對題目” 更值得問`：如果 AI 最終係作為工作流一部分存在，我哋更應該評估佢有冇提升協作質素、決策穩定性同長期產出，而唔係只比較單次任務準確率。
+- `經濟同社會影響會被誤判`：當外界用 benchmark 去推論 AI 對生產力、就業或公共服務嘅影響，但 benchmark 又脫離實際制度與組織條件，就好容易高估效益、低估副作用。
+- `對採購決策特別有警示`：機構一見到 98% 準確率之類指標，就可能投入整合成本同變更成本，但如果前期冇測真實流程適配性，之後回頭成本會更高。呢篇文其實係提醒大家：買 AI 前，驗證場景比驗證模型排名更重要。
+
+## 我哋點睇
+
+- 如果我哋要評估 AI 能唔能夠落地，唔應只收集模型分數，仲要設計貼近實際流程嘅試運行，量度人手覆核時間、交接摩擦、例外處理同返工率。
+- 喺 OpenClaw 呢類控制系統場景，重點應放喺 end-to-end 任務結果，而唔係單步輸出質素；即係要睇任務有冇被正確路由、驗證、審核同收尾，而唔係只睇某個 worker 答得幾似樣。
+- 我哋做 benchmark 或驗收時，應該分開量三樣嘢：模型表現、工作流表現、同組織採納成本。三者混埋做一個總分，最後只會掩蓋真正風險。
+- 對外講效果時，要避免用抽象能力分數做主敘事，改為講清楚「喺邊個情境、幫邊類人、減少咗邊種摩擦、可見結果係乜」。呢種表述先對部署決策有用。
+
+## 來源
+
+- 原文：[https://www.technologyreview.com/topic/artificial-intelligence/feed](https://www.technologyreview.com/topic/artificial-intelligence/feed)

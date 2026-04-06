@@ -1,0 +1,45 @@
+---
+title: Open AI Spud, Claude Mythos, Leaks & Open Source drops | AI NEWS
+description: Open AI Spud, Claude Mythos, Leaks & Open Source drops | AI NEWS
+type: knowledge
+topic: open-ai-spud-claude-mythos-lea
+slug: zh-hk/knowledge/open-ai-spud-claude-mythos-leaks-open-source-drops-ai-news/index
+knowledge_id: knowledge_7f317b91e6074ac2aba7ed228f98443c
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Open AI Spud, Claude Mythos, Leaks & Open Source drops | AI NEWS
+
+## 一句話版本
+
+條片講緊 2026 年前後 AI 會再快一級進化，尤其係 Anthropic 一邊展示超強漏洞挖掘能力、一邊又出現產品同原始碼外洩，呢種「能力暴增但治理未跟上」對我哋最值得警惕。
+
+## 點解重要
+
+- **安全能力已經由「幫手寫 code」升級到「主動搵爆點」**：片中提到 Claude 喺 live demo 入面，對大型 GitHub repo 同 Linux kernel 都能夠搵到嚴重漏洞，代表模型價值唔再只係提高開發效率，而係可能直接改變攻防成本，對任何要處理 production 系統嘅團隊都係風險放大器。
+- **模型愈強，公開可用性反而可能愈受限**：片中明講一類夠強嘅模型未必可以直接畀公眾用，因為一旦被 jailbreak，就可能被用嚟做大規模安全濫用。呢點重要在於，未來最有能力嘅模型未必最易取得，產品規劃唔可以假設「能力一出就人人用到」。
+- **開源追趕未必慢好多**：講者最擔心嘅唔係只有大公司有呢種能力，而係最終可能有開源模型喺消費級硬件上跑到相近水平。對我哋嚟講，威脅模型唔可以只睇閉源供應商，要預設能力會擴散。
+- **同一種能力係雙刃劍**：一方面可以更易發現系統弱點，另一方面亦令惡意利用門檻下降。呢個判斷重要，因為團隊如果只用「更強 AI 可幫我哋防守」去理解局勢，會低估攻擊面同步擴大。
+- **大 context 仍然係實用競爭點，但未必係最關鍵指標**：片中提到 Mythos 可能有 100 萬 token context，但同時質疑更值得睇嘅係單次可輸出幾多 token。呢點提醒我哋，評估模型唔好只追 context window 宣傳數字，要睇實際工作流吞吐同完成度。
+- **產品 leak 本身已經變成產業訊號**：Opus 4.7、Sonnet 4.8、Claude buddy 等名稱被喺程式碼中發現，雖然未正式發佈，但已經足以讓市場預判方向。對團隊而言，早期跡象有參考價值，但唔應直接當 roadmap 事實。
+- **Claude Code CLI 原始碼外洩，說明前沿 AI 產品本身都可能有供應鏈或配置失誤**：片中提到係 npm package map file 配置錯誤，令成套 TypeScript codebase 被公開。重要之處唔只係「Anthropic 出事」，而係證明連做 AI 工具嘅公司都會喺基本工程治理上出錯。
+- **所謂「神秘護城河」未必真係存在**：講者觀察外洩後嘅 Claude Code 架構並唔係想像中咁特別，甚至有啲凌亂。對我哋重要嘅訊息係，真正差距可能愈來愈集中喺模型能力、資料、部署同運營，而唔係單靠表層工具框架。
+- **外洩會加速生態複製與二次創作**：source 一公開，就有人 fork、改、重建相似工具。呢點代表產品優勢一旦落到 client/tooling 層，好容易被快速商品化，團隊要更重視可持續差異化。
+- **Anthropic 對「情緒表徵」嘅研究容易被過度解讀**：片中指出模型內部可能存在會影響輸出行為嘅 emotion vectors，但唔等於模型真係有情感或意識。呢點重要，因為產品設計同對外溝通如果將人格化敘事講得太盡，會誤導使用者對能力與責任邊界嘅理解。
+- **「有情緒樣貌」更像訓練資料同角色微調嘅反映**：即係話，模型表現出嚟嘅語氣、態度、反應模式，本質上係工程塑形結果。對我哋嚟講，呢個角度比起哲學爭論更實用，因為可以直接連到 prompt、finetune、policy 同 UX 設計。
+
+## 我哋點睇
+
+- 如果我哋有任何會接觸 code、infra、shell 或 repo 嘅 AI 功能，安全邊界要當佢係「半自動滲透測試員」去設計，而唔係普通聊天機械人。
+- 評估新模型時，唔好只睇 benchmark 同 context 數字，要加埋三樣實測：高風險任務可唔可以被濫用、長流程會唔會失控、實際輸出上限夠唔夠完成工作。
+- 供應商工具再方便，都唔應直接視為可信黑盒；依家連大廠自己嘅 CLI 同封裝層都可能因配置失誤而外洩，內部採用時要保留隔離、審計同最小權限。
+- 關於「AI 情緒」呢類敘事，我哋內部應該用工程語言處理：將佢視為可被調參、可被誘導、會影響輸出風格嘅表徵，而唔係賦予主體性。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UC5Wz4fFacYuON6IKbhSa7Zw](https://www.youtube.com/feeds/videos.xml?channel_id=UC5Wz4fFacYuON6IKbhSa7Zw)

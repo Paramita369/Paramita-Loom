@@ -1,0 +1,53 @@
+---
+title: 'PSA: Anyone with a link can view your Granola notes by default'
+description: 'PSA: Anyone with a link can view your Granola notes by default'
+type: knowledge
+topic: psa-anyone-with-a-link-can-vie
+slug: zh-hk/knowledge/psa-anyone-with-a-link-can-view-your-granola-notes-by-default/index
+knowledge_id: knowledge_d6011867838045dba54d8d821ef60b0c
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# PSA: Anyone with a link can view your Granola notes by default
+
+## 一句話版本
+
+Granola 雖然話筆記「預設私密」，但實際上連結預設係「有 link 就睇到」，而且非企業用戶資料亦預設會用嚟做內部 AI 訓練，呢點對任何會議紀錄工具都係即時風險提示。
+
+## 點解重要
+
+- `分享權限講法同實際行為有落差`
+- 對用家嚟講，最危險唔係公開分享本身，而係產品文案令人以為資料安全，結果團隊可能喺錯誤安全假設下放入敏感會議內容。
+- `「知道連結即可查看」已經足以構成外洩面`
+- 就算連結冇被搜尋引擎收錄，只要有人誤貼去 email、chat、文件、投影片，任何收過條 link 嘅人都可以直接睇，風險唔需要黑客技巧都會發生。
+- `未登入都見到筆記內容，代表保護層太薄`
+- 文章測試顯示，用私密視窗、唔登入帳戶都睇到筆記，呢個門檻低到幾乎等於「連結本身就係權限」。
+- `即使睇唔到完整 transcript，仍然可能洩露敏感資訊`
+- Bullet point 對應嘅逐字稿引用同 AI 摘要已經足夠暴露會議內容、人物、時間同討論脈絡，唔需要 full transcript 都可以造成傷害。
+- `產品會顯示筆記屬於邊個、幾時建立`
+- 呢類 metadata 會增加二次風險，例如幫人拼湊內部會議節奏、角色分工、專案時間線，對社工同競爭情報都好有價值。
+- `AI 訓練係預設加入，而唔係預設退出`
+- 呢個重點唔只係私隱，而係資料用途擴張：你原本以為只係做會議整理，實際上資料仲可能被拿去改善模型，風險面比單純「儲存筆記」更大。
+- `企業版同一般方案有唔同預設，反映風險其實早已被認知`
+- Enterprise 預設唔參與 AI 訓練，說明供應商本身知道企業客對資料用途更敏感；如果普通用戶冇仔細睇設定，就會承受較高預設風險。
+- `連結權限可改成公司內部或完全私密，證明問題唔係技術做唔到，而係預設值選擇`
+- 呢點值得團隊特別警惕：很多 SaaS 唔係冇安全選項，而係把最方便擴散嘅選項設成預設，方便增長但增加營運風險。
+- `刪除筆記先會令舊連結失效，表示外洩後補救成本偏高`
+- 一旦 link 已經流出，補救唔一定只係改設定，可能要刪資料、重建紀錄流程，對日常營運同稽核都唔友善。
+- `已經有人早前公開提醒，亦有大公司因此限制使用`
+- 呢唔係一時誤解，而係持續存在、足以令企業安全部門介入嘅風險模式，代表團隊唔應該當成小設定問題。
+
+## 我哋點睇
+
+- 凡係會錄音、出 transcript、出 AI 摘要嘅工具，都要當成「可能外發敏感資訊」去審核，唔可以只睇宣傳頁面寫咩。
+- 我哋自己做 OpenClaw 時，任何分享、可見性、模型訓練授權都唔應該用寬鬆預設；高風險功能要明確 opt-in，仲要分開講清楚「誰可看」同「資料會唔會被再利用」。
+- 如果團隊仲有用第三方 AI 會議筆記工具，應即刻做一次設定盤點：link sharing、workspace 權限、training opt-out、metadata 暴露範圍，避免以為「內部工具」就自然安全。
+
+## 來源
+
+- 原文：[https://www.theverge.com/rss/ai-artificial-intelligence/index.xml](https://www.theverge.com/rss/ai-artificial-intelligence/index.xml)

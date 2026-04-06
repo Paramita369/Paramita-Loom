@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss version="2.0">
+  <channel>
+    <title>OpenClaw Knowledge Feed</title>
+    <link>https://openclaw.example.com</link>
+    <description>Latest knowledge from OpenClaw</description>
+    <lastBuildDate>Tue, 31 Mar 2026 11:02:41 +0000</lastBuildDate>
+    <item>
+      <title>https-raymondhouch</title>
+      <link>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</link>
+      <description>knowledge: https-raymondhouch</description>
+      <pubDate>2026-03-31 11:02:41</pubDate>
+      <guid>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</guid>
+    </item>
+    <item>
+      <title>https-raymondhouch</title>
+      <link>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</link>
+      <description>knowledge: https-raymondhouch</description>
+      <pubDate>2026-03-31 11:01:51</pubDate>
+      <guid>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</guid>
+    </item>
+    <item>
+      <title>https-raymondhouch</title>
+      <link>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</link>
+      <description>knowledge: https-raymondhouch</description>
+      <pubDate>2026-03-31 10:58:47</pubDate>
+      <guid>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</guid>
+    </item>
+    <item>
+      <title>https-raymondhouch</title>
+      <link>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</link>
+      <description>knowledge: https-raymondhouch</description>
+      <pubDate>2026-03-31 10:52:42</pubDate>
+      <guid>file:///Users/ai-paramita/Desktop/Project/Paramita-Loom/src/content/docs/zh-hk/knowledge/ai-agent-21-day-build/index.mdx</guid>
+    </item>
+  </channel>
+</rss>

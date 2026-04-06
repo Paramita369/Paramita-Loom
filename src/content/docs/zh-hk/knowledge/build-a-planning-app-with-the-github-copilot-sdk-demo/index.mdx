@@ -1,0 +1,43 @@
+---
+title: Build a Planning App with the GitHub Copilot SDK | demo
+description: Build a Planning App with the GitHub Copilot SDK | demo
+type: knowledge
+topic: build-a-planning-app-with-the-
+slug: zh-hk/knowledge/build-a-planning-app-with-the-github-copilot-sdk-demo/index
+knowledge_id: knowledge_7031a39dd807423a891fbe3e808c50b9
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Build a Planning App with the GitHub Copilot SDK | demo
+
+## 一句話版本
+
+呢段示範講咗點樣用 GitHub Copilot SDK 以好少程式碼，將自然語言規劃能力直接嵌入自己個 app，令原本靜態嘅規劃工具即刻變成會跟限制條件即時生成方案嘅助手。
+
+## 點解重要
+
+- **由固定內容變成動態決策工具**：原本個 meal planner 只係輪流出既定餐單，但加咗 Copilot SDK 之後，可以按飲食偏好、家庭情況、臨時限制去生成新計劃。對我哋嚟講，重點唔係「有 AI」，而係產品可以由資料展示升級做真正幫人作決定。
+- **自然語言已經足夠做高價值互動**：示範入面用戶只係講幾句限制，例如小朋友唔食 oatmeal、星期日朝早要探親，系統就會重新規劃。即係話，如果我哋本身有明確業務規則同上下文，唔一定要先整一大堆複雜表單，已經可以做到實用功能。
+- **輸出唔只係建議，仲包含執行細節**：生成結果唔係一句「食咩」或者「去邊」，而係連材料、準備方法、分時段安排、備用方案都包埋。呢點重要，因為真正減輕用戶負擔嘅唔係靈感，而係可直接照住做。
+- **局部重生成功能體驗關鍵**：佢唔單止可以重生成個星期計劃，仲可以只重生其中一餐。對產品設計好有啟發，因為全量重做通常太粗暴，而局部修改先符合真實使用情境。
+- **約束條件係功能核心，不係附加品**：示範多次強調將具體限制傳入 prompt。即係話，價值唔係來自模型自由發揮，而係來自我哋可唔可以有系統地收集、整理、傳遞約束。產品成敗會更取決於上下文建模，而唔係單靠模型本身。
+- **技術接入門檻比想像中低**：片入面嘅實作流程好簡單，主要係初始化 client、開 session、設 model／tools／system message，再送 prompt 同讀 response。對團隊嚟講，呢表示驗證想法可以做得好快，唔需要先起一大套 AI 平台。
+- **用 GitHub 訂閱做驗證，減少金鑰管理成本**：示範提到認證由 GitHub subscription 處理，唔使自己管理另一套 API keys。呢對內部工具或者開發者導向產品尤其有吸引力，因為可以減少接入同維運摩擦。
+- **Copilot SDK 背後依賴 CLI 架構**：應用程式係經 SDK 同 Copilot CLI 溝通。呢個細節值得留意，因為佢影響部署方式、執行環境要求，同埋適唔適合放入我哋現有本機／CI／桌面工作流。
+- **最有價值嘅場景係「高頻但煩碎」工作**：meal planning 同 weekend planning 都唔係巨大決策，但係高頻、容易攰、變數又多。呢提醒我哋，AI 最容易打中嘅唔一定係最複雜問題，而係日日都要處理、又令人耗神嗰類任務。
+- **示範重點其實係產品想像力被打開**：講者最後真正想傳達嘅唔係 SDK API 細節，而係以前會因為實作成本太高而放棄嘅功能，依家突然變得可做。對團隊而言，呢代表我哋應該重新檢視舊產品入面嗰啲「以前太麻煩所以冇做」嘅功能位。
+
+## 我哋點睇
+
+- 如果我哋要試呢類能力，應該先揀一個「已有清楚上下文、但規劃成本高」嘅功能落手，而唔係做一個籠統聊天框。咁樣先容易驗證有冇真實價值。
+- 設計上要優先做好「限制條件輸入」同「局部重算」兩件事，因為呢兩樣比起單次生成更貼近真實使用流程。
+- 技術上可以將 SDK 當成快速原型工具，但正式落地前要先評估 CLI 依賴、執行環境同穩定性，尤其如果我哋目標唔係只限本機開發者場景。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UC7c3Kb6jYCRj4JOHHZTxKsQ](https://www.youtube.com/feeds/videos.xml?channel_id=UC7c3Kb6jYCRj4JOHHZTxKsQ)

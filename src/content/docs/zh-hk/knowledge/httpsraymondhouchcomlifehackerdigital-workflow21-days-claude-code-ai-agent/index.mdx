@@ -1,0 +1,53 @@
+---
+title: https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/
+description: https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/
+type: knowledge
+topic: httpsraymondhouchcomlifehacker
+slug: zh-hk/knowledge/httpsraymondhouchcomlifehackerdigital-workflow21-days-claude-code-ai-agent/index
+knowledge_id: knowledge_5d97e323fcbb4852bc6a9f98886dfe8f
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# https://raymondhouch.com/lifehacker/digital-workflow/21-days-claude-code-ai-agent/
+
+## 一句話版本
+
+作者用 21 日由零砌出一套以 Claude Code 為核心、橫跨記憶、主動推送、自動化同家庭場景嘅 AI 助理系統，重點唔係「多咗幾個功能」，而係證明咗個人工作流一旦有長期記憶同明確權限邊界，AI 就開始由聊天工具變成真正可持續合作嘅操作層。
+
+## 點解重要
+
+- **記憶唔應該等同「全部塞入 prompt」**
+- 佢將記憶拆成 `MEMORY.md`、知識圖譜同 daily log，其實講緊一個實用原則：AI 唔需要永遠記得所有事，但一定要有穩定索引去搵返啱嘅資訊。對我哋嚟講，呢個比「寫一份超長系統提示」更可維護，亦更接近真實生產環境。
+- **跨裝置一致性係代理系統能否落地嘅前提**
+- 作者揀 iCloud 做中樞，唔係技術上最型，而係因為佢要 Mac mini、MacBook、手機見到同一份狀態。呢點提醒我哋：如果人本身工作喺多裝置之間切換，AI 系統只要狀態唔一致，體感就會即刻崩。
+- **「主動推送」先係助理，不只是問答機**
+- Discord Bot 每日主動送早報、晚報同策展內容，價值在於改變互動模式：由人主動開工具，變成系統按節奏提醒。呢個轉變會直接影響 adoption，因為好多 workflow 唔係做唔到，而係人根本唔會主動打開。
+- **高風險決策要有清楚嘅 source of truth**
+- Gmail 自動化最關鍵嘅教訓係：是否回覆唔可以交俾 AI 猜，必須由 Gmail 標籤決定。呢個非常重要，因為佢示範咗一條硬邊界：AI 可以起草、整理、補全，但唔應該替代業務規則嘅最終判斷。
+- **AI 最大價值之一係降低「太麻煩所以一直唔做」嘅門檻**
+- Home Assistant 同家庭財務都唔係全新需求，而係舊需求終於被執行。呢點比功能清單更值得注意，因為它說明 AI 並非只提升速度，仲會擴大原本被拖延、擱置、永遠排唔到優先級嘅事情嘅可行範圍。
+- **自然語言入口可以大幅減少工具切換成本**
+- 例如用 Discord 記帳、講一句就落分類，背後再匯整 CSV、資產、訂閱同提醒。真正有用之處唔係「AI 幫你記一筆」，而係將零散操作壓縮成一個低摩擦入口，令資料更容易持續累積。
+- **提示詞瘦身本質上係架構治理，不是文案整理**
+- 由 768 行 `CLAUDE.md` 收斂到 120 行，再把知識拆入 Skills，同動態記憶分流，反映咗一個成熟階段：當系統開始複雜，問題唔再係模型夠唔夠聰明，而係資訊應該放喺邊一層、幾時載入。
+- **Skills 一多，品質控制本身要被產品化**
+- 佢用多個 eval agents 去審 Skills，代表一件事：當 prompt/skill 成為長期資產，就要有 review 機制，而唔可以再靠作者自己「感覺上應該冇問題」。對團隊化運作尤其重要。
+- **基礎設施優化會直接影響 AI 系統穩定度**
+- iCloud Vault 瘦身、隔離開發產物、升 Python、換掉過時遠端控制方式，呢啲睇落瑣碎，但其實係令整套系統唔會愈跑愈慢、愈疊愈亂嘅必要條件。AI workflow 唔只係模型問題，仲係環境衛生問題。
+- **權限放開雖然提升能力，但亦放大治理要求**
+- 文中提到權限模式升級，配合家居 API、NAS 等整合，代表系統開始有真實操作權。呢類能力一旦進入日常使用，權限、審批、可回溯性就唔可以再靠「我自己用應該冇事」去處理。
+
+## 我哋點睇
+
+- 如果我哋要做自己嘅 agent 系統，第一優先應該唔係追求功能數量，而係先定義好「記憶分層 + 狀態來源 + 權限邊界」三件事，否則愈加功能只會愈亂。
+- 文中最值得借鏡嘅唔係 Discord、Gmail 定 Home Assistant 本身，而係佢每個流程都慢慢收斂出一條規則：決策邏輯由結構化訊號控制，AI 只負責生成、整理、建議。呢個分工方式好適合我哋落實到控制面。
+- 對 OpenClaw 呢類系統而言，作者踩過嘅坑其實係一個提醒：真正可用嘅 agent 唔係「最聰明」就夠，而係要做到長期可維護、跨場景唔失憶、出錯時搵得返原因。呢個方向比做更多 demo 更有價值。
+
+## 來源
+
+- 原文：[slack:C0ALJHVN33Q:1774924291.694369](slack:C0ALJHVN33Q:1774924291.694369)

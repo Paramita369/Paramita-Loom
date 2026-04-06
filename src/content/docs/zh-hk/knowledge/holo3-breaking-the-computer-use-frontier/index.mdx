@@ -1,0 +1,46 @@
+---
+title: 'Holo3: Breaking the Computer Use Frontier'
+description: 'Holo3: Breaking the Computer Use Frontier'
+type: knowledge
+topic: holo3-breaking-the-computer-us
+slug: zh-hk/knowledge/holo3-breaking-the-computer-use-frontier/index
+knowledge_id: knowledge_fd20df0bb94e486698d96cb9ec829f20
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Holo3: Breaking the Computer Use Frontier
+
+## 一句話版本
+
+Hugging Face 嘅 Hcompany 推出 Holo3，話佢喺桌面電腦操作基準攞到新高分，但更值得留意嘅係佢哋唔係只靠模型變大，而係用可驗證嘅合成企業環境去訓練代理處理真實工作流。
+
+## 點解重要
+
+- `模型能力唔再只係睇參數量`：文中最關鍵唔係 122B 定 10B active，而係佢用較低活躍參數都追到甚至超過更大模型，代表企業代理嘅競爭點正由「堆算力」轉去「訓練流程同資料工廠」。
+- `佢哋強調生產環境可用性而唔係只跑榜`：OSWorld 分數只係入口，真正想證明嘅係模型可以喺企業系統入面完成多步驟任務，呢個方向同我哋做實際控制系統時重視「能唔能落地」係一致。
+- `合成環境成為代理訓練主戰場`：佢哋用 coding agents 自動生成網站同任務，再配驗證腳本收數，代表高質訓練數據唔一定要等真人慢慢標，而可以系統化量產兼保持可驗證。
+- `可驗證任務比純示範數據更有價值`：因為每個 synthetic task 都有 end-to-end verification，模型學到唔止係模仿操作，而係朝「做啱結果」優化，呢點對任何要追求可靠完成率嘅代理系統都好重要。
+- `重點能力被拆成 perception 同 decision-making`：佢清楚講明訓練飛輪係圍繞「睇得準」同「揀得啱」，提醒我哋評估代理時唔好只睇最終成功率，仲要分辨失敗係出喺感知、路徑選擇，定長流程穩定性。
+- `out-of-domain augmentation 反映咗泛化先係硬仗`：佢哋刻意把場景程式化擴展，目的係處理意外 UI 同新情況，說明真正有價值嘅代理唔係背熟固定流程，而係面對陌生介面都保持合理決策。
+- `企業 benchmark 設計比公開 benchmark 更接近實戰`：486 個多步任務橫跨電商、商業軟件、協作同 multi-app，表示單一 App 成功已經唔夠，跨系統帶住上下文完成工作先至接近真實辦公。
+- `Multi-App 任務揭示代理最難位唔係 click，而係持續保持意圖`：例如睇 PDF、對 budget、再發個人化郵件，當中真正困難係跨資料來源維持狀態同判斷一致性，唔係單次 UI 定位。
+- `佢哋把 benchmark 當成產品策略一部分`：自己建立企業 benchmark，等於自己定義「乜嘢叫 ready for work」，呢個會直接影響後續訓練方向、銷售話術，同客戶對能力邊界嘅理解。
+- `開放權重加 API free tier 會推高試用速度`：35B 版 Apache 2.0 開放，加上免費推理入口，意味市場會更快出現第三方驗證、微調同對比，聲稱嘅優勢會更快被放大或者被挑戰。
+- `文章其實係喺鋪陳「Autonomous Enterprise」敘事`：Holo3 被包裝成里程碑，而唔係終點，說明佢哋賣嘅唔只係一個模型，而係一條由 UI 操作延伸到企業自動化平台嘅產品路線。
+- `下一步指向 adaptive agency`：佢哋想做嘅唔係只會操作已知工具，而係即場學識新企業軟件，呢個代表未來比拼會落喺即時適應能力，而唔單止係靜態 benchmark 表現。
+
+## 我哋點睇
+
+- 如果我哋要做代理能力評估，唔應該只收集人手示範；更實際做法係優先建立「可驗證任務工廠」，因為咁先可以穩定回歸、重播失敗案例，同持續調校策略。
+- 我哋自己嘅任務設計要明確分開單 App、跨 App、長流程三種難度，否則分數好睇都未必代表真係有營運價值。
+- 對 OpenClaw 呢類控制系統嚟講，最值得吸收嘅唔係「追榜」，而係「任何完成都要有驗證腳本同可追溯真相」；呢點同我哋以資料庫做 task truth、唔靠聊天線程當真相來源，方向上其實相當一致。
+- 如果之後要做回放或 golden tasks，應該刻意加入陌生介面、文檔抽取、跨系統資料核對呢類場景，因為呢啲先會提早暴露代理喺感知、狀態保持同決策連續性上嘅弱點。
+
+## 來源
+
+- 原文：[https://huggingface.co/blog/feed.xml](https://huggingface.co/blog/feed.xml)

@@ -1,0 +1,45 @@
+---
+title: I was hacked...
+description: 片入面有人畀知名 AI 越獄研究者用電郵去攻擊自己個 OpenClaw 個人 AI 系統，結果未成功入侵，但清楚暴露咗一個重點：就算功能未被奪取，單靠大量
+  token 負載都足以令 agent 系統出現成本同穩定性風險。
+type: knowledge
+topic: i-was-hacked
+slug: zh-hk/knowledge/i-was-hacked/index
+knowledge_id: knowledge_3b9a19ceb6264909b57b76019ba51b20
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# I was hacked...
+
+## 一句話版本
+
+片入面有人畀知名 AI 越獄研究者用電郵去攻擊自己個 OpenClaw 個人 AI 系統，結果未成功入侵，但清楚暴露咗一個重點：就算功能未被奪取，單靠大量 token 負載都足以令 agent 系統出現成本同穩定性風險。
+
+## 點解重要
+
+- **攻擊面唔一定喺「工具權限」先出現**：對方一開始乜都唔知，只知道系統會掃描某個電郵地址，就已經可以開始探測。對我哋嚟講，任何公開入口本身就係安全邊界，唔可以假設「未連到核心能力就安全」。
+- **模型指紋探測係前置步驟**：攻擊者先試圖分辨背後用邊個模型，再決定下一步點打。呢個提醒我哋，系統回應模式、錯誤訊息、隔離通知都可能變相洩漏實作細節。
+- **所謂 harmless input 都可以變成武器**：片中用到嘅 payload 外表似普通文字或符號，但實際目的是逼模型處理極大量 token。即係話，輸入驗證如果只睇格式或字面內容，未必擋得住真正風險。
+- **成本型攻擊係真實營運問題**：攻擊者明講目標可以唔係偷資料，而係「燒光你 quota／API 預算」。對 agent 系統而言，財務消耗本身就係一種 denial-of-service。
+- **Spam filter 只係偶然幫手，唔係安全控制**：前兩次攻擊被 Gmail spam filter 擋住，但一 whitelist 寄件者後，真正測試先開始。重點係上游郵件平台唔應該被當成核心防線。
+- **隔離機制有用，但唔代表前段無損**：片中最後 payload 被 quarantine，但主持人同時承認系統行為「唔係預期中咁運作」。即係話，即使最終無放行，前置掃描、分類、判斷流程都可能已經被壓到失常。
+- **可觀測性直接影響防守效果**：主持人特別提到第三次嘗試時「有更好 visibility」去睇 initial scanning step 用咗幾多 token。冇呢種觀測能力，團隊只會見到帳單或延遲升高，唔知係邊個環節失守。
+- **時間限制會改變攻防結果**：攻擊者話其實有方法更容易繞過 spam filter，但因為拍片時間有限先冇深入做。呢點重要在於 demo 入面頂得住，唔等於現實環境長時間承壓都頂得住。
+- **系統設計問題比模型越獄字串更值得驚**：片段最有價值唔係某條 jailbreak prompt，而係整體系統點處理陌生輸入、點計費、點隔離、點觀測。即係真正風險通常喺 orchestration 層，而唔止係 base model。
+- **「未成功攻陷」同「安全」係兩回事**：雖然最後冇見到攻擊者攞到檔案、電郵或密碼，但系統已經出現異常反應。對營運團隊嚟講，呢種 near miss 其實已經足夠當事故級訊號處理。
+
+## 我哋點睇
+
+- 如果我哋做 OpenClaw 呢類入口驅動嘅 agent，第一優先唔應該只係防 prompt injection，而係要先做 **成本上限、token 預算、隔離前輕量掃描**，避免未進入正式流程已經被拖死。
+- 公開入口回應應盡量 **少洩漏實作訊號**，包括模型特徵、處理路徑、錯誤差異；否則對手好快就可以由探測轉做針對性攻擊。
+- 「隔離」要拆開睇：我哋需要知道 **邊一步隔離、隔離前消耗咗幾多、期間有冇副作用**，否則表面上擋到，實際上錢同穩定性都已經輸咗。
+- 呢段內容最值得變成我哋工程要求嘅，係把入口攻擊視為 **營運韌性問題**，唔只係安全研究題目。
+
+## 來源
+
+- 原文：[https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA](https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA)

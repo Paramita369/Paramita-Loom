@@ -1,0 +1,41 @@
+---
+title: https://youtu.be/5rAIU0GBjII?si=exsKt1hAWIbf9O1K
+description: https://youtu.be/5rAIU0GBjII?si=exsKt1hAWIbf9O1K
+type: knowledge
+topic: httpsyoutube5raiu0gbjiisiexskt
+slug: zh-hk/knowledge/httpsyoutube5raiu0gbjiisiexskt1hawibf9o1k/index
+knowledge_id: knowledge_2cd498a7a67843e9b7d5c922e06a3be1
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# https://youtu.be/5rAIU0GBjII?si=exsKt1hAWIbf9O1K
+
+## 一句話版本
+
+今次個 YouTube 來源雖然已經完成 ingestion，但因為語音轉文字失敗而冇可分析內容，所以而家最重要唔係解讀影片，而係補返可讀文本先至有得做可靠判斷。
+
+## 點解重要
+
+- `ingestion_status` 係 succeeded，但實際可用內容係零，代表我哋唔可以只睇 ingestion 成功與否；如果下游流程冇檢查 `extracted_text` 是否為空，就好容易產出似有根據、其實冇內容支撐嘅摘要。
+- 呢次失敗點係 `asr_failed` / `local_asr_failed`，即問題唔係來源連結失效，而係語音辨識層出咗問題；對我哋嚟講，修復方向應該放喺轉錄能力、格式相容性或者 fallback 流程，而唔係誤判為抓取管道有問題。
+- 來源係 YouTube 影片，冇字幕或冇成功轉錄時，系統就失去主要資訊入口；呢類內容比純文字網頁更依賴 ASR，所以喺內容工作流入面屬於高風險來源類型。
+- 因為冇 extractable text，任何對影片內容、立場、重點、結論嘅具體描述都會變成估；對團隊嚟講，呢個 case 提醒我哋要把「不知道」講清楚，避免將缺失資料包裝成洞察。
+- failure reason 已經夠具體，表示今次結果唔係「冇嘢可講」，而係「暫時冇證據可講」；呢個分別好重要，因為前者會令人誤以為內容冇價值，後者先反映真實狀態。
+- 呢類空文本輸入如果照常進入摘要模板，最終產物通常只會重複任務 metadata；對我哋而言，呢個係質量風險，因為表面完整但資訊密度其實接近零。
+- 從任務紀錄睇，source contract 已經解析到具體 public URL，所以來源識別本身係成功；換句話講，問題集中喺「聽唔到內容」，唔係「唔知要處理邊個來源」。
+- 呢個 case 亦反映 failure-aware 輸出有必要保留：即使分析唔到內容，都要清楚交代失敗位置，咁後續接手的人先知道要補 transcript、字幕定其他文本來源。
+
+## 我哋點睇
+
+- 呢單唔應該出內容摘要，應該直接標記為「待補文本」類型任務，等人手字幕、官方 transcript 或另一條可靠轉錄管道補齊之後再分析。
+- 之後做自動化判斷時，建議把「`extracted_text` 為空」設成硬閘，避免系統喺冇證據情況下生成似是而非嘅結論。
+- 如果團隊會持續處理影片來源，應該將 ASR failure 視為一級可見訊號，分開同抓取失敗統計，咁先知道真正常卡住我哋嘅係邊一層。
+
+## 來源
+
+- 原文：[slack:C0ALJHVN33Q:1775086259.333739](slack:C0ALJHVN33Q:1775086259.333739)

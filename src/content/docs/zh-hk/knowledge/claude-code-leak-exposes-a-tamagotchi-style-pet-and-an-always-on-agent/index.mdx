@@ -1,0 +1,53 @@
+---
+title: Claude Code leak exposes a Tamagotchi-style ‘pet’ and an always-on agent
+description: Claude Code leak exposes a Tamagotchi-style ‘pet’ and an always-on agent
+type: knowledge
+topic: claude-code-leak-exposes-a-tam
+slug: zh-hk/knowledge/claude-code-leak-exposes-a-tamagotchi-style-pet-and-an-always-on-agent/index
+knowledge_id: knowledge_b88fd2b8ac6042b290726391a2736e05
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Claude Code leak exposes a Tamagotchi-style ‘pet’ and an always-on agent
+
+## 一句話版本
+
+Anthropic 因為發版包裝失誤洩出超過 51 萬行 Claude Code 內部程式碼，連未公開功能同代理設計方向都畀人睇到，呢件事提醒我哋：AI 產品嘅風險唔止模型本身，連發版流程都可能變成最大破口。
+
+## 點解重要
+
+- **供應鏈同發版流程本身就係安全邊界**
+- 呢次唔係傳統入侵，而係 release package 夾帶 source map 導致原始 TypeScript 程式碼外流，代表只要 build / packaging / artifact 檢查鬆手，外界一樣可以直接睇穿產品內部結構。
+- **「冇客戶資料外洩」唔等於影響細**
+- 雖然 Anthropic 表示冇 credentials 同敏感客戶資料洩出，但程式碼、系統提示、記憶體架構、未發布功能方向都屬於高價值資訊，足夠令競爭對手、研究者或者濫用者推斷產品能力同弱點。
+- **Guardrails 一旦被看見，繞過成本通常會下降**
+- 報道提到分析人士擔心壞 actors 可能更容易研究點樣避開保護機制，對我哋嚟講重點唔係「一定會被攻破」，而係只要內部控制邏輯曝光，攻防就由黑盒變成半透明。
+- **未公開 roadmap 被動曝光，會改變外界預期管理**
+- Tamagotchi 式互動 pet、KAIROS 常駐背景代理呢類功能一旦被提前挖出，團隊會失去原本控制敘事、節奏同定位嘅主動權，連未成熟概念都可能被當成正式承諾。
+- **「永遠在線」代理功能特別敏感**
+- 常駐背景 agent 代表權限、觀察範圍、資源使用、審計同關閉機制都會被放大檢視；即使功能未上線，只要方向曝光，外界就會即刻用更高標準審視安全模型。
+- **記憶體架構會直接影響大家對代理可信度嘅判斷**
+- 報道提到外界從洩漏內容推敲 memory architecture，說明市場已經唔再只睇「識唔識寫 code」，而係開始追問 agent 點記、記幾耐、根據咩決策，呢啲都係信任核心。
+- **內部工程註解都可能變成公關素材**
+- 文中提到有工程師留言質疑某段 memoization 複雜度高但未必真係有性能收益，呢類真實開發對話一旦公開，外界會直接見到技術債、折衷同團隊判斷過程。
+- **修補得再快，都未必追得上複製速度**
+- Anthropic 後來修正咗問題，但程式碼已被搬去 GitHub，仲累積大量 fork；即係話一旦可公開下載，實際上就要假設內容已永久流通，補救重點要轉去後續風險控制。
+- **Agentic coding 產品愈紅，失誤放大效應愈強**
+- Claude Code 先前因代理能力而更受關注，所以今次外洩先會被快速拆解、傳播同二次報道；產品熱度本身會放大任何操作失誤嘅外部衝擊。
+- **事件本質反映營運成熟度，而唔單係單次人為出錯**
+- Gartner 分析師嘅觀點值得留意：長遠影響未必係技術本身被抄走，而係市場會用呢次事件質疑團隊嘅 operational maturity，包括發版管制、檢查清單同防呆能力。
+
+## 我哋點睇
+
+- 我哋做任何 agent 或控制面產品，應該將 `build artifact 審核` 當成正式安全關卡，而唔係發版尾段嘅例行工序；尤其要自動檢查 source map、debug bundle、測試旗標同內部 prompt 是否混入正式包。
+- 如果之後有常駐 agent、記憶體、背景執行呢類能力，設計時要預設「實作細節有機會被外界看見」，所以權限邊界、審計紀錄、停用機制要先站得住腳，再談體驗。
+- 對外溝通上，唔好將「冇用戶資料外洩」當成完整結案；對營運團隊更實際嘅做法係把事件分開看：資料風險、產品路線曝光、guardrail 研究風險、發版流程缺陷，逐項有對應補救。
+
+## 來源
+
+- 原文：[https://www.theverge.com/rss/ai-artificial-intelligence/index.xml](https://www.theverge.com/rss/ai-artificial-intelligence/index.xml)

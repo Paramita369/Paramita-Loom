@@ -1,0 +1,45 @@
+---
+title: Anthropic says Claude Code subscribers will need to pay extra for OpenClaw
+  usage
+description: Anthropic says Claude Code subscribers will need to pay extra for OpenClaw
+  usage
+type: knowledge
+topic: anthropic-says-claude-code-sub
+slug: zh-hk/knowledge/anthropic-says-claude-code-subscribers-will-need-to-pay-extra-for-openclaw-usage/index
+knowledge_id: knowledge_2992b4627e4941a6b8bd52e391236b3a
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Anthropic says Claude Code subscribers will need to pay extra for OpenClaw usage
+
+## 一句話版本
+
+Anthropic 由 2026 年 4 月 4 日中午開始，唔再畀 Claude Code 訂閱額度直接用喺 OpenClaw 呢類第三方 harness，上 OpenClaw 會變成另外按量收費，重點係呢個改動直接影響我哋之後點估算成本、點揀供應商同點設計產品依賴。
+
+## 點解重要
+
+- **收費模型變咗**：之前如果團隊有人以為 Claude Code 訂閱已經包埋 OpenClaw 用量，呢個前提而家唔成立。對我哋最實際嘅影響係，任何建基於「訂閱內含」嘅成本估算、採購計劃、內部承諾都要即刻重算。
+- **唔只係 OpenClaw，係第三方整體政策收緊**：Anthropic 明講政策會擴展到其他第三方 harness，代表問題唔係單一整合，而係平台層面唔想再補貼某類使用方式。對我哋嚟講，依賴外部模型商時，唔可以只睇今日一個整合可唔可以用，仲要睇對方會唔會突然改商業條款。
+- **供應商將「使用模式」視為風險**：Anthropic 解釋話訂閱本身唔係為第三方工具嘅 usage pattern 而設計，反映高頻、自動化、代理式工作流會被當成特別成本壓力。呢點提醒我哋，OpenClaw 呢類系統越成功，越可能撞到上游平台嘅限制，而唔係純技術問題。
+- **開源工具仍然受平台控制**：OpenClaw 本身係開源，但只要底層模型供應商改政策，實際可用性同成本都可以即刻受影響。即係話，開源唔等於供應鏈自主；真正嘅自主係要有可替代模型路徑同清晰抽象層。
+- **Anthropic 與 OpenClaw 陣營嘅關係轉冷**：報道提到 OpenClaw 創辦人 Peter Steinberger 已加入 OpenAI，而 OpenClaw 之後會繼續由 OpenAI 支持。對我哋而言，呢個唔只係人事新聞，而係代表 OpenClaw 嘅生態重心可能會更靠向 OpenAI，之後功能、相容性、優先支援方向都可能跟住變。
+- **競爭態勢開始影響產品政策**：Steinberger 指控 Anthropic 一邊喺自家 closed harness 複製熱門功能，一邊收緊對開源工具支援；即使呢個講法帶立場，都顯示模型商可能會優先扶植自己控制嘅入口。對我哋重要之處在於，任何關鍵流程如果建喺供應商唔擁有嘅介面上，都有被邊緣化風險。
+- **退款訊號顯示官方知道變動會令用戶不滿**：Anthropic 表示提供全額退款，說明連佢哋自己都預期有一批訂閱者係按舊理解購買。對我哋嚟講，呢種情況通常代表政策轉向會帶來短期混亂，營運上要預留時間處理帳單、權限同內部溝通。
+- **即日生效代表遷移窗口極短**：報道講到政策由「今日中午」起生效，而且只係延遲咗一星期。呢類改動唔會畀團隊太多緩衝，意味住如果我哋將來倚賴任何單一模型供應商，都要預設可以快速切換，而唔係假設會有漫長過渡期。
+- **市場資源配置正在向 coding / enterprise 集中**：文章順帶提到 OpenAI 關掉部分影片產品，據報係要集中資源搶 software engineers 同 enterprise。對我哋有啟發嘅地方係，模型公司而家會更明顯按「邊類客最賺錢」去調配算力與產品優先序，開發工具產品未必穩定，但企業工作流相關能力反而可能更快演進。
+
+## 我哋點睇
+
+- 如果 OpenClaw 會係我哋正式工作流一部分，成本模型要即刻改成「模型用量獨立核算」，唔好再把 Claude 訂閱費當作可覆蓋執行成本。
+- 架構上要堅持 provider-agnostic：控制平面、worker、prompt policy 同 task state 都唔應綁死某一間模型商，否則上游一改價或改限制，我哋就要停工。
+- 營運上最好加一層可觀測性，將每個 task / attempt 對應到模型供應商與 token 成本，咁先可以喺政策改動後快速決定係限流、轉 provider，定係調整任務路由。
+- 對外溝通要講人話：如果之後我哋向操作員匯報，重點應該係「而家用 OpenClaw 可能要另外收費、任務成本會更透明、系統會保留切換供應商能力」，而唔係淨係講新聞本身。
+
+## 來源
+
+- 原文：[https://techcrunch.com/category/artificial-intelligence/feed/](https://techcrunch.com/category/artificial-intelligence/feed/)

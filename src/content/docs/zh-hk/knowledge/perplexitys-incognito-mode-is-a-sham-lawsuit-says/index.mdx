@@ -1,0 +1,44 @@
+---
+title: Perplexity's "Incognito Mode" is a "sham," lawsuit says
+description: Perplexity's "Incognito Mode" is a "sham," lawsuit says
+type: knowledge
+topic: perplexitys-incognito-mode-is-
+slug: zh-hk/knowledge/perplexitys-incognito-mode-is-a-sham-lawsuit-says/index
+knowledge_id: knowledge_276b5bc71ea440728a70d9a6cd0bfb4a
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Perplexity's "Incognito Mode" is a "sham," lawsuit says
+
+## 一句話版本
+
+Perplexity 被集體訴訟指控連「Incognito Mode」都照樣將用戶對話連同可識別身份資料傳畀 Google 同 Meta，重點唔只係私隱翻車，而係連「匿名」承諾本身都可能靠唔住。
+
+## 點解重要
+
+- `產品承諾`：如果訴訟指控屬實，問題唔係單純追蹤太多，而係產品用「Incognito」呢類字眼營造安全感，但實際資料流向冇跟住承諾走，對任何做 AI 介面同隱私選項嘅團隊都係警號。
+- `資料邊界`：用戶以為自己係同 AI 助手私下對話，但控方話初始 prompt、跟進互動，甚至完整對話入口都可能被第三方取得，代表「聊天 UI」唔等於「封閉會話」。
+- `敏感場景風險`：文章特別提到財務、醫療、法律、投資等內容，呢類查詢本身就高敏感；一旦外流，傷害唔止係尷尬，仲可能變成定向廣告、資料再販售，甚至影響現實決策。
+- `已登入同未登入都中招`：指控話唔論有冇帳號都會分享資料，而未訂閱用戶可能更易暴露完整對話入口，意味風險唔只集中喺某類高價值客群，而係整個漏斗都可能有問題。
+- `PII 疊加效應`：最麻煩唔係 prompt 單獨外流，而係對話內容加上 email 或其他識別符一齊送出；一旦可對人，聊天內容就由抽象文本變成可營利用戶檔案。
+- `AI 產品特有風險`：訴訟指 Perplexity 會主動鼓勵用戶上傳更多細節或文件，呢點比一般搜尋引擎更敏感，因為 AI 互動設計本身會放大用戶過度透露資訊嘅傾向。
+- `廣告技術入侵`：文中提到 Meta Pixel、Google Ads、DoubleClick 甚至可能有 Conversions API，說明傳統 ad-tech 一旦塞入 AI 對話產品，會將原本網站分析問題升級成聊天內容治理問題。
+- `合規唔只睇政策頁`：控方核心論點之一係未有充分披露，反映法律風險好多時唔係來自「完全冇條款」，而係實際行為、介面說法、用戶合理預期三者對唔對得上。
+- `行業連鎖反應`：文章順手提到 ChatGPT 對話曾經在其他訴訟或搜尋結果中外露，表示市場對「AI 聊天紀錄外洩」已經唔再當作單一事故，而係逐漸被視為一個結構性類別風險。
+- `信任成本極高`：一旦用戶開始懷疑每句 prompt 都可能被第三方食到，受傷最大嘅通常唔係單次營收，而係高價值、高敏感、高黏性的使用場景會先流失。
+
+## 我哋點睇
+
+- 我哋做 OpenClaw 呢類系統時，要假設「用戶會講得比預期更私密」，所以資料流設計唔可以靠文案補救，必須先從架構上限制第三方接觸面。
+- 任何「私密模式」「匿名模式」「只作本地處理」之類開關，如果實際上仲有遙測、追蹤、外部 SDK 或可還原身份嘅欄位流出，就唔應該用呢類命名。
+- 對我哋最實際嘅啟示係：控制平面、任務真相、審核紀錄同對外通知一定要分清楚，唔好因為方便觀察就把敏感任務內容送去分析或通訊層。
+- 如果之後要寫公開 guide 或對 operator 解釋功能，應直接講清楚「邊啲資料會留本機、邊啲事件只記 metadata、邊啲情況先會對外傳送」，咁先建立到可驗證嘅信任。
+
+## 來源
+
+- 原文：[https://arstechnica.com/tag/ai/feed/](https://arstechnica.com/tag/ai/feed/)

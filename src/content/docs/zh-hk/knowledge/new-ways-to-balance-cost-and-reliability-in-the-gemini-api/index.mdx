@@ -1,0 +1,53 @@
+---
+title: New ways to balance cost and reliability in the Gemini API
+description: New ways to balance cost and reliability in the Gemini API
+type: knowledge
+topic: new-ways-to-balance-cost-and-r
+slug: zh-hk/knowledge/new-ways-to-balance-cost-and-reliability-in-the-gemini-api/index
+knowledge_id: knowledge_8d840cd45b574379b0cc8bcf8ce65b63
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# New ways to balance cost and reliability in the Gemini API
+
+## 一句話版本
+
+Google 喺 Gemini API 加咗 `Flex` 同 `Priority` 兩個新 service tier，重點係畀開發者用同一套同步介面，按工作性質喺成本同可靠性之間更精準取捨。
+
+## 點解重要
+
+- **架構簡化**
+- 以前如果同時要處理背景工作同即時互動功能，通常要分開用同步 API 同非同步 Batch API；而家 Google 想用同一條同步路徑處理兩類需求，代表整體系統編排、任務追蹤同錯誤處理可以少一層分叉。
+- **背景型工作有更平選項**
+- `Flex` 明確係畀「唔趕時間」嘅請求，用較低可靠性同較高延遲換取成本下降。對於大量 enrichment、研究模擬、agent 背景思考呢類 workload，呢個 tradeoff 係合理而且直接影響單位經濟。
+- **成本訊號好清楚**
+- Google 直接講 `Flex` 係 Standard API 半價，呢個唔只係 pricing update，而係鼓勵團隊主動為任務分級：邊啲真係要即時、邊啲其實可以慢少少。冇呢種分級，AI 成本通常會一路被即時路徑拖高。
+- **互動型產品更容易做可靠性保證**
+- `Priority` 對應高可靠性場景，例如 chatbot、copilot 呢類面向用戶嘅功能。即係 Google 正式承認互動體驗同背景計算唔應該用同一種服務承諾，對產品 SLA 設計係重要訊號。
+- **同步介面降低採用門檻**
+- `Flex` 雖然係平價 tier，但仍然係 synchronous interface，唔使搞 batch 檔案、輪詢 job 完成、額外 I/O 管理。對開發團隊嚟講，呢個直接減少接入成本，亦減少 workflow code 嘅複雜度。
+- **Agent 工作流更貼近真實需求**
+- 文中多次提到 autonomous agents，反映 Google 係按 agent 架構去重新包裝 inference tier。因為 agent 常常同時有前台互動步驟同後台長思考步驟，分 tier 之後先可以避免全部步驟都用最貴、最穩定路徑。
+- **Batch API 唔再係唯一低成本方案**
+- 過去想平，通常意味住要接受 batch 模式嘅非同步管理複雜度；而家 Google 想提供一個中間層，令「平」唔一定等於「架構好麻煩」。對中小型團隊尤其有吸引力。
+- **服務分級開始變成產品設計一部分**
+- 呢篇唔只係講 API 功能，而係暗示開發者之後要喺產品層面做 workload classification。即係 prompt、路由、重試策略、UX expectation，都要按 tier 設計，而唔係單純 call model 就算。
+- **可靠性唔再被視為預設值**
+- `Flex` 清楚寫明係以較低可靠性換平價，提醒大家模型推理其實可以有唔同服務等級。呢個對成本控制有利，但都意味產品方要更清楚定義「失敗可唔可以接受」。
+- **Google 正式把成本控制內建入 Gemini API 心智**
+- 呢次唔係單純新增 model，而係新增服務層級，代表平台競爭開始由模型能力擴展到「幫你點樣營運 AI」。對採購同平台選型來講，呢類能力會愈來愈重要。
+
+## 我哋點睇
+
+- 如果我哋有任務型或多步驟 agent 流程，應該預先將工作分成「即時對客」同「可延後背景處理」兩條路，否則之後好難真正食到 tier 帶來嘅成本好處。
+- 做控制面時，值得將 `service_tier` 視為 routing policy 一部分，而唔係藏喺 model config 入面；咁先可以按任務類型、優先級、失敗容忍度做一致決策。
+- 如果未來評估 Gemini，唔應只比較模型效果，仲要比較我哋現有工作流有幾多比例可以安全地下沉去 `Flex`；真正慳錢位喺呢度。
+
+## 來源
+
+- 原文：[https://blog.google/technology/ai/rss/](https://blog.google/technology/ai/rss/)

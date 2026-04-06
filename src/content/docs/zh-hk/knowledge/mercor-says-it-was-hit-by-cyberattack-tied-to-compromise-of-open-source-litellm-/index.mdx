@@ -1,0 +1,46 @@
+---
+title: Mercor says it was hit by cyberattack tied to compromise of open-source LiteLLM
+  project
+description: Mercor says it was hit by cyberattack tied to compromise of open-source
+  LiteLLM project
+type: knowledge
+topic: mercor-says-it-was-hit-by-cybe
+slug: zh-hk/knowledge/mercor-says-it-was-hit-by-cyberattack-tied-to-compromise-of-open-source-litellm-/index
+knowledge_id: knowledge_a541979858b44febb8fbbfd3587323af
+publication_state: publish_ready
+access_level: free
+date: '2026-04-06'
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# Mercor says it was hit by cyberattack tied to compromise of open-source LiteLLM project
+
+## 一句話版本
+
+Mercor 確認中咗一次同開源 LiteLLM 供應鏈入侵有關嘅安全事故，重點唔只係單一公司出事，而係常用 AI 基建套件一旦被植入惡意程式，影響面可以即刻擴散到成千上萬間公司。
+
+## 點解重要
+
+- **供應鏈風險唔再係理論問題**：今次唔係 Mercor 自己主系統先被攻破，而係上游開源依賴出事拖累落游用家，代表我哋如果只顧自己 repo 同主機安全，其實防線仍然有大缺口。
+- **AI 基建套件係高槓桿攻擊面**：LiteLLM 呢類元件本身就接近模型調用、憑證、流量路由同日誌，任何污染都可能直接掂到最敏感嘅運行層，後果比一般前端套件嚴重得多。
+- **「幾小時內移除」唔代表冇事**：惡意程式被快速發現同下架係好事，但只要有人喺嗰段窗口期裝過、更新過、build 過，後續仍然可能要做全面追查，所以事故處理成本通常遠高過曝光時間。
+- **受害範圍可能比表面大**：文中提到 LiteLLM 每日下載量以百萬計，又話 Mercor 只係「數千間受影響公司之一」，即係即使最後真正資料外洩個案唔算多，排查同應變負擔都已經係產業級。
+- **資料類型暴露咗 AI 公司新型風險**：外流樣本據報涉及 Slack 資料、ticketing 資料，同埋 AI 系統與承包商對話片段；呢啲唔一定係傳統「資料庫 dump」，但足以拼出內部流程、營運節奏、權限結構同人員互動。
+- **外判與平台式作業會放大衝擊**：Mercor 做緊承包商撮合同 AI 訓練協作，一旦事故牽涉客戶同 contractor，影響唔只法規或品牌，仲會直接打擊平台信任同交付連續性。
+- **攻擊者生態可能係分工合作**：報道寫到 TeamPCP 同 Lapsus$ 之間嘅關聯未明，意味現實世界可能係一批人做供應鏈滲透，另一批人做勒索、放料、放大聲量；我哋唔可以用單一路徑去理解事件。
+- **企業初期公開回應通常資訊不足**：Mercor 話已補救、請第三方鑑識，但未確認有冇客戶或承包商資料被存取、外洩或濫用。對我哋嚟講，呢提醒咗第一波官方聲明多數只可當作「事故已成立」，唔可以當作風險已釐清。
+- **合規唔等於安全，但事故會倒逼流程改變**：LiteLLM 事件之後連合規供應商都要更換，顯示合規流程本身都可能成為事後檢討重點；如果平時流程太依賴形式化認證，出事後會發現實際保護力未必足夠。
+- **高增長 AI 公司已經係優先目標**：Mercor 估值高、現金流大、又同 OpenAI、Anthropic 呢類名字有業務連結，對攻擊者而言既有金錢價值亦有宣傳價值，說明 AI 產業鏈上任何「連接關鍵玩家」嘅節點都值得被盯上。
+
+## 我哋點睇
+
+- 我哋如果有用到 LiteLLM、類似代理層，或者任何會掂 API key／prompt／對話記錄嘅開源中介套件，應該當佢哋係高敏感依賴，管理標準要接近基礎設施，而唔係一般 library。
+- 供應鏈防護唔應只停留喺「鎖版本」；更加實際嘅係保留安裝時間線、build provenance、依賴變更審批，同埋一出事就可以答到「邊部機、邊個環境、邊次部署有食到問題版本」。
+- 對 OpenClaw 呢種本地控制系統，最有用嘅啟示係要將任務真相、審批、證據同公開狀態留喺自己控制面，而唔好依賴外部聊天或第三方工具做唯一事實來源；一旦上游工具鏈出事，最少核心運作仲可以自證同回溯。
+- 如果我哋有任何 Slack、ticket、worker transcript 會流經第三方套件，應該預設佢哋屬於敏感營運資料，分級、遮罩、最小保留期要提早做，唔好等事故之後先補。
+
+## 來源
+
+- 原文：[https://techcrunch.com/category/artificial-intelligence/feed/](https://techcrunch.com/category/artificial-intelligence/feed/)
