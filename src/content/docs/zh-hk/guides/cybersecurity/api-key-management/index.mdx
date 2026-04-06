@@ -1,0 +1,77 @@
+---
+title: 如何安全地管理 API 金鑰
+description: 教你正確儲存、輪換和監控 API 金鑰，避免外洩。
+type: guide
+topic: api-key-management
+slug: guides/cybersecurity/api-key-management
+tags:
+- security
+- api-key
+- secrets
+- dotenv
+audience: 需要處理 API 金鑰嘅開發者同運維人員
+difficulty: 入門
+---
+
+# 如何安全地管理 API 金鑰
+
+## 先看結論
+API 金鑰外洩係最常見嘅安全事故之一——commit 入 git、寫入 log、貼上 Stack Overflow 都見過。正確做法係：用環境變數管理、用 `.gitignore` 阻止入 repo、設定自動掃描偵測洩漏、同埋定期輪換金鑰。
+
+## 適合誰
+如果你嘅程式需要用到 OpenAI、Slack、Google、AWS 等服務嘅 API 金鑰，呢篇就啱你。
+
+## 開始前準備
+你需要有至少一個 API 金鑰要管理。你應該可以存取你嘅 `.env` 檔案同 git repo。
+
+## 步驟
+步驟 1：將所有金鑰放入 `.env` 檔案。
+```bash
+# .env
+OPENAI_API_KEY=sk-...
+SLACK_BOT_TOKEN=xoxb-...
+```
+做完後程式碼入面唔應該有任何硬編碼嘅金鑰。
+
+步驟 2：確保 `.env` 已加入 `.gitignore`。
+```bash
+echo ".env" >> .gitignore
+echo ".env.local" >> .gitignore
+git rm --cached .env 2>/dev/null  # 如果已經被 track
+```
+做完後 `git status` 唔應該顯示 `.env`。
+
+步驟 3：喺程式碼中用環境變數讀取。
+```python
+import os
+api_key = os.environ["OPENAI_API_KEY"]
+```
+做完後金鑰只存在於環境變數，唔會出現喺程式碼中。
+
+步驟 4：設定 git-secrets 或 GitHub Secret Scanning 偵測洩漏。
+```bash
+brew install git-secrets
+git secrets --register-aws
+git secrets --install
+```
+做完後如果你意外 commit 左金鑰，push 會被攔截。
+
+步驟 5：定期輪換金鑰。
+去 API 提供商嘅控制台，revoke 舊金鑰、產生新金鑰、更新 `.env`。
+做完後即使舊金鑰曾經外洩，攻擊者都用唔到。
+
+## 預期結果
+你嘅所有 API 金鑰都安全地儲存喺環境變數中，有自動掃描防止洩漏，同埋有定期輪換嘅流程。
+
+## 常見錯誤
+E1 對應步驟 1：金鑰寫喺 `config.py` 或 `settings.json`。修正方法：搬去 `.env`，用環境變數讀取。
+
+E2 對應步驟 2：`.env` 已經 commit 入 git 歷史。修正方法：用 `git filter-branch` 或 `bfg` 清理歷史，同時 revoke 舊金鑰。
+
+E3 對應步驟 3：exception 或 log 輸出包含完整金鑰。修正方法：用 sanitizer 清理 log 輸出（例如 OpenClaw 嘅 `sanitize_exception()`）。
+
+E4 對應步驟 5：金鑰幾年冇換過。修正方法：至少每季輪換一次高權限金鑰。
+
+## 下一步
+進一步了解 HashiCorp Vault 等專業 secrets 管理工具，或者設定 CI/CD pipeline 自動注入金鑰。
+

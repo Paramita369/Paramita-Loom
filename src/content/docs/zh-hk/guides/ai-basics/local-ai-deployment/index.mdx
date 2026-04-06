@@ -1,0 +1,78 @@
+---
+title: 如何在自己電腦部署本地 AI 模型
+description: 教你用 Ollama 或 LM Studio 喺自己電腦跑 Gemma、Llama 等開放模型。
+type: guide
+topic: local-ai-deployment
+slug: guides/ai-basics/local-ai-deployment
+tags:
+- ai
+- local
+- ollama
+- gemma
+- llama
+- privacy
+audience: 想喺自己電腦跑 AI 模型嘅技術用家
+difficulty: 中級
+---
+
+# 如何在自己電腦部署本地 AI 模型
+
+## 先看結論
+用 Ollama 或 LM Studio，你可以喺自己嘅 Mac/PC 跑 Gemma 4、Llama 等開放模型，完全唔需要將資料送去雲端。8GB RAM 可以跑 3B 參數模型、16GB 可以跑 7-8B、32GB+ 可以跑更大嘅模型。
+
+## 適合誰
+如果你想喺自己電腦離線跑 AI 模型（例如因為私隱需求），或者想試下最新嘅開放模型，呢篇啱你。
+
+## 開始前準備
+你需要一部有至少 8GB RAM 嘅 Mac 或 PC。如果用 Mac，Apple Silicon (M1/M2/M3/M4) 效果最好。你需要可以用 Terminal 執行指令。
+
+## 步驟
+步驟 1：安裝 Ollama。
+```bash
+# macOS
+brew install ollama
+
+# 或者去 ollama.com 下載安裝包
+```
+做完後你應該可以執行 `ollama --version`。
+
+步驟 2：下載一個模型。
+```bash
+# Google Gemma 4 (3B, 適合 8GB RAM)
+ollama pull gemma3:4b
+
+# 或者 Llama 3 (8B, 適合 16GB RAM)
+ollama pull llama3:8b
+```
+做完後模型會下載到本地（大約 2-5GB）。
+
+步驟 3：同模型對話。
+```bash
+ollama run gemma3:4b
+```
+你可以直接打字問問題。所有運算都喺你嘅電腦完成，冇嘢送出去。
+做完後你應該見到模型嘅回應。
+
+步驟 4：用 API 整合到你嘅程式。
+Ollama 提供同 OpenAI 相容嘅 API：
+```bash
+curl http://localhost:11434/v1/chat/completions \
+  -d '{"model": "gemma3:4b", "messages": [{"role": "user", "content": "Hello"}]}'
+```
+做完後你可以用任何支援 OpenAI API 嘅工具連接本地模型。
+
+## 預期結果
+你嘅電腦可以離線跑 AI 模型，回應速度視乎硬件——M4 Mac 上 3B 模型大約每秒 30-50 token。資料完全留喺本地。
+
+## 常見錯誤
+E1 對應步驟 2：下載太大嘅模型導致記憶體不足。修正方法：8GB RAM 就用 3-4B 模型，唔好硬試 70B。
+
+E2 對應步驟 3：模型回應好慢或者 hang 住。修正方法：檢查 Activity Monitor，確保 RAM 未用爆。換細啲嘅模型。
+
+E3 對應步驟 4：API port 被佔用。修正方法：檢查 Ollama 服務有冇跑緊（`ollama serve`）。
+
+E4 通用：模型輸出質素唔夠好。修正方法：本地細模型同雲端大模型有差距係正常嘅，要調整期望。
+
+## 下一步
+試下用 Open WebUI 加一個圖形界面，或者用 LangChain 將本地模型整合入你嘅應用程式。
+

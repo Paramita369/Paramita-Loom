@@ -1,0 +1,59 @@
+---
+title: 如何設定雙因素認證保護帳號
+description: 教你為重要帳號設定 2FA，大幅降低被盜風險。
+type: guide
+topic: two-factor-authentication
+slug: guides/cybersecurity/two-factor-auth
+tags:
+- security
+- 2fa
+- totp
+- authentication
+audience: 想保護自己線上帳號嘅一般用家
+difficulty: 入門
+---
+
+# 如何設定雙因素認證保護帳號
+
+## 先看結論
+雙因素認證（2FA）可以阻擋 99% 嘅自動化帳號攻擊。即使你嘅密碼被盜，冇第二個認證因素，攻擊者都登入唔到。最安全嘅係硬件金鑰（如 YubiKey），其次係 TOTP app（如 1Password、Authy），最唔推薦嘅係 SMS 驗證碼。
+
+## 適合誰
+如果你有任何重要嘅線上帳號（Gmail、GitHub、銀行、社交媒體），你都應該設定 2FA。
+
+## 開始前準備
+你需要一部手機，安裝一個 TOTP app（推薦 1Password、Authy 或者 Google Authenticator）。如果你想要更高安全性，可以買一支 YubiKey。
+
+## 步驟
+步驟 1：列出你最重要嘅帳號。
+優先順序：email > 密碼管理器 > GitHub/工作帳號 > 銀行 > 社交媒體。
+做完後你應該有一個要保護嘅帳號清單。
+
+步驟 2：為每個帳號開啟 2FA。
+以 GitHub 為例：Settings → Password and authentication → Two-factor authentication → Enable。
+掃描 QR code 加入你嘅 TOTP app。
+做完後 app 會開始產生 6 位數嘅一次性密碼。
+
+步驟 3：安全儲存 recovery codes。
+每個服務都會提供 recovery codes，儲存喺離線位置（例如打印出嚟鎖喺保險箱）。
+做完後你應該有 recovery codes 嘅離線備份。
+
+步驟 4：測試登入流程。
+登出再登入，確認 2FA 正常運作。
+做完後你應該成功用密碼 + TOTP 碼登入。
+
+## 預期結果
+你嘅重要帳號全部有 2FA 保護。即使密碼外洩，攻擊者都需要你嘅手機或硬件金鑰先登入到。
+
+## 常見錯誤
+E1 對應步驟 2：用 SMS 做 2FA。修正方法：SMS 可以被 SIM swap 攻擊，改用 TOTP app 或硬件金鑰。
+
+E2 對應步驟 3：Recovery codes 儲存喺電腦或雲端。修正方法：離線儲存，打印或者寫喺紙上。
+
+E3 對應步驟 3：冇保存 recovery codes。修正方法：換手機或者 app 壞左你就登入唔到。一定要保存。
+
+E4 通用：只保護一個帳號。修正方法：至少保護 email 同密碼管理器，因為佢哋可以重設其他帳號。
+
+## 下一步
+考慮用硬件安全金鑰（YubiKey、Google Titan）做最強保護，或者為團隊推行強制 2FA 政策。
+

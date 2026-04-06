@@ -1,0 +1,68 @@
+---
+title: 如何安全地使用 AI 編程助手
+description: 教你在用 Claude Code、Copilot 等 AI 編程工具時避免安全風險。
+type: guide
+topic: ai-vibe-coding-safety
+slug: guides/ai-safety/vibe-coding-safely
+tags:
+- ai
+- vibe-coding
+- security
+- claude-code
+- copilot
+audience: 用緊或打算用 AI 編程助手嘅開發者
+difficulty: 入門
+---
+
+# 如何安全地使用 AI 編程助手
+
+## 先看結論
+AI 編程助手（例如 Claude Code、GitHub Copilot）可以大幅加速開發，但如果唔小心，佢生成嘅程式碼可能會引入安全漏洞。重點係：永遠唔好盲目信任生成嘅程式碼、唔好將 API key 直接貼入 prompt、同埋要用 sandbox 模式限制 AI 嘅檔案權限。
+
+## 適合誰
+如果你係開發者，已經或者打算開始用 AI 編程助手寫程式，想知點樣安全咁用，呢篇就啱你。
+
+## 開始前準備
+你需要已經安裝左至少一個 AI 編程工具（例如 Claude Code CLI 或 VS Code + Copilot）。你應該對基本嘅安全概念有初步認識（例如知道咩係 API key、XSS、SQL injection）。
+
+## 步驟
+步驟 1：設定環境變數，唔好將敏感資料放入程式碼。
+將 API key、密碼等放入 `.env` 檔案，確保 `.env` 已加入 `.gitignore`。
+```bash
+echo "OPENAI_API_KEY=sk-..." >> .env
+echo ".env" >> .gitignore
+```
+做完後你應該確認 `.env` 唔會被 git track。
+
+步驟 2：開啟 AI 工具嘅 sandbox 模式。
+以 Claude Code 為例，使用預設嘅權限模式而非 `--dangerously-skip-permissions`。
+做完後 AI 每次修改檔案或執行指令都會先問你。
+
+步驟 3：審查 AI 生成嘅每一段程式碼。
+特別留意：SQL query 有冇用 parameterized query、HTML 輸出有冇做 escaping、檔案操作有冇 path traversal 風險。
+做完後你應該對每段 AI 生成嘅程式碼都做過人手審查。
+
+步驟 4：跑安全掃描。
+用 `npm audit`、`pip-audit`、或者 `semgrep` 掃一次整個 project。
+```bash
+pip-audit
+# 或
+npx semgrep --config=auto .
+```
+做完後你應該知道有冇已知嘅安全問題。
+
+## 預期結果
+如果以上步驟都做到，你嘅 AI 輔助開發工作流程應該同手寫程式碼一樣安全，甚至更好（因為你有意識咁做左安全檢查）。
+
+## 常見錯誤
+E1 對應步驟 1：將 API key 直接寫入原始碼或者貼入 AI prompt。修正方法：用環境變數同 `.env` 檔案管理敏感資料。
+
+E2 對應步驟 2：用 `--dangerously-skip-permissions` 或 `--yolo` 模式。修正方法：用預設嘅安全模式，逐次批准操作。
+
+E3 對應步驟 3：完全信任 AI 生成嘅程式碼，唔審查就 merge。修正方法：同 code review 一樣認真對待 AI 生成嘅程式碼。
+
+E4 對應步驟 4：跳過安全掃描因為「AI 寫嘅程式碼應該冇問題」。修正方法：AI 生成嘅程式碼同人寫嘅一樣需要掃描。
+
+## 下一步
+如果你已經建立左安全嘅 AI 編程工作流程，可以進一步了解你用嘅 AI 工具有咩進階安全功能（例如 Claude Code 嘅 hooks 機制），或者為團隊制定 AI 使用守則。
+

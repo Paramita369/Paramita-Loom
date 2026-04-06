@@ -1,0 +1,85 @@
+---
+title: 如何保護你的軟件供應鏈安全
+description: 教你點樣防範 npm、pip 等套件供應鏈攻擊。
+type: guide
+topic: supply-chain-security
+slug: guides/cybersecurity/supply-chain-security
+tags:
+- cybersecurity
+- supply-chain
+- npm
+- pip
+- dependency
+audience: 用開源套件做開發嘅程式設計師
+difficulty: 中級
+---
+
+# 如何保護你的軟件供應鏈安全
+
+## 先看結論
+供應鏈攻擊越來越常見——駭客會入侵熱門開源套件（例如 axios、event-stream），然後植入惡意程式碼。你要做嘅係：用 lockfile 鎖定版本、定期掃描依賴、設定自動化安全更新、同埋限制套件嘅安裝後執行權限。
+
+## 適合誰
+如果你做開發時會用 npm、pip、cargo 等套件管理器引入第三方依賴，呢篇就係為你而寫。
+
+## 開始前準備
+你需要一個有 `package.json`（Node）或 `requirements.txt`/`pyproject.toml`（Python）嘅專案。你應該可以執行套件管理器嘅基本指令。
+
+## 步驟
+步驟 1：確保有 lockfile 並且 commit 入 git。
+```bash
+# Node
+npm install  # 會生成 package-lock.json
+git add package-lock.json
+
+# Python
+pip freeze > requirements.txt
+git add requirements.txt
+```
+做完後你嘅依賴版本應該完全鎖定。
+
+步驟 2：用審計工具掃描已知漏洞。
+```bash
+# Node
+npm audit
+
+# Python
+pip-audit
+```
+做完後你應該知道有邊啲依賴有已知漏洞。
+
+步驟 3：設定 Dependabot 或 Renovate 自動更新。
+喺 GitHub repo 加 `.github/dependabot.yml`：
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+```
+做完後 GitHub 會自動開 PR 更新有漏洞嘅依賴。
+
+步驟 4：限制安裝後腳本執行。
+```bash
+# npm 預設會執行 postinstall 腳本
+npm install --ignore-scripts
+# 之後手動執行你信任嘅 build 步驟
+```
+做完後惡意套件嘅 postinstall 腳本唔會自動執行。
+
+## 預期結果
+你嘅專案會有完整嘅依賴鎖定、自動化漏洞掃描、同埋限制左第三方程式碼嘅執行權限。供應鏈攻擊嘅風險會大幅降低。
+
+## 常見錯誤
+E1 對應步驟 1：冇 commit lockfile，每次安裝版本唔一致。修正方法：lockfile 一定要入 git。
+
+E2 對應步驟 2：`npm audit` 報出漏洞但全部忽略。修正方法：至少處理 high 同 critical 級別嘅漏洞。
+
+E3 對應步驟 3：Dependabot PR 一直唔 merge。修正方法：安排每週固定時間處理安全更新 PR。
+
+E4 對應步驟 4：用 `--ignore-scripts` 之後 build 壞左。修正方法：手動執行你信任嘅 build 步驟，唔係所有 postinstall 都係惡意嘅。
+
+## 下一步
+進一步了解 SLSA framework、設定簽名驗證（npm provenance），或者用 Socket.dev 做實時依賴監控。
+

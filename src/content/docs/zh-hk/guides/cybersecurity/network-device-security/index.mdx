@@ -1,0 +1,66 @@
+---
+title: 如何檢查你的網路設備有冇安全漏洞
+description: 教你點樣檢查路由器、NAS 等網路設備嘅安全性。
+type: guide
+topic: network-device-security
+slug: guides/cybersecurity/network-device-security
+tags:
+- cybersecurity
+- network
+- router
+- firmware
+- vulnerability
+audience: 家居或小型辦公室嘅網絡管理者
+difficulty: 中級
+---
+
+# 如何檢查你的網路設備有冇安全漏洞
+
+## 先看結論
+路由器、NAS、IP 攝影機等網路設備係駭客最常攻擊嘅目標，因為好多人裝完就唔理。你要做嘅係：更新 firmware、改預設密碼、關掉唔用嘅服務、同埋定期掃描。
+
+## 適合誰
+如果你有路由器、NAS、或者任何連網設備，你都應該做呢啲基本安全檢查。
+
+## 開始前準備
+你需要可以登入你嘅路由器管理界面（通常係 192.168.1.1 或 192.168.0.1）。準備好 admin 密碼。
+
+## 步驟
+步驟 1：更新 firmware 到最新版本。
+登入路由器管理界面，搵到 firmware update 或系統更新選項。
+做完後你嘅設備應該跑緊最新版本嘅 firmware。
+
+步驟 2：改預設密碼。
+如果你仍然用 admin/admin 或者設備背面印嘅預設密碼，即刻改。用至少 12 位嘅強密碼。
+做完後預設密碼應該已經被取代。
+
+步驟 3：關掉唔需要嘅服務。
+檢查以下功能，如果唔用就關掉：
+- WPS（Wi-Fi Protected Setup）— 有已知漏洞
+- UPnP（Universal Plug and Play）— 可被濫用開 port
+- 遠端管理（Remote Management）— 除非你真係需要
+做完後你嘅設備暴露面應該大幅縮小。
+
+步驟 4：掃描你嘅網路。
+```bash
+# 用 nmap 掃描本地網路
+nmap -sV 192.168.1.0/24
+```
+或者用手機 app 如 Fing 做簡易掃描。
+做完後你應該知道有邊啲設備連住你嘅網路、開左邊啲 port。
+
+## 預期結果
+你嘅網路設備跑緊最新 firmware、用緊強密碼、關掉左不必要嘅服務。你對自己嘅網路有清晰嘅了解。
+
+## 常見錯誤
+E1 對應步驟 1：Firmware 幾年冇更新過。修正方法：即刻更新，如果設備已經停止支援，考慮換新。
+
+E2 對應步驟 2：全屋設備用同一個密碼。修正方法：每個設備用唔同嘅強密碼，用密碼管理器記住。
+
+E3 對應步驟 3：因為「方便」而開住 UPnP 同遠端管理。修正方法：呢啲功能係駭客嘅入口，唔用就關。
+
+E4 對應步驟 4：掃描到唔認識嘅設備。修正方法：可能係鄰居蹭 Wi-Fi 或者被入侵嘅設備，即刻調查同改 Wi-Fi 密碼。
+
+## 下一步
+考慮設定獨立嘅 IoT Wi-Fi 網絡（network segmentation），將智能家電同你嘅電腦隔開。或者用 Pi-hole 做全屋 DNS 過濾。
+
