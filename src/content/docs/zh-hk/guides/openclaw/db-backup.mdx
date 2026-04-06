@@ -1,0 +1,103 @@
+---
+title: 如何備份與還原 OpenClaw 資料庫
+description: 針對 OpenClaw 的 SQLite control.db 提供可驗證的停機備份與還原流程。
+type: guide
+topic: openclaw
+slug: guides/openclaw/db-backup
+audience: 要保護 OpenClaw control.db 的 operator
+difficulty: 中級
+tags:
+- openclaw
+- sqlite
+- backup
+- restore
+- operations
+guideVersion: v1
+verifiedAt: '2026-04-06'
+platforms:
+- macOS
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# 如何備份與還原 OpenClaw 資料庫
+
+## 先看結論
+OpenClaw live truth 係 `runtime/control.db`，所以備份要以資料庫為中心，而唔係只備份 Slack thread 或 log。最穩陣流程係先停 gateway / control-plane / worker-runner，之後複製 `runtime/control.db` 同對應 `-wal` / `-shm` 檔，再用 `sqlite3` 驗證 backup 可以讀，還原時先停服務，再覆蓋返原本 DB，最後重啟 LaunchAgents 同做 health 檢查。
+
+## 適合誰
+如果你想喺改重要設定、搬機、或者做風險較高操作前，先保一份可以還原嘅 OpenClaw 控制資料庫，呢篇適合你。
+
+## 開始前準備
+先確認而家個 workspace path，同埋 DB 路徑真係指向 `OPENCLAW_HOME/runtime/control.db`。你亦要預備一個 backup 目錄，例如：
+```bash
+mkdir -p runtime/backups
+```
+如果服務係由 per-user LaunchAgent 管理，停機同重啟會用：
+```bash
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.gateway.plist
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.control-plane.plist
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.worker-runner.plist
+```
+
+## 步驟
+步驟 1：先停會寫入 DB 嘅服務。
+```bash
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.gateway.plist || true
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.control-plane.plist || true
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.worker-runner.plist || true
+```
+做完後先再檢查 `launchctl print`，確認唔再 running，避免邊 copy 邊寫入。
+
+步驟 2：複製 DB 檔案去備份目錄。用 timestamp 命名會最易追。
+```bash
+STAMP=$(date +"%Y%m%d-%H%M%S")
+mkdir -p runtime/backups/$STAMP
+cp runtime/control.db runtime/backups/$STAMP/control.db
+test -f runtime/control.db-wal && cp runtime/control.db-wal runtime/backups/$STAMP/control.db-wal || true
+test -f runtime/control.db-shm && cp runtime/control.db-shm runtime/backups/$STAMP/control.db-shm || true
+```
+做完後 `runtime/backups/$STAMP/` 應該會有一套完整 DB 檔案。
+
+步驟 3：驗證備份唔係空殼。
+```bash
+sqlite3 runtime/backups/$STAMP/control.db "PRAGMA integrity_check;"
+sqlite3 runtime/backups/$STAMP/control.db "SELECT COUNT(*) FROM tasks;"
+```
+做完後第一條應該回 `ok`；第二條至少要成功執行，證明 schema 可讀。
+
+步驟 4：需要還原時，先再次停服務，再把備份覆蓋返 live DB。
+```bash
+cp runtime/backups/$STAMP/control.db runtime/control.db
+test -f runtime/backups/$STAMP/control.db-wal && cp runtime/backups/$STAMP/control.db-wal runtime/control.db-wal || true
+test -f runtime/backups/$STAMP/control.db-shm && cp runtime/backups/$STAMP/control.db-shm runtime/control.db-shm || true
+```
+做完後 live DB 會回到該 timestamp 版本。
+
+步驟 5：重啟服務同做基本檢查。
+```bash
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.gateway.plist
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.control-plane.plist
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.worker-runner.plist
+launchctl kickstart -k gui/$(id -u)/com.openclaw.gateway
+launchctl kickstart -k gui/$(id -u)/com.openclaw.control-plane
+launchctl kickstart -k gui/$(id -u)/com.openclaw.worker-runner
+./.venv/bin/python -m apps.gateway.main --describe
+```
+做完後你應該可以再讀到正常 `db_path` 同 service snapshot。
+
+## 預期結果
+成功備份時，你會有一個帶 timestamp 嘅資料夾，入面至少有 `control.db`，必要時仲有 `control.db-wal` 同 `control.db-shm`。成功還原時，OpenClaw 服務重新啟動後可以繼續讀到 task、attempt、review 等控制資料，而且 `sqlite3 ... "PRAGMA integrity_check;"` 仍然會回 `ok`。
+
+## 常見錯誤
+如果未停服務就直接 copy，最大風險係你只拎到半套 DB 狀態；對 SQLite WAL 模式尤其危險。
+
+如果你只 copy `control.db`，但當時仲有未 checkpoint 嘅 WAL，還原後可能會少資料；所以停機後一齊備份 `-wal` / `-shm` 會穩陣好多。
+
+如果還原後 `launchctl` 起唔返服務，先用 `sqlite3 runtime/control.db "PRAGMA integrity_check;"` 檢查 DB，再睇 `runtime/logs/*.stderr.log`。
+
+如果你想不停機做熱備份，呢篇唔係主線 SOP；第一版要求 practical 同可驗證，所以先採用停機 copy 流程。
+
+## 下一步
+做好 DB 備份之後，建議再配一份定期檢查清單，例如每次重大 deploy 前先做 backup、每週抽樣 restore 驗一次、同把 backup 路徑記錄到操作手冊，避免出事先至搵唔返最近一份可用副本。

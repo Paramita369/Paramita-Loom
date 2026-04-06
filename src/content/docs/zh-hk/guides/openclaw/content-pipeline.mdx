@@ -1,0 +1,92 @@
+---
+title: 如何操作 OpenClaw 內容管線
+description: 用 OpenClaw 現有 feed 與 content analysis 流程，將來源內容帶入 knowledge pipeline。
+type: guide
+topic: openclaw
+slug: guides/openclaw/content-pipeline
+audience: 要管理 feed 到 knowledge 流程的 operator
+difficulty: 中級
+tags:
+- openclaw
+- content-pipeline
+- feeds
+- knowledge
+- ingestion
+guideVersion: v1
+verifiedAt: '2026-04-06'
+platforms:
+- macOS
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# 如何操作 OpenClaw 內容管線
+
+## 先看結論
+OpenClaw 嘅內容管線主線係 `feed -> task -> content_analysis -> review -> knowledge`，唔係直接由 Slack thread 當真相。實際操作上，你通常會先更新 `bootstrap/configs/feed_sources.yaml`，再跑 `./.venv/bin/python scripts/seed_feed_schedules.py` 建 schedule，之後用 `./.venv/bin/python runtime/content_factory_run.py` 觸發一次 ingestion，最後再用 control plane status 同 review script 檢查輸出。
+
+## 適合誰
+如果你想把 RSS、YouTube channel 或公開 URL 經 OpenClaw 收入本機 SQLite 同 knowledge bundle，而唔係靠人手逐篇複製內容，呢篇適合你。
+
+## 開始前準備
+你要先有可用 `.env`、`runtime/control.db` 同 `.venv`。另外，feed source 會從以下設定檔讀入：
+```bash
+bootstrap/configs/feed_sources.yaml
+```
+而 content factory 會將任務寫入 `runtime/control.db`，再經 review / publish pipeline 轉成後續 knowledge revision。
+
+## 步驟
+步驟 1：新增來源到 feed config。你可以加 RSS feed，或者加 YouTube channel URL，script 會自動轉成 RSS。
+```yaml
+rss_feeds:
+  - url: https://example.com/feed.xml
+
+youtube_channels:
+  - url: https://www.youtube.com/@example
+```
+做完後設定檔應該已包含你想追蹤嘅來源。
+
+步驟 2：把新來源 seed 入 schedule table。
+```bash
+./.venv/bin/python scripts/seed_feed_schedules.py
+```
+做完後你應該會見到一行 JSON，例如有 `created` / `skipped` 數字，代表排程已寫入 DB。
+
+步驟 3：手動觸發一次 content factory ingestion。
+```bash
+./.venv/bin/python runtime/content_factory_run.py
+```
+做完後你應該會見到 JSON，例如 `schedules_executed` 同 `items_ingested`。如果 item ingestion 成功，系統會建立新 task，而唔係只停喺 feed schedule。
+
+步驟 4：監察進度同輸出。先睇最近 guide / lifecycle，或者直接查 log。
+```bash
+./.venv/bin/python -m apps.control_plane.main lifecycle-discover --latest
+tail -n 20 runtime/logs/worker-runner.stdout.log
+tail -n 20 runtime/logs/control-plane.stdout.log
+```
+做完後你應該可以見到新內容已經落入 lifecycle snapshot 或 worker 處理記錄。
+
+步驟 5：將輸出送入 review / knowledge lane。當你已知 `revision_id`，可以用 review script 批准或者要求修改。
+```bash
+./.venv/bin/python scripts/enqueue_review.py review \
+  --revision-id <revision_id> \
+  --reviewer <your_name> \
+  --decision approved
+```
+做完後 revision 會由 draft/review queue 往前推，後續先可以再變成 `publish_ready` 或 export。
+
+## 預期結果
+成功時，你會見到由 feed config 到 DB row 嘅完整鏈路。`scripts/seed_feed_schedules.py` 會報 schedule 已建立；`runtime/content_factory_run.py` 會報有幾多 item 被 ingest；而 control plane / worker log 會反映該批內容進入分析同 review 階段。重點係內容真相會留喺 SQLite 同 artifact，而唔係只喺外部 feed 或 Slack 對話。
+
+## 常見錯誤
+如果 `seed_feed_schedules.py` 只係一路 `skipped`，通常代表同一條 `source_url` 之前已 seed 過，唔係 script 無效。
+
+如果 `content_factory_run.py` 顯示 `items_ingested = 0`，先檢查 feed 本身有冇新 item，或者 `last_error_message` 是否因 403 / 404 / timeout 失敗。
+
+如果 ingestion 成功但後面冇 knowledge revision，多數係 review / publish pipeline 仲未接手；要再查 control plane lifecycle，而唔好直接假設內容已可公開。
+
+如果內容來源係 fetch failed，publish pipeline 會 fail-close，唔會畀佢直接升到 `publish_ready`。
+
+## 下一步
+內容已經進入 knowledge lane 之後，下一篇應該睇「如何管理 OpenClaw 發布管線」，學識點由 review 過渡到 `publish_ready`、preview 同 export。

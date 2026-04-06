@@ -1,0 +1,83 @@
+---
+title: 如何設定 OpenClaw 的 Slack Socket Mode
+description: 設定 Slack app、取得 Socket Mode token，同 OpenClaw gateway 完成連線驗證。
+type: guide
+topic: openclaw
+slug: guides/openclaw/slack-socket-mode
+audience: 要把 OpenClaw 接上 Slack 的 operator
+difficulty: 中級
+tags:
+- openclaw
+- slack
+- socket-mode
+- gateway
+- setup
+guideVersion: v1
+verifiedAt: '2026-04-06'
+platforms:
+- macOS
+- Slack
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# 如何設定 OpenClaw 的 Slack Socket Mode
+
+## 先看結論
+OpenClaw 第一版唔用公開 HTTP Request URL，而係直接用 Slack Socket Mode。你要做嘅核心動作得四樣：建立 Slack app、開啟 Socket Mode、攞到 `SLACK_APP_TOKEN` 同 `SLACK_BOT_TOKEN`、再用 `./.venv/bin/python -m apps.gateway.main --run-live` 驗證 gateway 可以連上 Slack。
+
+## 適合誰
+如果你已經部署好 OpenClaw repo，但仲未打通 Slack 入站事件，想令 app mention 或 DM 真係進到 gateway，呢篇就係畀你用。
+
+## 開始前準備
+你需要一個有權建立 Slack app 的 workspace admin 或 app admin 帳號，亦要先準備好 OpenClaw `.env`。另外，第一版建議一開始就設定：
+```bash
+OPENCLAW_SLACK_INGRESS_MODE=app_mention
+OPENCLAW_SLACK_REPLY_MODE=thread_only
+OPENCLAW_SINGLE_USER_MODE=true
+OPENCLAW_SLACK_ALLOWED_CHANNEL_IDS=C0123456789
+```
+如果你已有 owner / approver 規則，亦可以一齊加：
+```bash
+OPENCLAW_SLACK_OWNER_USER_ID=U0123456789
+SLACK_ALLOWED_APPROVERS=U0123456789
+```
+
+## 步驟
+步驟 1：建立 Slack app，並開啟 Socket Mode。喺 Slack app 後台開 `Socket Mode`，之後新增一個 app-level token，scope 要有 `connections:write`。做完後你會攞到 `xapp-...` token。
+
+步驟 2：設定 bot token 所需權限，安裝 app 去 workspace。最少要準備好 bot token `xoxb-...`，並確保 app 有收 event 同回覆 thread 嘅必要權限。做完後你會攞到 `SLACK_BOT_TOKEN`。
+
+步驟 3：把 token 同 channel 邊界寫入 `.env`。
+```bash
+SLACK_APP_TOKEN=xapp-***
+SLACK_BOT_TOKEN=xoxb-***
+OPENCLAW_SLACK_ALLOWED_CHANNEL_IDS=C0123456789
+OPENCLAW_SLACK_INGRESS_MODE=app_mention
+OPENCLAW_SLACK_REPLY_MODE=thread_only
+```
+做完後 OpenClaw 讀設定時就唔會再因 token 缺失而退出。
+
+步驟 4：先用非 daemon 方式測一次 live 連線。
+```bash
+./.venv/bin/python -m apps.gateway.main --run-live
+```
+做完後 terminal 應該會停喺前台運行，正常情況會寫出 `gateway.socket_mode.connected` 類似 log。
+
+步驟 5：喺你允許嘅 Slack channel 測試 app mention 或 DM。送一條簡單訊息，例如請 OpenClaw 回應一個 health check。做完後應該會喺 `runtime/logs/gateway.stdout.log` 見到 ingress 記錄，而 `runtime/control.db` 的 `inbound_events` 會新增 row。
+
+## 預期結果
+設定成功時，你會見到三件事。第一，`apps.gateway.main --run-live` 唔會再因缺 token 而報 `Configuration error`。第二，gateway log 會出現 connected / ingress completed。第三，Slack 真實發出的訊息會變成 DB 入站事件，而唔係只停留喺 Slack thread。
+
+## 常見錯誤
+如果一開 `--run-live` 就話缺設定，通常係 `.env` 未有 `SLACK_APP_TOKEN` 或 `SLACK_BOT_TOKEN`，又或者 gateway 讀到錯 workspace path。
+
+如果 token 都有但連唔上，多數係 `SLACK_APP_TOKEN` 唔係 app-level token，或者未加 `connections:write`。
+
+如果可以連線但冇收到你條訊息，先檢查 `OPENCLAW_SLACK_ALLOWED_CHANNEL_IDS` 有冇包括個 channel，亦要確認 app 已經加入該 channel。
+
+如果你打算用公開 HTTP event subscription，呢個唔係第一版主線；runbook 明確要求先行 Socket Mode，唔好兩條 ingress 同時混用。
+
+## 下一步
+Socket Mode 打通之後，下一步通常係把 gateway 放入 LaunchAgent 常駐，再配合 control plane / worker runner 做完整 task 流程；如果仲未部署 launchd，先睇「如何在 Mac mini 部署 OpenClaw Gateway」。

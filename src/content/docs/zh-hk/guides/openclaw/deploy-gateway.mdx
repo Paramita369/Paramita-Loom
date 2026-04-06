@@ -1,0 +1,101 @@
+---
+title: 如何在 Mac mini 部署 OpenClaw Gateway
+description: 喺 Mac mini 用現有 OpenClaw repo 部署 gateway，完成依賴、.env、LaunchAgent 同 health
+  驗證。
+type: guide
+topic: openclaw
+slug: guides/openclaw/deploy-gateway
+audience: 要喺 Mac mini 上部署 OpenClaw gateway 的 operator
+difficulty: 中級
+tags:
+- openclaw
+- gateway
+- deployment
+- mac-mini
+- launchd
+guideVersion: v1
+verifiedAt: '2026-04-06'
+platforms:
+- macOS
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# 如何在 Mac mini 部署 OpenClaw Gateway
+
+## 先看結論
+OpenClaw 第一版 gateway 係行 Slack Socket Mode，應該用 Mac mini 單機、Python 3.12、SQLite WAL 同 per-user LaunchAgent。最穩陣做法係先準備 `.venv` 同 `.env`，再跑 `./.venv/bin/python -m bootstrap.platform_ops init-db`、`render-launchd`、`verify-launchd`，最後把 `com.openclaw.gateway.plist` 載入 `~/Library/LaunchAgents/`，再用 `launchctl print` 同 `./.venv/bin/python -m apps.gateway.main --describe` 驗證。
+
+## 適合誰
+如果你已經有一部 Mac mini，同一個 OpenClaw repo workspace，想把 gateway 變成可以常駐接 Slack event 的背景服務，呢篇就啱用。
+
+## 開始前準備
+你要有 OpenClaw repo、本機 Python 3.12、可寫入 `~/Library/LaunchAgents/` 的使用者帳號，同埋一份 `.env`。最少要確認以下鍵值會指向同一個 workspace：
+```bash
+OPENCLAW_HOME=/Users/yourname/openclaw
+OPENCLAW_DB_PATH=/Users/yourname/openclaw/runtime/control.db
+OPENCLAW_LOG_LEVEL=INFO
+OPENCLAW_ENABLE_WEB_WORKER=false
+OPENCLAW_APPROVAL_MODE=thread_command
+SLACK_APP_TOKEN=xapp-***
+SLACK_BOT_TOKEN=xoxb-***
+```
+另外請先喺 repo 根目錄建立 virtualenv，例如：
+```bash
+python3.12 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+```
+
+## 步驟
+步驟 1：初始化 runtime 同資料庫。
+```bash
+./.venv/bin/python -m bootstrap.platform_ops init-db
+./.venv/bin/python -m bootstrap.platform_ops preflight
+```
+做完後你應該會有 `runtime/control.db`，而且 preflight 唔會報 `OPENCLAW_DB_PATH` 或 launchd template 缺失。
+
+步驟 2：確認 gateway 自身設定讀到 `.env`。
+```bash
+./.venv/bin/python -m apps.gateway.main --describe
+```
+做完後你應該會見到 JSON，入面有 `service = gateway` 同正確 `db_path`；如果再加 `--run-live` 而 token 未設好，命令會直接 fail，呢個反而可以早啲發現設定漏咗。
+
+步驟 3：render 同 static verify LaunchAgent。
+```bash
+./.venv/bin/python -m bootstrap.platform_ops render-launchd
+./.venv/bin/python -m bootstrap.platform_ops verify-launchd
+```
+做完後你應該會喺 `runtime/launchd/` 見到 render 完成嘅 plist，而且內容已經冇 `__OPENCLAW_HOME__` placeholder。
+
+步驟 4：安裝 gateway LaunchAgent 去你個 user session。
+```bash
+cp runtime/launchd/com.openclaw.gateway.plist ~/Library/LaunchAgents/com.openclaw.gateway.plist
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.gateway.plist || true
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.openclaw.gateway.plist
+launchctl kickstart -k gui/$(id -u)/com.openclaw.gateway
+```
+做完後 gateway 會開始以背景服務方式運行。
+
+步驟 5：檢查 gateway 真係起咗。
+```bash
+launchctl print gui/$(id -u)/com.openclaw.gateway
+tail -n 20 runtime/logs/gateway.stdout.log
+tail -n 20 runtime/logs/gateway.stderr.log
+```
+做完後 `launchctl print` 應該見到 `state = running`，stdout log 應該會有 `service.start` 或 `gateway.socket_mode.connected` 類似訊息。
+
+## 預期結果
+成功部署之後，你會見到三個明確結果。第一，`runtime/control.db` 已存在，代表 gateway 用嘅 SQLite truth 已就緒。第二，`~/Library/LaunchAgents/com.openclaw.gateway.plist` 已載入，而 `launchctl print gui/$(id -u)/com.openclaw.gateway` 會顯示 running。第三，`runtime/logs/gateway.stdout.log` 會有 gateway 啟動同連線記錄，之後 Slack app mention / DM 先會落到 `inbound_events`。
+
+## 常見錯誤
+如果 `apps.gateway.main --describe` 已經失敗，多數係 `.env` 缺 `OPENCLAW_HOME`、`OPENCLAW_DB_PATH` 或 Slack token，先補齊再試。
+
+如果 `verify-launchd` 話仲有 `__OPENCLAW_HOME__`，通常係你直接拎 template 去載入，未經 `render-launchd`。
+
+如果 `launchctl bootstrap` 成功但 service 即刻退出，先睇 `runtime/logs/gateway.stderr.log`；最常見係 `.venv/bin/python` 路徑唔存在，或者 `.env` 未載入到 `SLACK_APP_TOKEN` / `SLACK_BOT_TOKEN`。
+
+如果 Slack 有 event 但 DB 冇新 row，先確認 gateway 係用 `--run-live` 模式起，而且 app 已開 Socket Mode，唔好當公開 HTTP webhook 已經生效。
+
+## 下一步
+gateway 起好之後，下一篇應該睇「如何設定 Slack Socket Mode」，確認 app token、bot token、channel allowlist 同實際連線測試都打通；之後先再做 control plane 同 worker runner 長駐。

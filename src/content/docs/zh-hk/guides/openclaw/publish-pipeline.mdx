@@ -1,0 +1,105 @@
+---
+title: 如何管理 OpenClaw 發布管線
+description: 用 OpenClaw 現有 review、status transition 同 export script 管理 draft 到 export
+  的發布流程。
+type: guide
+topic: openclaw
+slug: guides/openclaw/publish-pipeline
+audience: 要管理文章審核與匯出流程的 operator
+difficulty: 中級
+tags:
+- openclaw
+- publish-pipeline
+- review
+- export
+- knowledge
+guideVersion: v1
+verifiedAt: '2026-04-06'
+platforms:
+- macOS
+pagefind: true
+sidebar:
+  hidden: false
+---
+
+# 如何管理 OpenClaw 發布管線
+
+## 先看結論
+OpenClaw 唔會因為 worker 話完成就直接出街。公開前至少要經過 review、狀態推進、preview/export 驗證，再由人批准 publish。實際主線係 `draft -> reviewed -> publish_ready -> export/publish`，常用入口係 `scripts/enqueue_review.py`、`scripts/transition_revision_status.py`、`scripts/export_to_site.py` 同 `python -m apps.control_plane.main guide-status --slug ...`。
+
+## 適合誰
+如果你手上已經有一篇 knowledge / guide revision，想由草稿一路推到可 export、可 publish，而又要保持 review gate 同證據鏈，呢篇就啱。
+
+## 開始前準備
+你要知道至少一個 `revision_id`，最好同時知道對應 `knowledge_id` 同 `slug`。如果你唔肯定目前狀態，可以先查：
+```bash
+./.venv/bin/python -m apps.control_plane.main guide-status --slug guides/openclaw/health-check
+```
+如果呢篇唔係 guide，而係其他 content type，就改用 `lifecycle-snapshot --revision-id <revision_id>` 查更細節。
+
+## 步驟
+步驟 1：檢查目前 lifecycle，確認仍然係 draft 或 review 中。
+```bash
+./.venv/bin/python -m apps.control_plane.main lifecycle-snapshot --revision-id <revision_id>
+```
+做完後你應該會見到 current revision、review、preview publication 等欄位，而唔使估目前卡喺邊個關口。
+
+步驟 2：做人手 review 決定。
+```bash
+./.venv/bin/python scripts/enqueue_review.py review \
+  --revision-id <revision_id> \
+  --reviewer <your_name> \
+  --decision approved \
+  --note "facts checked and structure accepted"
+```
+做完後該 revision 應該有 review 結果；如果內容未達標，就把 `approved` 改成 `changes_requested`。
+
+步驟 3：把狀態由 `reviewed` 推到 `publish_ready`。
+```bash
+./.venv/bin/python scripts/transition_revision_status.py \
+  --knowledge-id <knowledge_id> \
+  --revision-id <revision_id> \
+  --target-status publish_ready
+```
+做完後 script 會回 JSON，入面會講明 `revision_status` 同 `knowledge_unit_status` 已經係 `publish_ready`。
+
+步驟 4：先做 export 或 preview 驗證。
+```bash
+./.venv/bin/python scripts/export_to_site.py export \
+  --revision-id <revision_id> \
+  --site-root /path/to/site
+```
+如果你想連 build 一齊驗，可以改用：
+```bash
+./.venv/bin/python scripts/export_to_site.py preview \
+  --revision-id <revision_id> \
+  --site-root /path/to/site \
+  --build-command "npm run build"
+```
+做完後你應該會得到 export target path 或 preview 驗證結果。
+
+步驟 5：正式 publish 前加入人手批准證據。
+```bash
+./.venv/bin/python scripts/export_to_site.py publish \
+  --revision-id <revision_id> \
+  --site-root /path/to/site \
+  --approved-by <human_approver> \
+  --proof ticket=OC-123 \
+  --proof note=manual_review_passed
+```
+做完後先算完成 production release；如果你要自動串起 export + preview + publish，可以再加 `--auto`。
+
+## 預期結果
+成功時你會清楚見到三層變化。第一，review decision 已經寫落系統，而唔係口頭話批咗。第二，revision / knowledge unit status 已由 `draft` 或 `reviewed` 推進到 `publish_ready`。第三，export 或 publish script 會回傳實際 target path、publish job 或 receipt，令你可追溯呢次發布係點樣通過。
+
+## 常見錯誤
+如果 `transition_revision_status.py` 報 illegal transition，代表你跳步，例如想由 `draft` 直接變 `publish_ready`，要先完成 `reviewed`。
+
+如果 `export_to_site.py` 被 publish pipeline 擋住，常見原因係內容仲有 `fetch_failed`、frontmatter / visibility 唔合規，或者 revision 根本未到 `publish_ready`。
+
+如果你只係改咗 Slack thread 狀態，但冇跑 review / transition script，OpenClaw 唔會當佢正式過關。
+
+如果 publish 需要 `approved-by`，請保持真人 approver；runbook 明確要求 public completion 唔可以由 worker 自己宣布。
+
+## 下一步
+當你已經可以穩定由 review 推到 export，就應該補上 site build 驗證、publish receipt 歸檔同定期 review cadence；如果你而家先處理內容入口，回頭睇「如何操作 OpenClaw 內容管線」會更完整。
