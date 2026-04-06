@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paramita Loom — 知識文庫</title>
+    <link>https://paramita-loom.pages.dev</link>
+    <description>AI・資安・科技知識的精煉與消化</description>
+    <language>zh-HK</language>
+    <lastBuildDate>Mon, 06 Apr 2026 15:03:12 +0000</lastBuildDate>
+    <atom:link href="https://paramita-loom.pages.dev/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Https raymondhouch</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-raymondhouch/https-raymondhouch-com-lifehacker-digital-workflow-21-days-claude-code-ai-agent/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-raymondhouch/https-raymondhouch-com-lifehacker-digital-workflow-21-days-claude-code-ai-agent/</guid>
+      <pubDate>2026-04-06 04:10:51</pubDate>
+    </item>
+    <item>
+      <title>line</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/line/line/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/line/line/</guid>
+      <pubDate>2026-04-06 04:10:16</pubDate>
+    </item>
+    <item>
+      <title>Template test</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/template-test/template-test-https-www-youtube-com-watch-v-fraahsp9hpa/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/template-test/template-test-https-www-youtube-com-watch-v-fraahsp9hpa/</guid>
+      <pubDate>2026-04-06 04:09:42</pubDate>
+    </item>
+    <item>
+      <title>codex</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/codex/how-chatgpt-and-codex-built-openclaw/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/codex/how-chatgpt-and-codex-built-openclaw/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>mac</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/mac/three-agent-codex-workflow/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/mac/three-agent-codex-workflow/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/content-pipeline/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/content-pipeline/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/db-backup/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/db-backup/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/deploy-gateway/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/deploy-gateway/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw health check</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/health-check/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/health-check/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/mac-install/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/mac-install/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/publish-pipeline/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/publish-pipeline/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/slack-socket-mode/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/slack-socket-mode/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/windows-install/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/guide/guides/openclaw/windows-install/</guid>
+      <pubDate>2026-04-05 21:50:17</pubDate>
+    </item>
+    <item>
+      <title>Https tech</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-tech/https-tech-udn-com-tech-amp-story-123454-9398996/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-tech/https-tech-udn-com-tech-amp-story-123454-9398996/</guid>
+      <pubDate>2026-04-05 21:11:20</pubDate>
+    </item>
+    <item>
+      <title>Https www</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-www/https-www-youtube-com-watch-v-fraahsp9hpa/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-www/https-www-youtube-com-watch-v-fraahsp9hpa/</guid>
+      <pubDate>2026-04-05 21:10:43</pubDate>
+    </item>
+    <item>
+      <title>Https vocus</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-vocus/https-vocus-cc-article-amp-69ba0121fd897800013d947e/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-vocus/https-vocus-cc-article-amp-69ba0121fd897800013d947e/</guid>
+      <pubDate>2026-04-05 21:10:24</pubDate>
+    </item>
+    <item>
+      <title>Https youtu</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-youtu/https-youtu-be-qast-rmtwxa-si-0zrn5vca-5h8pesr/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-youtu/https-youtu-be-qast-rmtwxa-si-0zrn5vca-5h8pesr/</guid>
+      <pubDate>2026-04-05 21:09:48</pubDate>
+    </item>
+    <item>
+      <title>Https www</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-www/https-www-aiposthub-com-claude-dispatch-mobile-remote-work-ai/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-www/https-www-aiposthub-com-claude-dispatch-mobile-remote-work-ai/</guid>
+      <pubDate>2026-04-05 21:09:31</pubDate>
+    </item>
+    <item>
+      <title>Https youtu</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-youtu/https-youtu-be-xlspvboybhw-si-ktvikuj557lfvy6d/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-youtu/https-youtu-be-xlspvboybhw-si-ktvikuj557lfvy6d/</guid>
+      <pubDate>2026-04-05 21:09:01</pubDate>
+    </item>
+    <item>
+      <title>Https repay</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-repay/https-repay-tw-spell13-html/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/https-repay/https-repay-tw-spell13-html/</guid>
+      <pubDate>2026-04-05 21:08:24</pubDate>
+    </item>
+    <item>
+      <title>Watch james</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/watch-james/watch-james-manyika-talk-ai-and-creativity-with-ll-cool-j/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/watch-james/watch-james-manyika-talk-ai-and-creativity-with-ll-cool-j/</guid>
+      <pubDate>2026-04-05 21:07:53</pubDate>
+    </item>
+    <item>
+      <title>The future</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-future/the-future-live-04-03-26-guests-from-bep-ornn-and-mots-podcast/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-future/the-future-live-04-03-26-guests-from-bep-ornn-and-mots-podcast/</guid>
+      <pubDate>2026-04-05 21:07:30</pubDate>
+    </item>
+    <item>
+      <title>The download</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-download/the-download-litellm-hacked-pretext-layout-engine-openai-news-more/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-download/the-download-litellm-hacked-pretext-layout-engine-openai-news-more/</guid>
+      <pubDate>2026-04-05 21:07:02</pubDate>
+    </item>
+    <item>
+      <title>mai</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/mai/mai/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/mai/mai/</guid>
+      <pubDate>2026-04-05 21:06:25</pubDate>
+    </item>
+    <item>
+      <title>Ai anthropic</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai-anthropic/ai-anthropic-claude/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai-anthropic/ai-anthropic-claude/</guid>
+      <pubDate>2026-04-05 21:05:56</pubDate>
+    </item>
+    <item>
+      <title>Openai coo</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/openai-coo/openai-coo-agi/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/openai-coo/openai-coo-agi/</guid>
+      <pubDate>2026-04-05 21:05:26</pubDate>
+    </item>
+    <item>
+      <title>Anthropic essentially</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-essentially/anthropic-essentially-bans-openclaw-from-claude-by-making-subscribers-pay-extra/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-essentially/anthropic-essentially-bans-openclaw-from-claude-by-making-subscribers-pay-extra/</guid>
+      <pubDate>2026-04-05 21:04:58</pubDate>
+    </item>
+    <item>
+      <title>i was</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/i-was/i-was-hacked/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/i-was/i-was-hacked/</guid>
+      <pubDate>2026-04-05 21:04:32</pubDate>
+    </item>
+    <item>
+      <title>Knowledge</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/knowledge/knowledge-knowledge/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/knowledge/knowledge-knowledge/</guid>
+      <pubDate>2026-04-05 21:04:05</pubDate>
+    </item>
+    <item>
+      <title>Openai s</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/openai-s/openai-s-agi-boss-is-taking-a-leave-of-absence/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/openai-s/openai-s-agi-boss-is-taking-a-leave-of-absence/</guid>
+      <pubDate>2026-04-05 21:03:38</pubDate>
+    </item>
+    <item>
+      <title>Claude openclaw</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/claude-openclaw/claude-openclaw-anthropic/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/claude-openclaw/claude-openclaw-anthropic/</guid>
+      <pubDate>2026-04-05 21:03:01</pubDate>
+    </item>
+    <item>
+      <title>Open ai</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/open-ai/open-ai-spud-claude-mythos-leaks-open-source-drops-ai-news/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/open-ai/open-ai-spud-claude-mythos-leaks-open-source-drops-ai-news/</guid>
+      <pubDate>2026-04-05 21:02:32</pubDate>
+    </item>
+    <item>
+      <title>Anthropic is</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-is/anthropic-is-having-a-moment-in-the-private-markets-spacex-could-spoil-the-party/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-is/anthropic-is-having-a-moment-in-the-private-markets-spacex-could-spoil-the-party/</guid>
+      <pubDate>2026-04-05 21:02:00</pubDate>
+    </item>
+    <item>
+      <title>Openai executive</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/openai-executive/openai-executive-shuffle-includes-new-role-for-coo-brad-lightcap-to-lead-special-projects/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/openai-executive/openai-executive-shuffle-includes-new-role-for-coo-brad-lightcap-to-lead-special-projects/</guid>
+      <pubDate>2026-04-05 21:01:30</pubDate>
+    </item>
+    <item>
+      <title>Anthropic ramps</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-ramps/anthropic-ramps-up-its-political-activities-with-a-new-pac/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-ramps/anthropic-ramps-up-its-political-activities-with-a-new-pac/</guid>
+      <pubDate>2026-04-05 21:01:08</pubDate>
+    </item>
+    <item>
+      <title>ai</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai/ai/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai/ai/</guid>
+      <pubDate>2026-04-05 21:00:39</pubDate>
+    </item>
+    <item>
+      <title>People would</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/people-would/people-would-rather-have-an-amazon-warehouse-in-their-backyard-than-a-data-center/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/people-would/people-would-rather-have-an-amazon-warehouse-in-their-backyard-than-a-data-center/</guid>
+      <pubDate>2026-04-05 21:00:11</pubDate>
+    </item>
+    <item>
+      <title>The facebook</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-facebook/the-facebook-insider-building-content-moderation-for-the-ai-era/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-facebook/the-facebook-insider-building-content-moderation-for-the-ai-era/</guid>
+      <pubDate>2026-04-05 20:59:46</pubDate>
+    </item>
+    <item>
+      <title>Grammarly s</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/grammarly-s/grammarly-s-sloppelganger-saga/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/grammarly-s/grammarly-s-sloppelganger-saga/</guid>
+      <pubDate>2026-04-05 20:59:16</pubDate>
+    </item>
+    <item>
+      <title>Ai pdf</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai-pdf/ai-pdf/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai-pdf/ai-pdf/</guid>
+      <pubDate>2026-04-05 20:58:44</pubDate>
+    </item>
+    <item>
+      <title>I built</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/i-built/i-built-something/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/i-built/i-built-something/</guid>
+      <pubDate>2026-04-05 20:58:06</pubDate>
+    </item>
+    <item>
+      <title>Anthropic says</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-says/anthropic-says-claude-code-subscribers-will-need-to-pay-extra-for-openclaw-usage/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/anthropic-says/anthropic-says-claude-code-subscribers-will-need-to-pay-extra-for-openclaw-usage/</guid>
+      <pubDate>2026-04-05 20:57:35</pubDate>
+    </item>
+    <item>
+      <title>The gig</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-gig/the-gig-workers-who-are-training-humanoid-robots-at-home/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-gig/the-gig-workers-who-are-training-humanoid-robots-at-home/</guid>
+      <pubDate>2026-04-05 20:57:03</pubDate>
+    </item>
+    <item>
+      <title>we re</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/we-re/we-re-creating-a-new-satellite-imagery-map-to-help-protect-brazil-s-forests/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/we-re/we-re-creating-a-new-satellite-imagery-map-to-help-protect-brazil-s-forests/</guid>
+      <pubDate>2026-04-05 20:56:30</pubDate>
+    </item>
+    <item>
+      <title>Shifting to</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/shifting-to/shifting-to-ai-model-customization-is-an-architectural-imperative/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/shifting-to/shifting-to-ai-model-customization-is-an-architectural-imperative/</guid>
+      <pubDate>2026-04-05 20:56:08</pubDate>
+    </item>
+    <item>
+      <title>Falcon perception</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/falcon-perception/falcon-perception/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/falcon-perception/falcon-perception/</guid>
+      <pubDate>2026-04-05 20:55:34</pubDate>
+    </item>
+    <item>
+      <title>Ai benchmarks</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai-benchmarks/ai-benchmarks-are-broken-here-s-what-we-need-instead/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/ai-benchmarks/ai-benchmarks-are-broken-here-s-what-we-need-instead/</guid>
+      <pubDate>2026-04-05 20:54:58</pubDate>
+    </item>
+    <item>
+      <title>How did</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/how-did/how-did-anthropic-measure-ai-s-theoretical-capabilities-in-the-job-market/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/how-did/how-did-anthropic-measure-ai-s-theoretical-capabilities-in-the-job-market/</guid>
+      <pubDate>2026-04-05 20:54:25</pubDate>
+    </item>
+    <item>
+      <title>Granite 4</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/granite-4/granite-4-0-3b-vision-compact-multimodal-intelligence-for-enterprise-documents/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/granite-4/granite-4-0-3b-vision-compact-multimodal-intelligence-for-enterprise-documents/</guid>
+      <pubDate>2026-04-05 20:53:56</pubDate>
+    </item>
+    <item>
+      <title>The latest</title>
+      <link>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-latest/the-latest-ai-news-we-announced-in-march-2026/</link>
+      <guid>https://paramita-loom.pages.dev/zh-hk/knowledge/knowledge/the-latest/the-latest-ai-news-we-announced-in-march-2026/</guid>
+      <pubDate>2026-04-05 20:53:24</pubDate>
+    </item>
+  </channel>
+</rss>
